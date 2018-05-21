@@ -10,12 +10,12 @@ render_lines <- function(lines, hjust = 0, x_pt = 0, y_pt = 0) {
   linewidths_pt <- vapply(lines, function(x) sum(x$width_pt), numeric(1))
   lineheights_pt <- vapply(lines, function(x) max(x$height_pt), numeric(1))
   linedesc_pt <- vapply(lines, function(x) max(x$descent_pt), numeric(1))
+  linespacing_pt <- vapply(lines, function(x) max(x$linespacing_pt), numeric(1))
 
   maxwidth_pt <- max(linewidths_pt)
 
   linex_pt <- (maxwidth_pt - linewidths_pt) * hjust + x_pt
-  liney_pt <- y_pt - cumsum(lineheights_pt) - cumsum(linedesc_pt) +
-    lineheights_pt + linedesc_pt
+  liney_pt <- y_pt - cumsum(linespacing_pt) + linespacing_pt
 
   tbl <- tibble(line = lines, x_pt = linex_pt, y_pt = liney_pt)
 

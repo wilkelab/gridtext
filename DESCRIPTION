@@ -28,7 +28,7 @@ Collate:
     'drawing-context.R'
     'gridtext.R'
     'grob-zero.R'
-    'make-line.R'
+    'make-.R'
     'render-lines.R'
     'process-tags.R'
 RoxygenNote: 6.0.1.9000

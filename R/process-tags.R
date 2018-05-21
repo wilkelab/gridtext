@@ -1,26 +1,35 @@
 process_text <- function(node, drawing_context) {
   cat("TEXT: ", node, "\n")
-  make_line(node, drawing_context)
+  make_text_grobs(node, drawing_context)
 }
 
 process_tag_br <- function(node, drawing_context) {
   cat("BR\n")
-  tibble(grob = list(zeroGrob()), width_pt = 0, height_pt = 0, descent_pt = 0, type = "br")
+  make_line_break(drawing_context)
 }
 
 process_tag_b <- function(node, drawing_context) {
   cat("B\n")
-  drawing_context$gp <- update_gpar(drawing_context$gp, fontface = "bold")
+  drawing_context <- update_drawing_context(drawing_context, gpar(fontface = "bold"))
   result <- process_tags(node, drawing_context)
   cat("/B\n")
   result
 }
 
+process_tag_i <- function(node, drawing_context) {
+  cat("I\n")
+  drawing_context <- update_drawing_context(drawing_context, gpar(fontface = "italic"))
+  result <- process_tags(node, drawing_context)
+  cat("/I\n")
+  result
+}
+
+
 process_tag_p <- function(node, drawing_context) {
   cat("P\n")
   result <- process_tags(node, drawing_context)
   cat("/P\n")
-  rbind(result, tibble(grob = list(zeroGrob()), width_pt = 0, height_pt = 0, descent_pt = 0, type = "br"))
+  rbind(result, make_line_break(drawing_context))
 }
 
 
@@ -32,6 +41,7 @@ dispatch_tag <- function(node, tag, drawing_context) {
       tag,
       "br" = process_tag_br(node, drawing_context),
       "b" = process_tag_b(node, drawing_context),
+      "i" = process_tag_i(node, drawing_context),
       "p" = process_tag_p(node, drawing_context),
       stop("unknown tag: ", tag)
     )
