@@ -1,0 +1,35 @@
+Package: gridtext
+Type: Package
+Title: Improved text rendering support for grid graphics
+Version: 0.1.0
+Authors@R: c( 
+    person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("cre", "aut")))
+Description: This package provides rich-text rendering capability for the grid
+    graphics engine. 
+URL: https://github.com/clauswilke/gridtext
+Depends:
+    R (>= 3.5)
+Imports:
+    grid,
+    purrr,
+    tibble,
+    xml2
+Remotes: tidyverse/ggplot2
+License: GPL-2 | file LICENSE
+LazyData: true
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat,
+    vdiffr
+VignetteBuilder: knitr
+Collate:
+    'draw-rich-text.R'
+    'drawing-context.R'
+    'gridtext.R'
+    'grob-zero.R'
+    'make-line.R'
+    'render-lines.R'
+    'process-tags.R'
+RoxygenNote: 6.0.1.9000
+Roxygen: list(markdown = TRUE)
