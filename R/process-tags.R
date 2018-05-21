@@ -1,37 +1,25 @@
 process_text <- function(node, drawing_context) {
-  cat("TEXT: ", node, "\n")
   make_text_grobs(node, drawing_context)
 }
 
 process_tag_br <- function(node, drawing_context) {
-  cat("BR\n")
   make_line_break(drawing_context)
 }
 
 process_tag_b <- function(node, drawing_context) {
-  cat("B\n")
-  drawing_context <- update_drawing_context(drawing_context, gpar(fontface = "bold"))
-  result <- process_tags(node, drawing_context)
-  cat("/B\n")
-  result
+  process_tags(node, set_context_fontface(drawing_context, "bold"))
 }
 
 process_tag_i <- function(node, drawing_context) {
-  cat("I\n")
-  drawing_context <- update_drawing_context(drawing_context, gpar(fontface = "italic"))
-  result <- process_tags(node, drawing_context)
-  cat("/I\n")
-  result
+  process_tags(node, set_context_fontface(drawing_context, "italic"))
 }
-
 
 process_tag_p <- function(node, drawing_context) {
-  cat("P\n")
-  result <- process_tags(node, drawing_context)
-  cat("/P\n")
-  rbind(result, make_line_break(drawing_context))
+  rbind(
+    process_tags(node, drawing_context),
+    make_line_break(drawing_context)
+  )
 }
-
 
 dispatch_tag <- function(node, tag, drawing_context) {
   if (is.null(tag) || tag == "") {
