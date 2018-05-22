@@ -27,11 +27,12 @@ setup_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", co
 
 set_context_gp <- function(drawing_context, gp = NULL) {
   gp <- update_gpar(drawing_context$gp, gp)
-
   x <- textGrob(label = "gjpqyQ", gp = gp)
 
-  height_pt <- convertHeight(heightDetails(x), "pt", valueOnly = TRUE)
-  descent_pt <- convertHeight(descentDetails(x), "pt", valueOnly = TRUE)
+  height_pt <- convertHeight(grobHeight(x), "pt", valueOnly = TRUE)
+  # this works around a bug in grid, it always calculates descent details relative
+  # to a fontsize of 12 pt
+  descent_pt <- convertHeight(descentDetails(x), "pt", valueOnly = TRUE) * gp$fontsize / 12
   linespacing_pt <- gp$lineheight * gp$fontsize
   em_pt <- gp$fontsize
 
