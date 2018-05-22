@@ -34,16 +34,16 @@ process_tag_p <- function(node, drawing_context) {
 }
 
 process_tag_sup <- function(node, drawing_context) {
+  drawing_context <- set_context_gp(drawing_context, gpar(fontsize = 0.8*drawing_context$gp$fontsize))
   # move drawing half a character above baseline
   drawing_context$yoff_pt <- drawing_context$yoff_pt + drawing_context$height_pt / 2
-  drawing_context <- set_context_gp(drawing_context, gpar(fontsize = 0.8*drawing_context$gp$fontsize))
   process_tags(node, drawing_context)
 }
 
 process_tag_sub <- function(node, drawing_context) {
+  drawing_context <- set_context_gp(drawing_context, gpar(fontsize = 0.8*drawing_context$gp$fontsize))
   # move drawing half a character below baseline
   drawing_context$yoff_pt <- drawing_context$yoff_pt - drawing_context$height_pt / 2
-  drawing_context <- set_context_gp(drawing_context, gpar(fontsize = 0.8*drawing_context$gp$fontsize))
   process_tags(node, drawing_context)
 }
 
