@@ -6,6 +6,13 @@ update_gpar <- function(gp, gp_new) {
   do.call(gpar, c(gp, gp_new))
 }
 
+update_context <- function(drawing_context, ...) {
+  dc_new <- list(...)
+  names_new <- names(dc_new)
+  names_old <- names(drawing_context)
+  drawing_context[intersect(names_old, names_new)] <- NULL
+  c(drawing_context, dc_new)
+}
 
 setup_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", color = "black",
                                   cex = 1, lineheight = 1.2) {
@@ -15,7 +22,7 @@ setup_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", co
   )
   gp <- update_gpar(get.gpar(), gp)
 
-  set_context_gp(list(), gp)
+  set_context_gp(list(yoff_pt = 0), gp)
 }
 
 set_context_gp <- function(drawing_context, gp = NULL) {
@@ -26,8 +33,13 @@ set_context_gp <- function(drawing_context, gp = NULL) {
   height_pt <- convertHeight(heightDetails(x), "pt", valueOnly = TRUE)
   descent_pt <- convertHeight(descentDetails(x), "pt", valueOnly = TRUE)
   linespacing_pt <- gp$lineheight * gp$fontsize
+  em_pt <- gp$fontsize
 
-  list(gp = gp, height_pt = height_pt, descent_pt = descent_pt, linespacing_pt = linespacing_pt)
+  update_context(
+    drawing_context,
+    gp = gp, height_pt = height_pt, descent_pt = descent_pt, linespacing_pt = linespacing_pt,
+    em_pt = em_pt
+  )
 }
 
 set_context_fontface <- function(drawing_context, fontface = "plain", overwrite = FALSE) {

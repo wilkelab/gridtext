@@ -33,6 +33,20 @@ process_tag_p <- function(node, drawing_context) {
   )
 }
 
+process_tag_sup <- function(node, drawing_context) {
+  # move drawing half a character above baseline
+  drawing_context$yoff_pt <- drawing_context$yoff_pt + drawing_context$height_pt / 2
+  drawing_context <- set_context_gp(drawing_context, gpar(fontsize = 0.8*drawing_context$gp$fontsize))
+  process_tags(node, drawing_context)
+}
+
+process_tag_sub <- function(node, drawing_context) {
+  # move drawing half a character below baseline
+  drawing_context$yoff_pt <- drawing_context$yoff_pt - drawing_context$height_pt / 2
+  drawing_context <- set_context_gp(drawing_context, gpar(fontsize = 0.8*drawing_context$gp$fontsize))
+  process_tags(node, drawing_context)
+}
+
 dispatch_tag <- function(node, tag, drawing_context) {
   if (is.null(tag) || tag == "") {
     process_text(node, drawing_context)
@@ -44,6 +58,8 @@ dispatch_tag <- function(node, tag, drawing_context) {
       "i"    = process_tag_i(node, drawing_context),
       "font" = process_tag_font(node, drawing_context),
       "p"    = process_tag_p(node, drawing_context),
+      "sup"  = process_tag_sup(node, drawing_context),
+      "sub"  = process_tag_sub(node, drawing_context),
       stop("unknown tag: ", tag)
     )
   }

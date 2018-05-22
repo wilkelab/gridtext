@@ -7,6 +7,7 @@ make_text_grobs <- function(labels, drawing_context) {
     height_pt = drawing_context$height_pt,
     descent_pt = drawing_context$descent_pt,
     linespacing_pt = drawing_context$linespacing_pt,
+    yoff_pt = drawing_context$yoff_pt,
     type = "text"
   )
 }
@@ -19,6 +20,7 @@ make_line_break <- function(drawing_context) {
     height_pt = 0,
     descent_pt = 0,
     linespacing_pt = 0,
+    yoff_pt = 0,
     type = "br"
   )
 }
