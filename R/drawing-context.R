@@ -7,7 +7,7 @@ update_gpar <- function(gp, gp_new) {
 }
 
 
-setup_drawing_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", color = "black",
+setup_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", color = "black",
                                   cex = 1, lineheight = 1.2) {
   gp <- gpar(
     fontsize = fontsize, fontfamily = fontfamily, fontface = fontface,

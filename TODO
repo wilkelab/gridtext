@@ -1,0 +1,5 @@
+TODO
+================
+- <p> should be displayed as a block element, not a line element (i.e., like <div>)
+- text reflow and alignment needs to be implemented
+- newlines need to be stripped from text. currently they are rendered, leading to strange results

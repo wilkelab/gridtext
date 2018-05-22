@@ -4,7 +4,8 @@
 \alias{draw_rich_text}
 \title{Draw rich text}
 \usage{
-draw_rich_text(contents, hjust = 0.5, x_pt = 50, y_pt = 100)
+draw_rich_text(contents, hjust = 0.5, x_pt = 50, y_pt = 100,
+  newpage = TRUE)
 }
 \arguments{
 \item{contents}{character vector containing html string to draw}
@@ -22,4 +23,6 @@ Draw rich text
 library(grid)
 grid.newpage()
 draw_rich_text("This is the first line.<br>This is the second line.<br>And some <b>text in bold.</b>")
+draw_rich_text('This is some <font size="20" face="Comic Sans MS">big font
+  <font size="8" color="red">in red.</font></font> <br>And the next line like nothing happened.')
 }
