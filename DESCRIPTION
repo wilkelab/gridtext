@@ -30,6 +30,7 @@ Collate:
     'grob-zero.R'
     'make-.R'
     'render-lines.R'
+    'parse-css.R'
     'process-tags.R'
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)

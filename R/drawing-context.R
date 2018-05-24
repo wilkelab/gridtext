@@ -57,3 +57,22 @@ set_context_fontface <- function(drawing_context, fontface = "plain", overwrite 
 
   set_context_gp(drawing_context, gpar(fontface = fontface))
 }
+
+
+set_style <- function(drawing_context, style = NULL) {
+  if (is.null(style)) return(drawing_context)
+
+  css <- parse_css(style)
+
+  if (!is.null(css$`font-size`)) {
+    font_size = as.numeric(css$`font-size`)
+  } else {
+    font_size = NULL
+  }
+
+  drawing_context <- set_context_gp(
+    drawing_context,
+    gpar(col = css$color, fontfamily = css$`font-family`, fontsize = font_size)
+  )
+}
+
