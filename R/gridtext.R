@@ -6,4 +6,5 @@
 #' @import purrr
 #' @import xml2
 #' @import tibble
+#' @importFrom rlang list2
 NULL

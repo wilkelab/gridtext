@@ -2,7 +2,9 @@
 
 export(draw_rich_text)
 export(parse_css)
+export(rich_text_grob)
 import(grid)
 import(purrr)
 import(tibble)
 import(xml2)
+importFrom(rlang,list2)
