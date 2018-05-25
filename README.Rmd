@@ -16,13 +16,14 @@ knitr::opts_chunk$set(
 
 Improved text rendering support for grid graphics in R, written by Claus O. Wilke
 
+This is an experiment. Most features are broken. The API is not stable. Please do not use this in any context where you need your code to work. No user support will be provided.
+
 
 ## Installation
 
-```{r}
+```{r eval = FALSE}
 devtools::install_github("clauswilke/gridtext")
 ```
-This is an experimental package. Use at your own risk. API is not stable. No user support provided.
 
 ## Examples
 
@@ -30,7 +31,7 @@ This is an experimental package. Use at your own risk. API is not stable. No use
 library(grid)
 library(gridtext)
 text1 <- "<span style='font-family:\"Comic Sans MS\"; font-size:20; color:orange'>Comic Sans! Yay!</span>"
-text2 <- "Some <span style='color:red'>red</span> text <b>in bold.</b><br>And more text.<br>And some <span style='font-size:18'>large</span> text."
+text2 <- "Some <span style='color:red'>red</span> text <b>in bold.</b><br>And <i>more</i> text.<br>And some <span style='font-size:18'>large</span> text."
 text3 <- "5<i>x</i><sup>2</sup><span style='color:blue'> + 7<i>x</i></span> - <i>α<sub>i</sub></i>"
 
 grid.newpage()
