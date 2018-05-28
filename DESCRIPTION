@@ -28,6 +28,7 @@ Collate:
     'drawing-context.R'
     'gridtext.R'
     'grob-zero.R'
+    'labels-grob.R'
     'make-.R'
     'render-lines.R'
     'parse-css.R'

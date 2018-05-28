@@ -1,11 +1,47 @@
+#' Like the margin function in ggplot2
+#'
+#' @param t,r,b,l top, right, bottom, left margins
+#' @param unit unit in which margins are measured
+#' @export
 margin <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
   structure(unit(c(t, r, b, l), unit), class = c("margin", "unit"))
 }
 
+#' Create grob representing one or more labels from tibble
+#'
+#' @param label_data Tibble holding the label data. At a minimum, needs a
+#'   `label` column holding the text labels to be drawn
+#' @param gp Additional graphical parameters not provided via `label_data`.
+#' @param debug Bool indicating whether debugging info should be drawn.
+#' @examples
+#' library(grid)
+#' library(tibble)
+#'
+#' label_data <- tibble(
+#'   label = c("Descenders: pgqjy", "This is a label\nwith two lines", "Hello!"),
+#'   x = unit(.4, "npc"),
+#'   y = unit(c(.9, .5, .3), "npc"),
+#'   hjust = 0,
+#'   vjust = 1,
+#'   angle = c(0, 45, -45),
+#'   padding = list(margin(2, 0, 2, 0)),
+#'   margin = list(margin(5, 5, 5, 5))
+#' )
+#'
+#' grid.newpage()
+#' grid.draw(labels_grob(label_data, gp = gpar(col = "red"), debug = TRUE))
+#' @export
+labels_grob <- function(label_data, gp = gpar(), debug = TRUE) {
+  grobs <- pmap(label_data, label_grob, gp, debug)
 
+  children <- do.call(gList, grobs)
+  grobTree(children)
+}
+
+#' create individual labels for labels_grob
 label_grob <- function(label, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                        hjust = 0.5, vjust = 0.5, padding = margin(0, 0, 0, 0),
-                       margin = margin(0, 0, 0, 0), gp = gpar(), angle = 0, debug = TRUE) {
+                       margin = margin(0, 0, 0, 0), angle = 0, gp = gpar(), debug = TRUE) {
   text_grob <- textGrob(label, x = hjust, y = vjust, hjust = hjust, vjust = vjust)
   width <- grobWidth(text_grob)
   height <- grobHeight(text_grob)
@@ -62,22 +98,3 @@ label_grob <- function(label, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     vp = vp
   )
 }
-
-
-library(grid)
-library(rlang)
-
-grid.newpage()
-grid.draw(
-  label_grob(
-    'testg\ntest2abcqd',
-    x = unit(.5, "npc"),
-    y = unit(.5, "npc"),
-    hjust = 0,
-    vjust = 1,
-    angle = 0,
-    padding = margin(2, 0, 2, 0),
-    margin = margin(5, 5, 5, 5),
-    gp = gpar()#fontfamily = "Comic Sans MS", fontsize = 20)
-  )
-)
