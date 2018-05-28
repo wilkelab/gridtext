@@ -3,8 +3,10 @@ TODO
 - complete `labels_grob()`. All graphical parameters need to be settable via `label_data`,
   including color, fontface, family, and size, background color, frame color, frame
   thickness, frame linestyle
-- `labels_grob()` also may need an additional parameter setting internal alignment
-  relative to frame. Currently `hjust` is used for both.
+- `labels_grob()` also may need additional parameters setting the internal alignment
+  relative to the frame. Currently `hjust` and `vjust` is used for both. This should
+  probably be combined with the option to synchronize frame sizes among the labels
+  generated.
 - <p> should be displayed as a block element, not a line element (i.e., like <div>)
 - text reflow and alignment needs to be implemented
 - newlines need to be stripped from text. currently they are rendered, leading to strange results
