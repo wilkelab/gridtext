@@ -24,4 +24,12 @@ test_that("grob_descent", {
   expect_equal(convertHeight(grob_descent(t1), "pt", valueOnly = TRUE), grob_descent_pt(t1))
 })
 
+test_that("font_details_pt", {
 
+  # font details are identical to what we would get from an actual grob
+  gp <- gpar(fontfamily = "Times", fontsize = 10)
+  t1 <- textGrob("abcd", gp = gp)
+  details <- font_details_pt(gp)
+  expect_equal(details$descent_pt, grob_descent_pt(t1))
+  expect_equal(details$height_pt, grob_height_pt(t1))
+})
