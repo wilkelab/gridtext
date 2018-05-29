@@ -4,11 +4,14 @@
 \alias{labels_grob}
 \title{Create grob representing one or more labels from tibble}
 \usage{
-labels_grob(label_data, gp = gpar(), debug = TRUE)
+labels_grob(label_data, align_frames = FALSE, gp = gpar(), debug = TRUE)
 }
 \arguments{
 \item{label_data}{Tibble holding the label data. At a minimum, needs a
 \code{label} column holding the text labels to be drawn}
+
+\item{align_frames}{Bool indicating whether frames should have equal
+sizes (\code{TRUE}) or not (\code{FALSE}).}
 
 \item{gp}{Additional graphical parameters not provided via \code{label_data}.}
 
@@ -25,13 +28,48 @@ label_data <- tibble(
   label = c("Descenders: pgqjy", "This is a label\\nwith two lines", "Hello!"),
   x = unit(.4, "npc"),
   y = unit(c(.9, .5, .3), "npc"),
-  hjust = 0,
+  box_hjust = 0,
+  box_vjust = 0.5,
+  hjust = 1,
   vjust = 1,
   angle = c(0, 45, -45),
-  padding = list(margin(2, 0, 2, 0)),
-  margin = list(margin(5, 5, 5, 5))
+  padding = list(mar(5, 5, 3, 5)),
+  margin = list(mar(5, 5, 5, 5))
 )
 
 grid.newpage()
-grid.draw(labels_grob(label_data, gp = gpar(col = "red"), debug = TRUE))
+g <- labels_grob(
+  label_data,
+  gp = gpar(fontsize = 10, fontfamily = "Times"),
+  align_frames = TRUE,
+  debug = TRUE
+)
+grid.draw(g)
+
+
+label_data <- tibble(
+  label = c("This", "is", "a", "test", "x-axis"),
+  x = unit(c(.1, .3, .5, .7, .9), "npc"),
+  y = unit(0.5, "npc"),
+  box_hjust = 0.5,
+  box_vjust = 1,
+  hjust = 0.5,
+  vjust = 1,
+  angle = 0,
+  padding = list(mar(5, 5, 3, 5)),
+  margin = list(mar(5, 5, 5, 5))
+)
+grid.newpage()
+g <- labels_grob(
+  label_data,
+  gp = gpar(fontsize = 12),
+  align_frames = TRUE,
+  debug = TRUE
+)
+grid.draw(g)
+
+
+label_data <- tibble(label = "abcqgy")
+grid.newpage()
+grid.draw(labels_grob(label_data, gp=gpar(fontsize = 50, fontfamily = "Comic Sans MS")))
 }
