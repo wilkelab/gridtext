@@ -2,7 +2,7 @@
 % Please edit documentation in R/labels-grob.R
 \name{margin}
 \alias{margin}
-\title{Similar to margin function in ggplot2, but makes a named list of four separate unit objects}
+\title{Like the margin function in ggplot2}
 \usage{
 margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
 }
@@ -12,5 +12,5 @@ margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
 \item{unit}{unit in which margins are measured}
 }
 \description{
-Similar to margin function in ggplot2, but makes a named list of four separate unit objects
+Like the margin function in ggplot2
 }

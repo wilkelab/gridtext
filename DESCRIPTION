@@ -27,6 +27,8 @@ Collate:
     'draw-rich-text.R'
     'drawing-context.R'
     'gridtext.R'
+    'grob-descent.R'
+    'grob-width-pt.R'
     'grob-zero.R'
     'labels-grob.R'
     'make-.R'

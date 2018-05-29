@@ -42,16 +42,10 @@ labels_grob <- function(label_data, gp = gpar(), debug = TRUE) {
 label_grob <- function(label, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                        hjust = 0.5, vjust = 0.5, padding = margin(0, 0, 0, 0),
                        margin = margin(0, 0, 0, 0), angle = 0, gp = gpar(), debug = TRUE) {
-  text_grob <- textGrob(label, x = hjust, y = vjust, hjust = hjust, vjust = vjust)
+  text_grob <- textGrob(label, x = hjust, y = vjust, hjust = hjust, vjust = vjust, gp = gp)
   width <- grobWidth(text_grob)
   height <- grobHeight(text_grob)
-
-  # calculate descent based on fixed label string
-  temp <- editGrob(text_grob, label = "gjpqyQ")
-  # hack to work around grid's limitation of not considering descent correctly
-  # for different font sizes
-  fontsize <- gp$fontsize %||% 12
-  descent <- descentDetails(temp) * (fontsize / 12)
+  descent <- grob_descent(text_grob)
 
   widths <- unit.c(margin[4], padding[4], width, padding[2], margin[2])
   heights <- unit.c(margin[1], padding[1], height, descent, padding[3], margin[3])
@@ -61,8 +55,7 @@ label_grob <- function(label, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     width = sum(widths),
     height = sum(heights),
     angle = angle,
-    layout = grid.layout(6, 5, heights = heights, widths = widths),
-    gp = gp
+    layout = grid.layout(6, 5, heights = heights, widths = widths)
   )
 
   text_grob <- editGrob(
