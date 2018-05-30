@@ -100,9 +100,10 @@ text_grob <- function(label, hjust = 0.5, vjust = 0.5, ..., gp = gpar()) {
 
 #' make frame around text grobs
 add_box <- function(grob, width_pt, height_pt, descent_pt,
-                      x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-                      box_hjust = 0.5, box_vjust = 0.5, padding = mar(0, 0, 0, 0),
-                      margin = mar(0, 0, 0, 0), angle = 0, ..., debug = TRUE) {
+                    x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+                    box_hjust = 0.5, box_vjust = 0.5, padding = mar(0, 0, 0, 0),
+                    margin = mar(0, 0, 0, 0), angle = 0, fill = NA, color = NA, frame_color = NULL,
+                    ..., debug = TRUE) {
   widths <- unit.c(margin[4], padding[4], unit(width_pt, "pt"), padding[2], margin[2])
   heights <- unit.c(margin[1], padding[1], unit(c(height_pt, descent_pt), "pt"), padding[3], margin[3])
 
@@ -119,27 +120,34 @@ add_box <- function(grob, width_pt, height_pt, descent_pt,
     vp = viewport(layout.pos.row = 3, layout.pos.col = 3)
   )
 
+  color <- frame_color %||% color
+
+  if (isTRUE(debug)) {
+    if (is.na(color)) color <- "black"
+    if (is.na(fill)) fill <- "azure1"
+  }
+
   pad_grob <- rectGrob(
-    gp = gpar(fill = "azure1", col = "black"),
+    gp = gpar(fill = fill, col = color),
     vp = viewport(layout.pos.row = c(2, 5), layout.pos.col = c(2, 4))
   )
 
-  marg_grob <- rectGrob(
-    gp = gpar(fill = "azure2", col = NA),
-    vp = viewport(layout.pos.row = c(1, 6), layout.pos.col = c(1, 5))
-  )
-
-  point_grob <- pointsGrob(
-    unit(box_hjust, "npc"), unit(box_vjust, "npc"), pch = 20, gp = gpar(col = "azure4"),
-    vp = viewport(layout.pos.row = c(1, 6), layout.pos.col = c(1, 5))
-  )
-
   if (isTRUE(debug)) {
+    marg_grob <- rectGrob(
+      gp = gpar(fill = "azure2", col = NA),
+      vp = viewport(layout.pos.row = c(1, 6), layout.pos.col = c(1, 5))
+    )
+
+    point_grob <- pointsGrob(
+      unit(box_hjust, "npc"), unit(box_vjust, "npc"), pch = 20, gp = gpar(col = "azure4"),
+      vp = viewport(layout.pos.row = c(1, 6), layout.pos.col = c(1, 5))
+    )
+
     children <- gList(
       marg_grob, pad_grob, point_grob, text_grob
     )
   } else {
-    children <- gList(text_grob)
+    children <- gList(pad_grob, text_grob)
   }
 
   grobTree(
