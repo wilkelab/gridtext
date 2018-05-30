@@ -7,7 +7,11 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
   structure(unit(c(t, r, b, l), unit), class = c("margin", "unit"))
 }
 
-#' Create grob representing one or more labels from tibble
+#' Create grob representing one or more labels
+#'
+#' The function `labels_grob()` creates one or more labels. All label data is provided
+#' in the form of a data frame/tibble holding aesthetic values as columns and label
+#' information as rows.
 #'
 #' @param label_data Tibble holding the label data. At a minimum, needs a
 #'   `label` column holding the text labels to be drawn
@@ -27,18 +31,17 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'   box_vjust = 0.5,
 #'   hjust = 1,
 #'   vjust = 1,
+#'   color = "blue",
+#'   fill = "azure1",
+#'   fontsize = 10,
+#'   fontfamily = "Comic Sans MS",
 #'   angle = c(0, 45, -45),
 #'   padding = list(mar(5, 5, 3, 5)),
 #'   margin = list(mar(5, 5, 5, 5))
 #' )
 #'
 #' grid.newpage()
-#' g <- labels_grob(
-#'   label_data,
-#'   gp = gpar(fontsize = 10, fontfamily = "Times"),
-#'   align_frames = TRUE,
-#'   debug = TRUE
-#' )
+#' g <- labels_grob(label_data, align_frames = TRUE)
 #' grid.draw(g)
 #'
 #'
@@ -51,25 +54,21 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'   hjust = 0.5,
 #'   vjust = 1,
 #'   angle = 0,
+#'   fontsize = 10, fontfamily = "Comic Sans MS",
 #'   padding = list(mar(5, 5, 3, 5)),
 #'   margin = list(mar(5, 5, 5, 5))
 #' )
 #' grid.newpage()
-#' g <- labels_grob(
-#'   label_data,
-#'   gp = gpar(fontsize = 12),
-#'   align_frames = TRUE,
-#'   debug = TRUE
-#' )
+#' g <- labels_grob(label_data, align_frames = TRUE, debug = TRUE)
 #' grid.draw(g)
 #'
 #'
-#' label_data <- tibble(label = "abcqgy")
+#' label_data <- tibble(label = "abcqgy", fontsize = 50, fontfamily = "Comic Sans MS")
 #' grid.newpage()
-#' grid.draw(labels_grob(label_data, gp=gpar(fontsize = 50, fontfamily = "Comic Sans MS")))
+#' grid.draw(labels_grob(label_data))
 #' @export
-labels_grob <- function(label_data, align_frames = FALSE, gp = gpar(), debug = TRUE) {
-  txt_grobs <- pmap(label_data, text_grob, gp = gp)
+labels_grob <- function(label_data, align_frames = FALSE, debug = FALSE) {
+  txt_grobs <- pmap(label_data, text_grob)
   width_pt <- vapply(txt_grobs, grob_width_pt, numeric(1))
   height_pt <- vapply(txt_grobs, grob_height_pt, numeric(1))
   descent_pt <- vapply(txt_grobs, grob_descent_pt, numeric(1))
@@ -87,14 +86,22 @@ labels_grob <- function(label_data, align_frames = FALSE, gp = gpar(), debug = T
   )
 
   txt_data <- cbind(txt_data, label_data)
-  grobs <- pmap(txt_data, add_box, gp = gp, debug = debug)
+  grobs <- pmap(txt_data, add_box, debug = debug)
 
   children <- do.call(gList, grobs)
   grobTree(children)
 }
 
 #' create individual labels for labels_grob
-text_grob <- function(label, hjust = 0.5, vjust = 0.5, ..., gp = gpar()) {
+text_grob <- function(label, hjust = 0.5, vjust = 0.5, fontfamily = "", fontface = "plain",
+                      fontsize = 12, lineheight = 1.1, color = "black", ...) {
+  gp <- gpar(
+    col = color,
+    fontfamily = fontfamily,
+    fontface = fontface,
+    fontsize = fontsize,
+    lineheight = lineheight
+  )
   textGrob(label, x = hjust, y = vjust, hjust = hjust, vjust = vjust, gp = gp)
 }
 
@@ -102,8 +109,9 @@ text_grob <- function(label, hjust = 0.5, vjust = 0.5, ..., gp = gpar()) {
 add_box <- function(grob, width_pt, height_pt, descent_pt,
                     x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                     box_hjust = 0.5, box_vjust = 0.5, padding = mar(0, 0, 0, 0),
-                    margin = mar(0, 0, 0, 0), angle = 0, fill = NA, color = NA, frame_color = NULL,
-                    ..., debug = TRUE) {
+                    margin = mar(0, 0, 0, 0), angle = 0, fill = NA, color = NA,
+                    frame_color = NULL,
+                    ..., debug = FALSE) {
   widths <- unit.c(margin[4], padding[4], unit(width_pt, "pt"), padding[2], margin[2])
   heights <- unit.c(margin[1], padding[1], unit(c(height_pt, descent_pt), "pt"), padding[3], margin[3])
 

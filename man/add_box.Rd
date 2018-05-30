@@ -6,8 +6,8 @@
 \usage{
 add_box(grob, width_pt, height_pt, descent_pt, x = unit(0.5, "npc"),
   y = unit(0.5, "npc"), box_hjust = 0.5, box_vjust = 0.5,
-  padding = mar(0, 0, 0, 0), margin = mar(0, 0, 0, 0), angle = 0, ...,
-  debug = TRUE)
+  padding = mar(0, 0, 0, 0), margin = mar(0, 0, 0, 0), angle = 0,
+  fill = NA, color = NA, frame_color = NULL, ..., debug = FALSE)
 }
 \description{
 make frame around text grobs

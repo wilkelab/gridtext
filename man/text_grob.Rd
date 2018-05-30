@@ -4,7 +4,9 @@
 \alias{text_grob}
 \title{create individual labels for labels_grob}
 \usage{
-text_grob(label, hjust = 0.5, vjust = 0.5, ..., gp = gpar())
+text_grob(label, hjust = 0.5, vjust = 0.5, fontfamily = "",
+  fontface = "plain", fontsize = 12, lineheight = 1.1, color = "black",
+  ...)
 }
 \description{
 create individual labels for labels_grob

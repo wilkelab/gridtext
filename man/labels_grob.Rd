@@ -2,9 +2,9 @@
 % Please edit documentation in R/labels-grob.R
 \name{labels_grob}
 \alias{labels_grob}
-\title{Create grob representing one or more labels from tibble}
+\title{Create grob representing one or more labels}
 \usage{
-labels_grob(label_data, align_frames = FALSE, gp = gpar(), debug = TRUE)
+labels_grob(label_data, align_frames = FALSE, debug = FALSE)
 }
 \arguments{
 \item{label_data}{Tibble holding the label data. At a minimum, needs a
@@ -13,12 +13,14 @@ labels_grob(label_data, align_frames = FALSE, gp = gpar(), debug = TRUE)
 \item{align_frames}{Bool indicating whether frames should have equal
 sizes (\code{TRUE}) or not (\code{FALSE}).}
 
-\item{gp}{Additional graphical parameters not provided via \code{label_data}.}
-
 \item{debug}{Bool indicating whether debugging info should be drawn.}
+
+\item{gp}{Additional graphical parameters not provided via \code{label_data}.}
 }
 \description{
-Create grob representing one or more labels from tibble
+The function \code{labels_grob()} creates one or more labels. All label data is provided
+in the form of a data frame/tibble holding aesthetic values as columns and label
+information as rows.
 }
 \examples{
 library(grid)
@@ -32,18 +34,17 @@ label_data <- tibble(
   box_vjust = 0.5,
   hjust = 1,
   vjust = 1,
+  color = "blue",
+  fill = "azure1",
+  fontsize = 10,
+  fontfamily = "Comic Sans MS",
   angle = c(0, 45, -45),
   padding = list(mar(5, 5, 3, 5)),
   margin = list(mar(5, 5, 5, 5))
 )
 
 grid.newpage()
-g <- labels_grob(
-  label_data,
-  gp = gpar(fontsize = 10, fontfamily = "Times"),
-  align_frames = TRUE,
-  debug = TRUE
-)
+g <- labels_grob(label_data, align_frames = TRUE)
 grid.draw(g)
 
 
@@ -56,20 +57,16 @@ label_data <- tibble(
   hjust = 0.5,
   vjust = 1,
   angle = 0,
+  fontsize = 10, fontfamily = "Comic Sans MS",
   padding = list(mar(5, 5, 3, 5)),
   margin = list(mar(5, 5, 5, 5))
 )
 grid.newpage()
-g <- labels_grob(
-  label_data,
-  gp = gpar(fontsize = 12),
-  align_frames = TRUE,
-  debug = TRUE
-)
+g <- labels_grob(label_data, align_frames = TRUE, debug = TRUE)
 grid.draw(g)
 
 
-label_data <- tibble(label = "abcqgy")
+label_data <- tibble(label = "abcqgy", fontsize = 50, fontfamily = "Comic Sans MS")
 grid.newpage()
-grid.draw(labels_grob(label_data, gp=gpar(fontsize = 50, fontfamily = "Comic Sans MS")))
+grid.draw(labels_grob(label_data))
 }
