@@ -3,19 +3,15 @@
 #' @param grob The grob for which we want information
 #' @export
 grob_descent <- function(grob) {
-  pushViewport(viewport(gp = grob$gp)) # change viewport to get correct font settings
-  if (inherits(grob, "text")) {
-    grob <- editGrob(grob, label = "gjpqyQ") # change text label to generic descent label
-  }
-  descent <- descentDetails(grob)
-  popViewport()
-  descent
+  unit(grob_descent_pt(grob), "pt")
 }
 
 #' @rdname grob_descent
 #' @export
 grob_descent_pt <- function(grob) {
-  convertHeight(grob_descent(grob), "pt", valueOnly = TRUE)
+  if (inherits(grob, "text")) {
+    font_details_pt(grob$gp)$descent
+  } else 0
 }
 
 #' Calculates generic font height and descent from given graphical parameters
@@ -23,6 +19,33 @@ grob_descent_pt <- function(grob) {
 #' @param gp Graphical parameters
 #' @export
 font_details_pt <- function(gp = gpar()) {
+  lookup_font_details(gp)
+}
+
+# environment to cache font details so we don't have to recalculate over and over
+font_env <- new.env(parent = emptyenv())
+font_env$font_details <- list()
+
+lookup_font_details <- function(gp) {
+  fontfamily <- gp$fontfamily %||% ""
+  fontface <- gp$fontface %||% "plain"
+  fontsize <- gp$fontsize %||% 12
+  key <- paste0(fontfamily, fontface, fontsize)
+
+  details <- font_env$font_details[[key]]
+
+  if (is.null(details)) {
+    details <- calc_font_details(gp)
+
+    font_env$font_details <- c(
+      font_env$font_details,
+      setNames(list(details), key)
+    )
+  }
+  details
+}
+
+calc_font_details <- function(gp) {
   pushViewport(viewport(gp = gp)) # change viewport to get correct font settings
   grob <- textGrob(label = "gjpqyQ")
   height <- convertHeight(heightDetails(grob), "pt", valueOnly = TRUE)
@@ -30,4 +53,3 @@ font_details_pt <- function(gp = gpar()) {
   popViewport()
   list(height_pt = height, descent_pt = descent)
 }
-
