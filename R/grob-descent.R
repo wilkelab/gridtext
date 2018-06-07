@@ -27,9 +27,9 @@ font_env <- new.env(parent = emptyenv())
 font_env$font_details <- list()
 
 lookup_font_details <- function(gp) {
-  fontfamily <- gp$fontfamily %||% ""
-  fontface <- gp$fontface %||% "plain"
-  fontsize <- gp$fontsize %||% 12
+  fontfamily <- gp$fontfamily %||% grid::get.gpar("fontfamily")$fontfamily
+  fontface <- gp$fontface %||% grid::get.gpar("fontface")$fontface
+  fontsize <- gp$fontsize %||% grid::get.gpar("fontsize")$fontsize
   key <- paste0(fontfamily, fontface, fontsize)
 
   details <- font_env$font_details[[key]]
