@@ -18,6 +18,87 @@ devtools::install_github("clauswilke/gridtext")
 
 ## Examples
 
+### Labels grob
+
+The function `labels_grob()` serves as a replacement for `textGrob()`.
+It is vectorized and can draw multiple labels with one call. Labels can
+be drawn with padding, margins, and at arbitrary angles. Graphical
+parameters are provided as a data frame/tibble for simplicity and
+efficiency.
+
+``` r
+library(grid)
+library(gridtext)
+library(tibble)
+
+label_data <- tibble(
+  label = c("Descenders: pgqjy", "This is a label\nwith two lines", "Hello!"),
+  x = unit(c(.3, .8, .5), "npc"),
+  y = unit(c(.9, .5, .3), "npc"),
+  box_hjust = 0,
+  box_vjust = 0.5,
+  hjust = 1,
+  vjust = 1,
+  angle = c(0, 45, -45),
+  color = "blue",
+  fill = "azure1",
+  fontsize = 10,
+  fontfamily = "Comic Sans MS",
+  padding = list(mar(5, 5, 3, 5)),
+  margin = list(mar(5, 5, 5, 5))
+)
+
+grid.newpage()
+g <- labels_grob(label_data)
+grid.draw(g)
+```
+
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+
+Also, the boxes enclosing the labels can be all made the same size by
+setting `align_frames = TRUE`. This may be useful when using this grob
+to provide labels for an x or y axis:
+
+``` r
+label_data <- tibble(
+  label = c("This", "is", "an", "example", "rotated", "x axis"),
+  x = unit(.15*1:6, "npc"),
+  y = unit(0.8, "npc"),
+  box_hjust = 1,
+  box_vjust = 0.5,
+  hjust = 0.5,
+  vjust = 1,
+  angle = 45,
+  fontsize = 10, fontfamily = "Comic Sans MS",
+  padding = list(mar(5, 5, 3, 5)),
+  margin = list(mar(5, 5, 5, 5))
+)
+grid.newpage()
+g <- labels_grob(label_data, align_frames = TRUE, debug = TRUE)
+grid.draw(g)
+```
+
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+
+(The setting `debug = TRUE` shows the margin, padding, and the reference
+point used for rotation.)
+
+The same example without aligned frames:
+
+``` r
+grid.newpage()
+g <- labels_grob(label_data, debug = TRUE)
+grid.draw(g)
+```
+
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+
+### Rich-text grob
+
+The function `rich_text_grob()` can be used to draw simple html-like
+text. It is currently not vectorized, but the ultimate goal is to write
+a variant of `labels_grob()` that can make use of it.
+
 ``` r
 library(grid)
 library(gridtext)
@@ -32,4 +113,4 @@ grid.draw(rich_text_grob(text2, x = 0.8, y = 0.7, hjust = 1, angle = -90))
 grid.draw(rich_text_grob(text3, x = 0.1, y = 0.1))
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
