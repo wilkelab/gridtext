@@ -1,4 +1,7 @@
 make_text_grobs <- function(labels, drawing_context) {
+  # standardize whitespace; doesn't quite work yet in all contexts
+  labels <- gsub("\\s+", " ", labels, perl = TRUE)
+
   grobs <- lapply(labels, textGrob, x = 0, y = 0, hjust = 0, vjust = 0, gp = drawing_context$gp)
   width_pt <- vapply(grobs, grob_width_pt, numeric(1))
   tibble(
