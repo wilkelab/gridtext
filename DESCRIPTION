@@ -24,6 +24,7 @@ Suggests:
     vdiffr
 VignetteBuilder: knitr
 Collate:
+    'box-grob.R'
     'draw-rich-text.R'
     'drawing-context.R'
     'gridtext.R'
@@ -35,5 +36,5 @@ Collate:
     'render-lines.R'
     'parse-css.R'
     'process-tags.R'
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
