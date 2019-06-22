@@ -14,7 +14,7 @@
 #' @param angle Rotation angle (in degrees)
 #' @param fill Fill color of the box.
 #' @param color Outline color of the box.
-#' @param ... Ignored
+#' @param ... Not used.
 #' @param debug Bool indicating whether debug info should be drawn or not.
 #' @examples
 #' library(grid)

@@ -32,7 +32,7 @@ top, right, bottom, left.}
 
 \item{color}{Outline color of the box.}
 
-\item{...}{Ignored}
+\item{...}{Not used.}
 
 \item{debug}{Bool indicating whether debug info should be drawn or not.}
 }

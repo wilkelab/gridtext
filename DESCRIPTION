@@ -24,6 +24,7 @@ Suggests:
     vdiffr
 VignetteBuilder: knitr
 Collate:
+    'box-collection-grob.R'
     'box-grob.R'
     'draw-rich-text.R'
     'drawing-context.R'
