@@ -4,19 +4,21 @@
 \alias{labels_grob}
 \title{Create grob representing one or more labels}
 \usage{
-labels_grob(label_data, align_frame_widths = FALSE,
-  align_frame_heights = FALSE, debug = FALSE)
+labels_grob(label_data, width = NULL, height = NULL,
+  align_frame_widths = FALSE, align_frame_heights = FALSE,
+  debug = FALSE)
 }
 \arguments{
 \item{label_data}{Tibble holding the label data. At a minimum, needs a
 \code{label} column holding the text labels to be drawn}
 
+\item{width, height}{Width and height of the box collection grob. If either is set
+to \code{NULL} (the default), it is calculated from the box grobs.}
+
+\item{align_frame_widths, align_frame_heights}{Bools indicating whether frames
+should have equal widths/heights or not.}
+
 \item{debug}{Bool indicating whether debugging info should be drawn.}
-
-\item{align_frames}{Bool indicating whether frames should have equal
-sizes (\code{TRUE}) or not (\code{FALSE}).}
-
-\item{gp}{Additional graphical parameters not provided via \code{label_data}.}
 }
 \description{
 The function \code{labels_grob()} creates one or more labels. All label data is provided

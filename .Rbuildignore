@@ -1,5 +1,4 @@
-visual_test
-^data-raw$
+^examples$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$

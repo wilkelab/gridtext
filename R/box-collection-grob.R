@@ -58,15 +58,22 @@ box_collection_grob <- function(..., width = NULL, height = NULL,
   )
 }
 
+#' @export
 heightDetails.box_collection_grob <- function(x) {
   x$height
 }
+
+#' @export
 widthDetails.box_collection_grob <- function(x) {
   x$width
 }
+
+#' @export
 ascentDetails.box_collection_grob <- function(x) {
   heightDetails(x)
 }
+
+#' @export
 descentDetails.box_collection_grob <- function(x) {
   unit(0, "pt")
 }

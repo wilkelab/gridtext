@@ -16,9 +16,10 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'
 #' @param label_data Tibble holding the label data. At a minimum, needs a
 #'   `label` column holding the text labels to be drawn
-#' @param align_frames Bool indicating whether frames should have equal
-#'   sizes (`TRUE`) or not (`FALSE`).
-#' @param gp Additional graphical parameters not provided via `label_data`.
+#' @param width,height Width and height of the box collection grob. If either is set
+#'   to `NULL` (the default), it is calculated from the box grobs.
+#' @param align_frame_widths,align_frame_heights Bools indicating whether frames
+#'   should have equal widths/heights or not.
 #' @param debug Bool indicating whether debugging info should be drawn.
 #' @examples
 #' library(grid)
@@ -68,7 +69,8 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #' grid.newpage()
 #' grid.draw(labels_grob(label_data))
 #' @export
-labels_grob <- function(label_data, align_frame_widths = FALSE, align_frame_heights = FALSE,
+labels_grob <- function(label_data, width = NULL, height = NULL,
+                        align_frame_widths = FALSE, align_frame_heights = FALSE,
                         debug = FALSE) {
   txt_grobs <- pmap(label_data, make_label_grob)
   width_pt <- vapply(txt_grobs, grob_width_pt, numeric(1))
@@ -103,7 +105,7 @@ labels_grob <- function(label_data, align_frame_widths = FALSE, align_frame_heig
   }
 
   # enclose all grobs in a box collection
-  do.call(box_collection_grob, c(grobs, list(debug = debug)))
+  do.call(box_collection_grob, c(grobs, list(width = width, height = height, debug = debug)))
 }
 
 #' create individual labels for labels_grob

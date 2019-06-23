@@ -124,15 +124,22 @@ box_grob <- function(content_grob, width = NULL, height = NULL,
   )
 }
 
+#' @export
 heightDetails.box_grob <- function(x) {
   max(x$yext) - min(x$yext)
 }
+
+#' @export
 widthDetails.box_grob <- function(x) {
   max(x$xext) - min(x$xext)
 }
+
+#' @export
 ascentDetails.box_grob <- function(x) {
   heightDetails(x)
 }
+
+#' @export
 descentDetails.box_grob <- function(x) {
   unit(0, "pt")
 }
