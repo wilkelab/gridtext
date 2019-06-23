@@ -11,7 +11,8 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'
 #' The function `labels_grob()` creates one or more labels. All label data is provided
 #' in the form of a data frame/tibble holding aesthetic values as columns and label
-#' information as rows.
+#' information as rows. The padding and margin information needs to be provided in a
+#' list column.
 #'
 #' @param label_data Tibble holding the label data. At a minimum, needs a
 #'   `label` column holding the text labels to be drawn
@@ -27,10 +28,10 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'   label = c("Descenders: pgqjy", "This is a label\nwith two lines", "Hello!"),
 #'   x = unit(.4, "npc"),
 #'   y = unit(c(.9, .5, .3), "npc"),
-#'   box_hjust = 0,
-#'   box_vjust = 0.5,
-#'   hjust = 1,
-#'   vjust = 1,
+#'   hjust = 0,
+#'   vjust = 0.5,
+#'   hjust_int = 1, # internal hjust, vjust, defines how text label
+#'   vjust_int = 1, # is positioned inside the box
 #'   color = "blue",
 #'   fill = "azure1",
 #'   fontsize = 10,
@@ -49,10 +50,10 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'   label = c("This", "is", "a", "test", "x-axis"),
 #'   x = unit(c(.1, .3, .5, .7, .9), "npc"),
 #'   y = unit(0.5, "npc"),
-#'   box_hjust = 0.5,
-#'   box_vjust = 1,
 #'   hjust = 0.5,
 #'   vjust = 1,
+#'   hjust_int = 0.5,
+#'   vjust_int = 1,
 #'   angle = 0,
 #'   fontsize = 10, fontfamily = "Comic Sans MS",
 #'   padding = list(mar(5, 5, 3, 5)),
@@ -68,7 +69,7 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #' grid.draw(labels_grob(label_data))
 #' @export
 labels_grob <- function(label_data, align_frames = FALSE, debug = FALSE) {
-  txt_grobs <- pmap(label_data, text_grob)
+  txt_grobs <- pmap(label_data, make_label_grob)
   width_pt <- vapply(txt_grobs, grob_width_pt, numeric(1))
   height_pt <- vapply(txt_grobs, grob_height_pt, numeric(1))
   descent_pt <- vapply(txt_grobs, grob_descent_pt, numeric(1))
@@ -86,15 +87,25 @@ labels_grob <- function(label_data, align_frames = FALSE, debug = FALSE) {
   )
 
   txt_data <- cbind(txt_data, label_data)
-  grobs <- pmap(txt_data, add_box, debug = debug)
 
-  children <- do.call(gList, grobs)
-  grobTree(children)
+  # Here we would like to write something like thefollowing:
+  #   grobs <- pmap(txt_data, make_box_grob, debug = debug)
+  # However, this doesn't work because pmap turns units into
+  # numerics, so we need a for loop.
+  grobs <- list()
+  for (i in 1:nrow(txt_data)) {
+    row <- txt_data[i, ]
+    grobs[[i]] <- do.call(make_box_grob, c(row, list(debug = debug)))
+  }
+
+  # enclose all grobs in a box collection
+  do.call(box_collection_grob, c(grobs, list(debug = debug)))
 }
 
 #' create individual labels for labels_grob
-text_grob <- function(label, hjust = 0.5, vjust = 0.5, fontfamily = "", fontface = "plain",
-                      fontsize = 12, lineheight = 1.1, color = "black", ...) {
+make_label_grob <- function(label, hjust_int = 0.5, vjust_int = 0.5,
+                            fontfamily = "", fontface = "plain", fontsize = 12,
+                            lineheight = 1.1, color = "black", ...) {
   gp <- gpar(
     col = color,
     fontfamily = fontfamily,
@@ -102,65 +113,36 @@ text_grob <- function(label, hjust = 0.5, vjust = 0.5, fontfamily = "", fontface
     fontsize = fontsize,
     lineheight = lineheight
   )
-  textGrob(label, x = hjust, y = vjust, hjust = hjust, vjust = vjust, gp = gp)
+  textGrob(label, x = hjust_int, y = vjust_int, hjust = hjust_int, vjust = vjust_int, gp = gp)
 }
 
 #' make frame around text grobs
-add_box <- function(grob, width_pt, height_pt, descent_pt,
-                    x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-                    box_hjust = 0.5, box_vjust = 0.5, padding = mar(0, 0, 0, 0),
-                    margin = mar(0, 0, 0, 0), angle = 0, fill = NA, color = NA,
-                    frame_color = NULL,
-                    ..., debug = FALSE) {
-  widths <- unit.c(margin[4], padding[4], unit(width_pt, "pt"), padding[2], margin[2])
-  heights <- unit.c(margin[1], padding[1], unit(c(height_pt, descent_pt), "pt"), padding[3], margin[3])
+make_box_grob <- function(grob, width_pt, height_pt, descent_pt,
+                          x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+                          hjust = 0.5, vjust = 0.5, padding = list(mar(0, 0, 0, 0)),
+                          margin = list(mar(0, 0, 0, 0)), angle = 0, fill = NA, color = NA,
+                          frame_color = NULL,
+                          ..., debug = FALSE) {
+  # data from list columns arrive enclosed in lists, and we need to undo that first
+  grob <- grob[[1]]
+  margin <- margin[[1]]
+  padding <- padding[[1]]
 
-  vp <- viewport(
-    x = x, y = y, just = c(box_hjust, box_vjust),
-    width = sum(widths),
-    height = sum(heights),
-    angle = angle,
-    layout = grid.layout(6, 5, heights = heights, widths = widths)
-  )
-
-  text_grob <- editGrob(
-    grob,
-    vp = viewport(layout.pos.row = 3, layout.pos.col = 3)
-  )
+  # add descent to padding
+  padding[3] <- padding[3] + unit(descent_pt, "pt")
 
   color <- frame_color %||% color
 
-  if (isTRUE(debug)) {
-    if (is.na(color)) color <- "black"
-    if (is.na(fill)) fill <- "azure1"
-  }
+  width <- margin[2] + margin[4] + padding[2] + padding[4] + unit(width_pt, "pt")
+  height <- margin[1] + margin[3] + padding[1] + padding[3] + unit(height_pt, "pt")
 
-  pad_grob <- rectGrob(
-    gp = gpar(fill = fill, col = color),
-    vp = viewport(layout.pos.row = c(2, 5), layout.pos.col = c(2, 4))
-  )
-
-  if (isTRUE(debug)) {
-    marg_grob <- rectGrob(
-      gp = gpar(fill = "azure2", col = NA),
-      vp = viewport(layout.pos.row = c(1, 6), layout.pos.col = c(1, 5))
-    )
-
-    point_grob <- pointsGrob(
-      unit(box_hjust, "npc"), unit(box_vjust, "npc"), pch = 20, gp = gpar(col = "azure4"),
-      vp = viewport(layout.pos.row = c(1, 6), layout.pos.col = c(1, 5))
-    )
-
-    children <- gList(
-      marg_grob, pad_grob, point_grob, text_grob
-    )
-  } else {
-    children <- gList(pad_grob, text_grob)
-  }
-
-  grobTree(
-    children,
-    vp = vp
+  box_grob(
+    grob,
+    width = width, height = height,
+    x = x, y = y,
+    hjust = hjust, vjust = vjust,
+    padding = padding, margin = margin, angle = angle,
+    fill = fill, color = color, debug = debug
   )
 }
 

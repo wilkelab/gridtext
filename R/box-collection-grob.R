@@ -4,18 +4,13 @@
 #' @param ... One or more box grobs.
 #' @param width,height Width and height of the box collection grob. If either is set
 #'   to `NULL` (the default), it is calculated from the box grobs.
-#' @param x,y Unit objects specifying the location of the reference point.
-#' @param hjust,vjust Numerical values specifying the location of the box collection
-#'   relative to the reference point.
 #' @param vp Grid viewport.
 #' @param debug Bool indicating whether debug info should be drawn or not.
 #' @examples
 #' # no examples yet
 #' @export
 box_collection_grob <- function(..., width = NULL, height = NULL,
-                                x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-                                hjust = 0.5, vjust = 0.5, vp = NULL,
-                                debug = FALSE)
+                                vp = NULL, debug = FALSE)
 {
   children <- list(...)
 
@@ -42,8 +37,8 @@ box_collection_grob <- function(..., width = NULL, height = NULL,
 
   if (isTRUE(debug)) {
     outline_grob <- rectGrob(
-      x = x, y = y, width = width, height = height,
-      hjust = hjust, vjust = vjust,
+      x = 0.5*(xmax + xmin), y = 0.5*(ymax + ymin), width = width, height = height,
+      hjust = 0.5, vjust = 0.5,
       gp = gpar(fill = NA, col = "black")
     )
 
@@ -51,10 +46,6 @@ box_collection_grob <- function(..., width = NULL, height = NULL,
   }
 
   gTree(
-    x = x,
-    y = y,
-    hjust = hjust,
-    vjust = vjust,
     xmin = xmin,
     xmax = xmax,
     ymin = ymin,

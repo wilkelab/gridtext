@@ -20,7 +20,8 @@ sizes (\code{TRUE}) or not (\code{FALSE}).}
 \description{
 The function \code{labels_grob()} creates one or more labels. All label data is provided
 in the form of a data frame/tibble holding aesthetic values as columns and label
-information as rows.
+information as rows. The padding and margin information needs to be provided in a
+list column.
 }
 \examples{
 library(grid)
@@ -30,10 +31,10 @@ label_data <- tibble(
   label = c("Descenders: pgqjy", "This is a label\\nwith two lines", "Hello!"),
   x = unit(.4, "npc"),
   y = unit(c(.9, .5, .3), "npc"),
-  box_hjust = 0,
-  box_vjust = 0.5,
-  hjust = 1,
-  vjust = 1,
+  hjust = 0,
+  vjust = 0.5,
+  hjust_int = 1, # internal hjust, vjust, defines how text label
+  vjust_int = 1, # is positioned inside the box
   color = "blue",
   fill = "azure1",
   fontsize = 10,
@@ -52,10 +53,10 @@ label_data <- tibble(
   label = c("This", "is", "a", "test", "x-axis"),
   x = unit(c(.1, .3, .5, .7, .9), "npc"),
   y = unit(0.5, "npc"),
-  box_hjust = 0.5,
-  box_vjust = 1,
   hjust = 0.5,
   vjust = 1,
+  hjust_int = 0.5,
+  vjust_int = 1,
   angle = 0,
   fontsize = 10, fontfamily = "Comic Sans MS",
   padding = list(mar(5, 5, 3, 5)),

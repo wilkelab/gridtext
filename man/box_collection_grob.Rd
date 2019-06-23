@@ -4,20 +4,14 @@
 \alias{box_collection_grob}
 \title{Draw a collection of box grobs}
 \usage{
-box_collection_grob(..., width = NULL, height = NULL, x = unit(0.5,
-  "npc"), y = unit(0.5, "npc"), hjust = 0.5, vjust = 0.5,
-  vp = NULL, debug = FALSE)
+box_collection_grob(..., width = NULL, height = NULL, vp = NULL,
+  debug = FALSE)
 }
 \arguments{
 \item{...}{One or more box grobs.}
 
 \item{width, height}{Width and height of the box collection grob. If either is set
 to \code{NULL} (the default), it is calculated from the box grobs.}
-
-\item{x, y}{Unit objects specifying the location of the reference point.}
-
-\item{hjust, vjust}{Numerical values specifying the location of the box collection
-relative to the reference point.}
 
 \item{vp}{Grid viewport.}
 
