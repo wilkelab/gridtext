@@ -6,9 +6,9 @@
 Improved text rendering support for grid graphics in R, written by Claus
 O. Wilke
 
-This is an experiment. Most features are broken. The API is not stable.
-Please do not use this in any context where you need your code to work.
-No user support will be provided.
+This is an experiment. The API is not stable. Please do not use this in
+any context where you need your code to work. No user support will be
+provided.
 
 ## Installation
 
@@ -35,10 +35,10 @@ label_data <- tibble(
   label = c("Descenders: pgqjy", "This is a label\nwith two lines", "Hello!"),
   x = unit(c(.3, .8, .5), "npc"),
   y = unit(c(.9, .5, .3), "npc"),
-  box_hjust = 0,
-  box_vjust = 0.5,
-  hjust = 1,
-  vjust = 1,
+  hjust = 0,
+  vjust = 0.5,
+  hjust_int = 1, # internal hjust, vjust, defines how text label
+  vjust_int = 1, # is positioned inside the box
   angle = c(0, 45, -45),
   color = "blue",
   fill = "azure1",
@@ -56,25 +56,26 @@ grid.draw(g)
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
 Also, the boxes enclosing the labels can be all made the same size by
-setting `align_frames = TRUE`. This may be useful when using this grob
-to provide labels for an x or y axis:
+setting `align_frame_widths` and/or `align_frame_heights` to `TRUE`.
+This may be useful when using this grob to provide labels for an x or y
+axis:
 
 ``` r
 label_data <- tibble(
   label = c("This", "is", "an", "example", "rotated", "x axis"),
   x = unit(.15*1:6, "npc"),
   y = unit(0.8, "npc"),
-  box_hjust = 1,
-  box_vjust = 0.5,
-  hjust = 0.5,
-  vjust = 1,
+  hjust = 1,
+  vjust = 0.5,
+  hjust_int = 0.5,
+  vjust_int = 1,
   angle = 45,
   fontsize = 10, fontfamily = "Comic Sans MS",
   padding = list(mar(5, 5, 3, 5)),
   margin = list(mar(5, 5, 5, 5))
 )
 grid.newpage()
-g <- labels_grob(label_data, align_frames = TRUE, debug = TRUE)
+g <- labels_grob(label_data, align_frame_widths = TRUE, debug = TRUE)
 grid.draw(g)
 ```
 

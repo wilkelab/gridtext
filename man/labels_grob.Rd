@@ -4,16 +4,17 @@
 \alias{labels_grob}
 \title{Create grob representing one or more labels}
 \usage{
-labels_grob(label_data, align_frames = FALSE, debug = FALSE)
+labels_grob(label_data, align_frame_widths = FALSE,
+  align_frame_heights = FALSE, debug = FALSE)
 }
 \arguments{
 \item{label_data}{Tibble holding the label data. At a minimum, needs a
 \code{label} column holding the text labels to be drawn}
 
+\item{debug}{Bool indicating whether debugging info should be drawn.}
+
 \item{align_frames}{Bool indicating whether frames should have equal
 sizes (\code{TRUE}) or not (\code{FALSE}).}
-
-\item{debug}{Bool indicating whether debugging info should be drawn.}
 
 \item{gp}{Additional graphical parameters not provided via \code{label_data}.}
 }
@@ -45,7 +46,7 @@ label_data <- tibble(
 )
 
 grid.newpage()
-g <- labels_grob(label_data, align_frames = TRUE)
+g <- labels_grob(label_data, align_frame_heights = TRUE)
 grid.draw(g)
 
 
@@ -63,7 +64,7 @@ label_data <- tibble(
   margin = list(mar(5, 5, 5, 5))
 )
 grid.newpage()
-g <- labels_grob(label_data, align_frames = TRUE, debug = TRUE)
+g <- labels_grob(label_data, align_frame_widths = TRUE, debug = TRUE)
 grid.draw(g)
 
 

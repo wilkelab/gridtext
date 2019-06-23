@@ -42,7 +42,7 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #' )
 #'
 #' grid.newpage()
-#' g <- labels_grob(label_data, align_frames = TRUE)
+#' g <- labels_grob(label_data, align_frame_heights = TRUE)
 #' grid.draw(g)
 #'
 #'
@@ -60,7 +60,7 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'   margin = list(mar(5, 5, 5, 5))
 #' )
 #' grid.newpage()
-#' g <- labels_grob(label_data, align_frames = TRUE, debug = TRUE)
+#' g <- labels_grob(label_data, align_frame_widths = TRUE, debug = TRUE)
 #' grid.draw(g)
 #'
 #'
@@ -68,14 +68,18 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #' grid.newpage()
 #' grid.draw(labels_grob(label_data))
 #' @export
-labels_grob <- function(label_data, align_frames = FALSE, debug = FALSE) {
+labels_grob <- function(label_data, align_frame_widths = FALSE, align_frame_heights = FALSE,
+                        debug = FALSE) {
   txt_grobs <- pmap(label_data, make_label_grob)
   width_pt <- vapply(txt_grobs, grob_width_pt, numeric(1))
   height_pt <- vapply(txt_grobs, grob_height_pt, numeric(1))
   descent_pt <- vapply(txt_grobs, grob_descent_pt, numeric(1))
 
-  if (isTRUE(align_frames)) { # if label frames should be equalized
+  # do we want equal frame widths/heights
+  if (isTRUE(align_frame_widths)) {
     width_pt <- max(width_pt)
+  }
+  if (isTRUE(align_frame_heights)) {
     height_pt <- max(height_pt)
   }
 
