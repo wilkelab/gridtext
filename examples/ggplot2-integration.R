@@ -106,6 +106,7 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
 library(ggplot2)
 library(grid)
 library(gridtext)
+library(rlang)
 
 # define new theme element that inherits from `element_text()`
 element_markdown <- function(family = NULL, face = NULL, colour = NULL, size = NULL,
@@ -151,7 +152,7 @@ element_grob.element_markdown <- function(element, label = "", x = NULL, y = NUL
 # draw plot with alternative title rendering
 ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
   geom_point() +
-  ggtitle("Fischer's *Iris* data") +
+  ggtitle("The **famous** Fischer *Iris* dataset") +
   theme_minimal() +
   theme(
     plot.title = element_markdown(
