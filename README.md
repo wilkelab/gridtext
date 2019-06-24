@@ -108,21 +108,26 @@ text2 <- "Some <span style='color:red'>red</span> text <b>in bold.</b><br>And <i
 text3 <- "5<i>x</i><sup>2</sup><span style='color:blue'> + 7<i>x</i></span> - <i>α<sub>i</sub></i>"
 
 grid.newpage()
-grid.draw(rich_text_grob(text1, x = 0.25, y = 0.9))
-# enclose in a box grob for rotation
-grid.draw(
-  box_grob(
-    rich_text_grob(text2, hjust = 0),
-    x = 0.3, y = 0.3, angle = 45
-  )
-)
-grid.draw(
-  box_grob(
-    rich_text_grob(text2, hjust = 1),
-    x = 0.8, y = 0.7, angle = -90
-  )
-)
-grid.draw(box_grob(textGrob(text3), x = 0.2, y = 0.1, padding = mar(5, 5, 5, 5), debug = TRUE))
+grid.draw(rich_text_grob(text1, x = 0., y = 1, hjust = 0, vjust = 1))
+grid.draw(rich_text_grob(text2, hjust_int = 0, x = 0.3, y = 0.5, angle = 45))
+# set `debug = TRUE` to understand how the grob is placed
+grid.draw(rich_text_grob(text2, hjust_int = 1, x = 0.8, y = 0.7, angle = -90, debug = TRUE))
+grid.draw(rich_text_grob(text3, x = 0.1, y = 0.05, hjust = 0, vjust = 0, padding = mar(5, 5, 5, 5), debug = TRUE))
 ```
 
 ![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+
+Basic markdown is also supplorted via `markdown_grob()`, which is a
+variant of `rich_text_grob()` taking markdown instead of html.
+
+``` r
+grid.draw(
+  markdown_grob(
+    "Resistance of **Amoxicillin** in *E. coli*",
+    padding = mar(5, 10, 5, 10),
+    debug = TRUE
+  )
+)
+```
+
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->

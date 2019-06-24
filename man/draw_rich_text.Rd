@@ -24,5 +24,5 @@ library(grid)
 grid.newpage()
 draw_rich_text("This is the first line.<br>This is the second line.<br>And some <b>text in bold.</b>")
 draw_rich_text("This is some <span style='font-family:\\"Comic Sans MS\\"; font-size:20;'>big font
-  <span style='font-size:20; color:red'>in red.</span></span> <br>And the next line like nothing happened.")
+  <span style='font-size:25; color:red'>in red.</span></span> <br>And the next line like nothing happened.")
 }

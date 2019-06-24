@@ -11,6 +11,7 @@ Depends:
     R (>= 3.5)
 Imports:
     grid,
+    markdown,
     purrr,
     tibble,
     xml2

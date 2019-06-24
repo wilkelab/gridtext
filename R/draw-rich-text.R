@@ -29,18 +29,14 @@ draw_rich_text <- function(contents, hjust = 0.5, x_pt = 50, y_pt = 100, newpage
 #' Rich-text grob
 #'
 #' @param contents character vector containing html string
-#' @param hjust horizontal justification
-#' @param x x location
-#' @param y y location
+#' @param hjust_int Internal horizontal justification (0 = left, 0.5 = center, 1 = right)
+#' @param ... Other arguments handed off to [`box_grob()`]
 #' @examples
 #' library(grid)
 #' grid.newpage()
 #' grid.draw(rich_text_grob("Some text <b>in bold.</b>"))
 #' @export
-rich_text_grob <- function(contents, x = unit(0.5, "npc"), y = unit(0.5, "npc"), hjust = 0) {
-  if (!is.unit(x)) x <- unit(x, "npc")
-  if (!is.unit(y)) y <- unit(y, "npc")
-
+rich_text_grob <- function(contents, ..., hjust_int = 0) {
   doctree <- read_html(contents)
 
   drawing_context <- setup_context()
@@ -50,6 +46,16 @@ rich_text_grob <- function(contents, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   grobs_table$groups <- cumsum(grobs_table$type == "br")
   lines <- split(grobs_table, grobs_table$groups)
 
-  render_lines(lines, hjust, 0, 0, vp = viewport(x, y))
+  box_grob(
+    render_lines(lines, hjust_int, 0, 0),
+    ...
+  )
+}
+
+#' @rdname rich_text_grob
+#' @export
+markdown_grob <- function(contents, ...) {
+  html <- markdown::markdownToHTML(text = contents, fragment.only = TRUE)
+  rich_text_grob(html, ...)
 }
 

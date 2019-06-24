@@ -35,7 +35,7 @@ box_grob <- function(content_grob, width = NULL, height = NULL,
                      x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                      hjust = 0.5, vjust = 0.5, padding = mar(0, 0, 0, 0),
                      margin = mar(0, 0, 0, 0), angle = 0, fill = NA, color = NA,
-                     ..., debug = FALSE) {
+                     debug = FALSE) {
   if (!is.unit(x)) x <- unit(x, "npc")
   if (!is.unit(y)) y <- unit(y, "npc")
 

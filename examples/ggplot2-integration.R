@@ -103,3 +103,61 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
     )
   )
 
+library(ggplot2)
+library(grid)
+library(gridtext)
+library(rlang)
+library(tibble)
+
+# define new theme element that inherits from `element_text()`
+element_markdown <- function(family = NULL, face = NULL, colour = NULL, size = NULL,
+                          hjust = NULL, vjust = NULL, angle = NULL, lineheight = NULL,
+                          color = NULL, margin = NULL,
+                          debug = FALSE, inherit.blank = FALSE) {
+  if (!is.null(color))
+    colour <- color
+  structure(
+    list(
+      family = family, face = face, colour = colour,
+      size = size, hjust = hjust, vjust = vjust, angle = angle,
+      lineheight = lineheight, margin = margin, debug = debug,
+      inherit.blank = inherit.blank),
+    class = c("element_markdown", "element_text", "element")
+  )
+}
+
+# rendering of the theme element is handled by `labels_grob()`
+element_grob.element_markdown <- function(element, label = "", x = NULL, y = NULL,
+                                          family = NULL, face = NULL, colour = NULL, size = NULL,
+                                          hjust = NULL, vjust = NULL, angle = NULL, lineheight = NULL,
+                                          margin = NULL, margin_x = FALSE, margin_y = FALSE, ...) {
+  if (is.null(label))
+    return(ggplot2:::zeroGrob())
+
+  vj <- vjust %||% element$vjust
+  hj <- hjust %||% element$hjust
+  margin <- margin %||% element$margin %||% ggplot2::margin(0, 0, 0, 0)
+  angle <- angle %||% element$angle %||% 0
+
+  x <- x %||% hj
+  if (!is.unit(x))
+    x <- unit(x, "npc")
+  y <- y %||% vj
+  if (!is.unit(y))
+    y <- unit(y, "npc")
+
+  markdown_grob(label, x, y, hj, vj, angle = angle, padding = margin, debug = element$debug)
+}
+
+# draw plot with alternative title rendering
+ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
+  geom_point() +
+  ggtitle("Fischer's *Iris* data") +
+  theme_minimal() +
+  theme(
+    plot.title = element_markdown(
+      hjust = 0, vjust = 0.5, debug = TRUE,
+      margin = ggplot2::margin(5, 0, 5, 0)
+    )
+  )
+

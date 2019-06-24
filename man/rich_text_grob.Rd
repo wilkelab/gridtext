@@ -2,19 +2,19 @@
 % Please edit documentation in R/draw-rich-text.R
 \name{rich_text_grob}
 \alias{rich_text_grob}
+\alias{markdown_grob}
 \title{Rich-text grob}
 \usage{
-rich_text_grob(contents, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-  hjust = 0, angle = 0)
+rich_text_grob(contents, ..., hjust_int = 0)
+
+markdown_grob(contents, ...)
 }
 \arguments{
 \item{contents}{character vector containing html string}
 
-\item{x}{x location}
+\item{...}{Other arguments handed off to \code{\link[=box_grob]{box_grob()}}}
 
-\item{y}{y location}
-
-\item{hjust}{horizontal justification}
+\item{hjust_int}{Internal horizontal justification (0 = left, 0.5 = center, 1 = right)}
 }
 \description{
 Rich-text grob

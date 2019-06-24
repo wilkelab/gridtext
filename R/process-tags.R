@@ -66,8 +66,10 @@ dispatch_tag <- function(node, tag, drawing_context) {
     switch(
       tag,
       "b"    = process_tag_b(node, drawing_context),
+      "strong" = process_tag_b(node, drawing_context),
       "br"   = process_tag_br(node, drawing_context),
       "i"    = process_tag_i(node, drawing_context),
+      "em"   = process_tag_i(node, drawing_context),
       "p"    = process_tag_p(node, drawing_context),
       "span" = process_tag_span(node, drawing_context),
       "sup"  = process_tag_sup(node, drawing_context),
