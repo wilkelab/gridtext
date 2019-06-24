@@ -36,6 +36,9 @@ box_grob <- function(content_grob, width = NULL, height = NULL,
                      hjust = 0.5, vjust = 0.5, padding = mar(0, 0, 0, 0),
                      margin = mar(0, 0, 0, 0), angle = 0, fill = NA, color = NA,
                      ..., debug = FALSE) {
+  if (!is.unit(x)) x <- unit(x, "npc")
+  if (!is.unit(y)) y <- unit(y, "npc")
+
   if (is.null(width)) {
     content_width <- grobWidth(content_grob)
     width <- content_width + margin[2] + margin[4] + padding[2] + padding[4]
@@ -60,7 +63,7 @@ box_grob <- function(content_grob, width = NULL, height = NULL,
     layout = grid.layout(nrow = 5, ncol = 5, widths = widths, heights = heights)
   )
 
-  content_grob <- editGrob(
+  content_grob <- grobTree(
     content_grob,
     vp = viewport(layout.pos.row = 3, layout.pos.col = 3)
   )

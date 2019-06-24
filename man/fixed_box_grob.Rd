@@ -6,7 +6,7 @@
 \usage{
 fixed_box_grob(content_grob, width_pt = 100, height_pt = 100,
   x = unit(0.5, "npc"), y = unit(0.5, "npc"), hjust = 0.5,
-  vjust = 0.5, padding = mar(0, 0, 0, 0), margin = mar(0, 0, 0, 0),
+  vjust = 0.5, padding_pt = c(0, 0, 0, 0), margin_pt = c(0, 0, 0, 0),
   angle = 0, fill = NA, color = NA, ..., debug = FALSE)
 }
 \arguments{
@@ -20,13 +20,11 @@ points ("pt").}
 \item{hjust, vjust}{Numerical values specifying the location of the box
 relative to the reference point.}
 
-\item{padding}{Unit vector of 4 specifying the padding, in the order
-top, right, bottom, left. Must be specified in absolute units (point,
-mm, inch, etc.).}
+\item{padding_pt}{Numeric vector of 4 values specifying the padding
+in points, in the order top, right, bottom, left.}
 
-\item{margin}{Unit vector of 4 specifying the margin, in the order
-top, right, bottom, left. Must be specified in absolute units (point,
-mm, inch, etc.).}
+\item{margin_pt}{Numeric vector of 4 values specifying the margin
+in points, in the order top, right, bottom, left.}
 
 \item{angle}{Rotation angle (in degrees)}
 
@@ -50,8 +48,8 @@ g2 <- box_grob(
   width_pt = convertWidth(grobWidth(g1), "pt"),
   height_pt = convertHeight(grobHeight(g1), "pt"),
   angle = 40,
-  padding = mar(10, 20, 10, 20),
-  margin = mar(20, 10, 20, 10),
+  padding_pt = c(10, 20, 10, 20),
+  margin_pt = c(20, 10, 20, 10),
   hjust = 0,
   vjust = 1,
   debug = TRUE

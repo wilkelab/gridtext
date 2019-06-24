@@ -54,7 +54,7 @@ fixed_box_grob <- function(content_grob, width_pt = 100, height_pt = 100,
     layout = grid.layout(nrow = 5, ncol = 5, widths = widths, heights = heights)
   )
 
-  content_grob <- editGrob(
+  content_grob <- grobTree(
     content_grob,
     vp = viewport(layout.pos.row = 3, layout.pos.col = 3)
   )
