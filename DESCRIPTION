@@ -28,6 +28,7 @@ Collate:
     'box-grob.R'
     'draw-rich-text.R'
     'drawing-context.R'
+    'fixed-box-grob.R'
     'gridtext.R'
     'grob-descent.R'
     'grob-width-pt.R'

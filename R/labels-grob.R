@@ -131,23 +131,23 @@ make_box_grob <- function(grob, width_pt, height_pt, descent_pt,
                           ..., debug = FALSE) {
   # data from list columns arrive enclosed in lists, and we need to undo that first
   grob <- grob[[1]]
-  margin <- margin[[1]]
-  padding <- padding[[1]]
+  margin_pt <- convertUnit(margin[[1]], "pt", valueOnly = TRUE)
+  padding_pt <- convertUnit(padding[[1]], "pt", valueOnly = TRUE)
 
   # add descent to padding
-  padding[3] <- padding[3] + unit(descent_pt, "pt")
+  padding_pt[3] <- padding_pt[3] + descent_pt
 
   color <- frame_color %||% color
 
-  width <- margin[2] + margin[4] + padding[2] + padding[4] + unit(width_pt, "pt")
-  height <- margin[1] + margin[3] + padding[1] + padding[3] + unit(height_pt, "pt")
+  width_pt <- margin_pt[2] + margin_pt[4] + padding_pt[2] + padding_pt[4] + width_pt
+  height_pt <- margin_pt[1] + margin_pt[3] + padding_pt[1] + padding_pt[3] + height_pt
 
-  box_grob(
+  fixed_box_grob(
     grob,
-    width = width, height = height,
+    width_pt = width_pt, height_pt = height_pt,
     x = x, y = y,
     hjust = hjust, vjust = vjust,
-    padding = padding, margin = margin, angle = angle,
+    padding_pt = padding_pt, margin_pt = margin_pt, angle = angle,
     fill = fill, color = color, debug = debug
   )
 }

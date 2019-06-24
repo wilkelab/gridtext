@@ -14,7 +14,6 @@
 #' @param angle Rotation angle (in degrees)
 #' @param fill Fill color of the box.
 #' @param color Outline color of the box.
-#' @param ... Not used.
 #' @param debug Bool indicating whether debug info should be drawn or not.
 #' @examples
 #' library(grid)
@@ -98,8 +97,8 @@ box_grob <- function(content_grob, width = NULL, height = NULL,
   # (lower left, lower right, upper left, upper right before rotation)
   theta <- angle*2*pi/360
   # lower left
-  xll <- x - hjust*width*cos(theta) + vjust*height*sin(theta)
-  yll <- y - hjust*width*sin(theta) - vjust*height*cos(theta)
+  xll <- x - hjust*cos(theta)*width + vjust*sin(theta)*height
+  yll <- y - hjust*sin(theta)*width - vjust*cos(theta)*height
   # lower right
   xlr <- xll + width*cos(theta)
   ylr <- yll + width*sin(theta)
@@ -114,8 +113,8 @@ box_grob <- function(content_grob, width = NULL, height = NULL,
   yext <- unit.c(yll, ylr, yul, yur)
 
   gTree(
-    xext = unit.c(xll, xlr, xul, xur),
-    yext = unit.c(yll, ylr, yul, yur),
+    xext = xext,
+    yext = yext,
     width = width,
     height = height,
     children = children,
