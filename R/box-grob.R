@@ -63,7 +63,7 @@ box_grob <- function(content_grob, width = NULL, height = NULL,
     layout = grid.layout(nrow = 5, ncol = 5, widths = widths, heights = heights)
   )
 
-  content_grob <- grobTree(
+  content_grob <- editGrob(
     content_grob,
     vp = viewport(layout.pos.row = 3, layout.pos.col = 3)
   )

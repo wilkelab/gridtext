@@ -106,8 +106,6 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
 library(ggplot2)
 library(grid)
 library(gridtext)
-library(rlang)
-library(tibble)
 
 # define new theme element that inherits from `element_text()`
 element_markdown <- function(family = NULL, face = NULL, colour = NULL, size = NULL,
@@ -146,7 +144,8 @@ element_grob.element_markdown <- function(element, label = "", x = NULL, y = NUL
   if (!is.unit(y))
     y <- unit(y, "npc")
 
-  markdown_grob(label, x, y, hj, vj, angle = angle, padding = margin, debug = element$debug)
+  markdown_grob(label, x = x, y = y, hjust = hj, vjust = vj, angle = angle,
+                padding = margin, debug = element$debug)
 }
 
 # draw plot with alternative title rendering
@@ -156,8 +155,7 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
   theme_minimal() +
   theme(
     plot.title = element_markdown(
-      hjust = 0, vjust = 0.5, debug = TRUE,
-      margin = ggplot2::margin(5, 0, 5, 0)
+      hjust = 0, vjust = 0.5, margin = ggplot2::margin(5, 0, 5, 0)
     )
   )
 
