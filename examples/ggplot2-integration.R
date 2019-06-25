@@ -160,18 +160,6 @@ element_grob.element_markdown <- function(element, label = "", x = NULL, y = NUL
   )
 }
 
-# draw plot with alternative title rendering
-ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
-  geom_point() +
-  ggtitle("The **famous** Fischer *Iris* dataset") +
-  theme_minimal() +
-  theme(
-    plot.title = element_markdown(
-      hjust = 0, vjust = 0.5, size = 14, margin = ggplot2::margin(5, 0, 5, 0)
-    )
-  )
-
-
 ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
   geom_point(show.legend=TRUE, size = 4) +
   scale_color_brewer(
@@ -179,7 +167,7 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
     labels = c("*I. setosa*", "*I. versicolor*", "*I. virginica*")
   ) +
   labs(
-    title = "Sepal length and sepal width of<br>various *Iris* species",
+    title = "Sepal **length** and sepal **width** of<br>various *Iris* species",
     x = "Sepal **length** (cm)", y = "Sepal **width** (cm)"
   ) +
   geom_smooth(show.legend = FALSE, alpha = 0.15) +
