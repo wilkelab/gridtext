@@ -15,11 +15,13 @@ update_context <- function(drawing_context, ...) {
 }
 
 setup_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", color = "black",
-                                  cex = 1, lineheight = 1.2) {
-  gp <- gpar(
-    fontsize = fontsize, fontfamily = fontfamily, fontface = fontface,
-    col = color, cex = cex, lineheight = lineheight
-  )
+                          cex = 1, lineheight = 1.2, gp = NULL) {
+  if (is.null(gp)) {
+    gp <- gpar(
+      fontsize = fontsize, fontfamily = fontfamily, fontface = fontface,
+      col = color, cex = cex, lineheight = lineheight
+    )
+  }
   gp <- update_gpar(get.gpar(), gp)
 
   set_context_gp(list(yoff_pt = 0), gp)

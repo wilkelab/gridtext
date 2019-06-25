@@ -30,16 +30,17 @@ draw_rich_text <- function(contents, hjust = 0.5, x_pt = 50, y_pt = 100, newpage
 #'
 #' @param contents character vector containing html string
 #' @param hjust_int Internal horizontal justification (0 = left, 0.5 = center, 1 = right)
+#' @param gp Other graphical parameters for drawing
 #' @param ... Other arguments handed off to [`box_grob()`]
 #' @examples
 #' library(grid)
 #' grid.newpage()
 #' grid.draw(rich_text_grob("Some text <b>in bold.</b>"))
 #' @export
-rich_text_grob <- function(contents, ..., hjust_int = 0) {
+rich_text_grob <- function(contents, ..., hjust_int = 0, gp = NULL) {
   doctree <- read_html(contents)
 
-  drawing_context <- setup_context()
+  drawing_context <- setup_context(gp = gp)
 
   grobs_table <- process_tags(as_list(doctree)$html$body, drawing_context)
 

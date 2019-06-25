@@ -52,13 +52,13 @@ element_grob.element_label <- function(element, label = "", x = NULL, y = NULL,
     y <- unit(y, "npc")
 
   # The gp settings can override element_gp
-  gp <- gpar(fontsize = size, col = colour,
-             fontfamily = family, fontface = face,
-             lineheight = lineheight)
-  element_gp <- gpar(fontsize = element$size, col = element$colour,
-                     fontfamily = element$family, fontface = element$face,
-                     lineheight = element$lineheight)
-  gp <- ggplot2:::modify_list(element_gp, gp)
+  gp <- gpar(
+    fontsize = size %||% element$size,
+    col = colour %||% element$colour,
+    fontfamily = family %||% element$family,
+    fontface = face %||% element$face,
+    lineheight = lineheight %||% element$lineheight
+  )
 
   gl <- list(
     label = label,
@@ -145,8 +145,19 @@ element_grob.element_markdown <- function(element, label = "", x = NULL, y = NUL
   if (!is.unit(y))
     y <- unit(y, "npc")
 
-  markdown_grob(label, x = x, y = y, hjust = hj, vjust = vj, angle = angle,
-                padding = margin, debug = element$debug)
+  # The gp settings can override element_gp
+  gp <- gpar(
+    fontsize = size %||% element$size,
+    col = colour %||% element$colour,
+    fontfamily = family %||% element$family,
+    fontface = face %||% element$face,
+    lineheight = lineheight %||% element$lineheight
+  )
+
+  markdown_grob(
+    label, x = x, y = y, hjust = hj, vjust = vj, angle = angle,
+    padding = margin, gp = gp, debug = element$debug
+  )
 }
 
 # draw plot with alternative title rendering
@@ -156,7 +167,35 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
   theme_minimal() +
   theme(
     plot.title = element_markdown(
-      hjust = 0, vjust = 0.5, margin = ggplot2::margin(5, 0, 5, 0)
+      hjust = 0, vjust = 0.5, size = 14, margin = ggplot2::margin(5, 0, 5, 0)
+    )
+  )
+
+
+ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
+  geom_point(show.legend=TRUE, size = 4) +
+  scale_color_brewer(
+    palette = "Set2",
+    labels = c("*I. setosa*", "*I. versicolor*", "*I. virginica*")
+  ) +
+  labs(
+    title = "Sepal length and sepal width of<br>various *Iris* species",
+    x = "Sepal **length** (cm)", y = "Sepal **width** (cm)"
+  ) +
+  geom_smooth(show.legend = FALSE, alpha = 0.15) +
+  theme_minimal() +
+  theme(
+    plot.title = element_markdown(
+      colour = "#3A4A60",
+      margin = ggplot2::margin(5, 0, 5, 0),
+      lineheight = 1.2
+    ),
+    legend.text = element_markdown(),
+    axis.title.x = element_markdown(colour = "#3A4A60"),
+    axis.title.y = element_markdown(
+      colour = "#3A4A60",
+      vjust = 0.5, hjust = 0.5,
+      margin = margin(b = 5.5)
     )
   )
 
