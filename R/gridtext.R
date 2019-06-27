@@ -2,9 +2,10 @@
 #'
 #' @name gridtext
 #' @docType package
+#' @useDynLib gridtext, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
 #' @import grid
 #' @import purrr
 #' @import xml2
 #' @import tibble
-#' @importFrom rlang list2
 NULL

@@ -5,7 +5,7 @@
 \alias{markdown_grob}
 \title{Rich-text grob}
 \usage{
-rich_text_grob(contents, ..., hjust_int = 0)
+rich_text_grob(contents, ..., hjust_int = 0, gp = NULL)
 
 markdown_grob(contents, ...)
 }
@@ -15,6 +15,8 @@ markdown_grob(contents, ...)
 \item{...}{Other arguments handed off to \code{\link[=box_grob]{box_grob()}}}
 
 \item{hjust_int}{Internal horizontal justification (0 = left, 0.5 = center, 1 = right)}
+
+\item{gp}{Other graphical parameters for drawing}
 }
 \description{
 Rich-text grob

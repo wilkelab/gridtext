@@ -2,42 +2,39 @@ Package: gridtext
 Type: Package
 Title: Improved text rendering support for grid graphics
 Version: 0.1.0
-Authors@R: c( 
-    person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("cre", "aut")))
+Authors@R: 
+    person(
+      given = "Claus O.",
+      family = "Wilke",
+      role = c("aut", "cre"),
+      email = "wilke@austin.utexas.edu",
+      comment = c(ORCID = "0000-0002-7470-9261")
+    )
 Description: This package provides rich-text rendering capability for the grid
     graphics engine. 
 URL: https://github.com/clauswilke/gridtext
+BugReports: https://github.com/clauswilke/gridtext/issues
+License: MIT + file LICENSE
 Depends:
     R (>= 3.5)
 Imports:
     grid,
     markdown,
     purrr,
+    Rcpp,
     tibble,
     xml2
-Remotes: tidyverse/ggplot2
-License: MIT + file LICENSE
-LazyData: true
 Suggests:
     knitr,
     rmarkdown,
     testthat,
     vdiffr
-VignetteBuilder: knitr
-Collate:
-    'box-collection-grob.R'
-    'box-grob.R'
-    'draw-rich-text.R'
-    'drawing-context.R'
-    'fixed-box-grob.R'
-    'gridtext.R'
-    'grob-descent.R'
-    'grob-width-pt.R'
-    'grob-zero.R'
-    'labels-grob.R'
-    'make-.R'
-    'render-lines.R'
-    'parse-css.R'
-    'process-tags.R'
+LinkingTo: 
+    Rcpp,
+    testthat
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
+SystemRequirements: C++11
+VignetteBuilder: knitr
