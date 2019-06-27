@@ -59,7 +59,7 @@ text <- "The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet
   fermentum odio id, facilisis velit."
 
 
-g <- wrap_grob(text)
+g <- wrap_grob(text, gp = gpar(fontsize = 20), linespacing_pt = 24)
 grid.newpage()
 grid.draw(g)
 
