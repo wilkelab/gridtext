@@ -16,7 +16,7 @@ Imports:
     tibble,
     xml2
 Remotes: tidyverse/ggplot2
-License: GPL-2 | file LICENSE
+License: MIT + file LICENSE
 LazyData: true
 Suggests:
     knitr,

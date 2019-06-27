@@ -31,3 +31,7 @@ parse_css_line <- function(line) {
   if (is.null(key)) list()
   else list2(!!key := value)
 }
+
+# In the long run, it would be good to replace this with a proper css parser. The
+# simplest approach is probably to write one using flex and bison. There's a nice
+# tutorial here: https://aquamentus.com/flex_bison.html
