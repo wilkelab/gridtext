@@ -41,11 +41,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// set_grob_coords
+RObject set_grob_coords(RObject grob, NumericVector x, NumericVector y);
+RcppExport SEXP _gridtext_set_grob_coords(SEXP grobSEXP, SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type grob(grobSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(set_grob_coords(grob, x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_unit_pt", (DL_FUNC) &_gridtext_unit_pt, 1},
     {"_gridtext_gpar_empty", (DL_FUNC) &_gridtext_gpar_empty, 0},
     {"_gridtext_text_grob", (DL_FUNC) &_gridtext_text_grob, 5},
+    {"_gridtext_set_grob_coords", (DL_FUNC) &_gridtext_set_grob_coords, 3},
     {NULL, NULL, 0}
 };
 

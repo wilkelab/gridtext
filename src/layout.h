@@ -41,10 +41,20 @@ public:
   virtual length_type ascent() = 0;
   // descent of the box (height below the baseline)
   virtual length_type descent() = 0;
-  // yoffset (vertical shift of baseline)
-  virtual length_type yoff() = 0;
+  // vertical offset (vertical shift of baseline)
+  virtual length_type voff() = 0;
 
-  virtual RObject render_grob() = 0;
+  // calculate the internal layout of the box
+  // in the general case, we may provide the box with a width and
+  // a height to render into, though boxes may ignore these
+  virtual void calc_layout(length_type width = 0, length_type height = 0) = 0;
+
+  // place box in internal coordinates used in enclosing box
+  virtual void place(length_type x, length_type y) = 0;
+
+  // render into absolute coordinates, using the reference coordinates
+  // from the enclosing box
+  virtual RObject render(length_type xref, length_type yref) = 0;
 };
 
 class Glue : public LayoutNode {

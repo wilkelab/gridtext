@@ -13,3 +13,7 @@ text_grob <- function(label, x_pt = 0L, y_pt = 0L, gp = NULL, name = NULL) {
     .Call(`_gridtext_text_grob`, label, x_pt, y_pt, gp, name)
 }
 
+set_grob_coords <- function(grob, x, y) {
+    .Call(`_gridtext_set_grob_coords`, grob, x, y)
+}
+

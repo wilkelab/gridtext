@@ -1,13 +1,18 @@
+#ifndef GRID_H
+#define GRID_H
+
 #include <Rcpp.h>
 using namespace Rcpp;
 
 #include <string>
 using namespace std;
 
-// This file contains a number of convenience functions that allow for the rapid construction of
-// grid units or grobs. Each could be replaced by a simple R call to a corresponding grid
-// function (e.g., unit_pt(x) is equivalent to unit(x, "pt")), but in general the C++ version
-// here is much faster, in particular because it skips extensive input validation.
+#include "length-type.h"
+
+// This file contains a number of convenience functions that allow for the rapid construction
+// or manipulation of grid units or grobs. Each could be replaced by a simple R call to a
+// corresponding grid function (e.g., unit_pt(x) is equivalent to unit(x, "pt")), but in general
+// the C++ version here is much faster, in particular because it skips extensive input validation.
 
 
 // replacement for unit(x, "pt")
@@ -20,6 +25,17 @@ NumericVector unit_pt(NumericVector x) {
 
   return out;
 }
+
+// Overloaded version for length_type
+NumericVector unit_pt(length_type x) {
+  NumericVector out(1, x);
+  out.attr("class") = "unit";
+  out.attr("valid.unit") = IntegerVector(1, 8);
+  out.attr("unit") = "pt";
+
+  return out;
+}
+
 
 // replacement for gpar() with no arguments
 // [[Rcpp::export]]
@@ -69,3 +85,14 @@ List text_grob(CharacterVector label, NumericVector x_pt = 0, NumericVector y_pt
 
   return out;
 }
+
+// replacement for editGrob(grob, x = x, y = y)
+// [[Rcpp::export]]
+RObject set_grob_coords(RObject grob, NumericVector x, NumericVector y) {
+  static_cast<List>(grob)["x"] = x;
+  static_cast<List>(grob)["y"] = y;
+
+  return grob;
+}
+
+#endif
