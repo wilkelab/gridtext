@@ -54,12 +54,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// test_hbox
+RObject test_hbox(List grobs, NumericVector widths, double box_width, double x, double y, double vspacing, double hspacing);
+RcppExport SEXP _gridtext_test_hbox(SEXP grobsSEXP, SEXP widthsSEXP, SEXP box_widthSEXP, SEXP xSEXP, SEXP ySEXP, SEXP vspacingSEXP, SEXP hspacingSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type grobs(grobsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type widths(widthsSEXP);
+    Rcpp::traits::input_parameter< double >::type box_width(box_widthSEXP);
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type vspacing(vspacingSEXP);
+    Rcpp::traits::input_parameter< double >::type hspacing(hspacingSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_hbox(grobs, widths, box_width, x, y, vspacing, hspacing));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_unit_pt", (DL_FUNC) &_gridtext_unit_pt, 1},
     {"_gridtext_gpar_empty", (DL_FUNC) &_gridtext_gpar_empty, 0},
     {"_gridtext_text_grob", (DL_FUNC) &_gridtext_text_grob, 5},
     {"_gridtext_set_grob_coords", (DL_FUNC) &_gridtext_set_grob_coords, 3},
+    {"_gridtext_test_hbox", (DL_FUNC) &_gridtext_test_hbox, 7},
     {NULL, NULL, 0}
 };
 

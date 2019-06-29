@@ -17,3 +17,7 @@ set_grob_coords <- function(grob, x, y) {
     .Call(`_gridtext_set_grob_coords`, grob, x, y)
 }
 
+test_hbox <- function(grobs, widths, box_width, x, y, vspacing, hspacing) {
+    .Call(`_gridtext_test_hbox`, grobs, widths, box_width, x, y, vspacing, hspacing)
+}
+

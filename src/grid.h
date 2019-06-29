@@ -7,7 +7,7 @@ using namespace Rcpp;
 #include <string>
 using namespace std;
 
-#include "length-type.h"
+#include "length.h"
 
 // This file contains a number of convenience functions that allow for the rapid construction
 // or manipulation of grid units or grobs. Each could be replaced by a simple R call to a
@@ -26,8 +26,8 @@ NumericVector unit_pt(NumericVector x) {
   return out;
 }
 
-// Overloaded version for length_type
-NumericVector unit_pt(length_type x) {
+// Overloaded version for Length
+NumericVector unit_pt(Length x) {
   NumericVector out(1, x);
   out.attr("class") = "unit";
   out.attr("valid.unit") = IntegerVector(1, 8);
