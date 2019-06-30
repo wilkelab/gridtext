@@ -26,6 +26,7 @@ Imports:
     tibble,
     xml2
 Suggests:
+    covr,
     knitr,
     rmarkdown,
     testthat,
