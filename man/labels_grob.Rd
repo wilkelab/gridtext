@@ -41,7 +41,7 @@ label_data <- tibble(
   color = "blue",
   fill = "azure1",
   fontsize = 10,
-  fontfamily = "Comic Sans MS",
+  fontfamily = "Palatino",
   angle = c(0, 45, -45),
   padding = list(mar(5, 5, 3, 5)),
   margin = list(mar(5, 5, 5, 5))
@@ -61,7 +61,7 @@ label_data <- tibble(
   hjust_int = 0.5,
   vjust_int = 1,
   angle = 0,
-  fontsize = 10, fontfamily = "Comic Sans MS",
+  fontsize = 10, fontfamily = "Palatino",
   padding = list(mar(5, 5, 3, 5)),
   margin = list(mar(5, 5, 5, 5))
 )
@@ -70,7 +70,7 @@ g <- labels_grob(label_data, align_frame_widths = TRUE, debug = TRUE)
 grid.draw(g)
 
 
-label_data <- tibble(label = "abcqgy", fontsize = 50, fontfamily = "Comic Sans MS")
+label_data <- tibble(label = "abcqgy", fontsize = 50, fontfamily = "Palatino")
 grid.newpage()
 grid.draw(labels_grob(label_data))
 }

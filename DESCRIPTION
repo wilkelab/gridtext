@@ -21,6 +21,7 @@ Imports:
     grid,
     markdown,
     purrr,
+    rlang,
     Rcpp,
     tibble,
     xml2

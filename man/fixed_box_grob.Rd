@@ -7,7 +7,7 @@
 fixed_box_grob(content_grob, width_pt = 100, height_pt = 100,
   x = unit(0.5, "npc"), y = unit(0.5, "npc"), hjust = 0.5,
   vjust = 0.5, padding_pt = c(0, 0, 0, 0), margin_pt = c(0, 0, 0, 0),
-  angle = 0, fill = NA, color = NA, ..., debug = FALSE)
+  angle = 0, fill = NA, color = NA, debug = FALSE)
 }
 \arguments{
 \item{content_grob}{A grob that represents the contents inside the box.}
@@ -43,10 +43,10 @@ unit calculations.
 library(grid)
 
 g1 <- textGrob("abcd")
-g2 <- box_grob(
+g2 <- fixed_box_grob(
   g1,
-  width_pt = convertWidth(grobWidth(g1), "pt"),
-  height_pt = convertHeight(grobHeight(g1), "pt"),
+  width_pt = convertWidth(grobWidth(g1), "pt", valueOnly = TRUE) + 60,
+  height_pt = convertHeight(grobHeight(g1), "pt", valueOnly = TRUE) + 60,
   angle = 40,
   padding_pt = c(10, 20, 10, 20),
   margin_pt = c(20, 10, 20, 10),

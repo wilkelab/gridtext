@@ -4,19 +4,25 @@
 #' @param hjust horizontal justification
 #' @param x_pt x location, in points
 #' @param y_pt y location, in points
+#' @param newpage Bool indicating whether `grid.newpage()` should be called first
 #' @examples
 #' library(grid)
 #' grid.newpage()
-#' draw_rich_text("This is the first line.<br>This is the second line.<br>And some <b>text in bold.</b>")
-#' draw_rich_text("This is some <span style='font-family:\"Comic Sans MS\"; font-size:20;'>big font
-#'   <span style='font-size:25; color:red'>in red.</span></span> <br>And the next line like nothing happened.")
+#' draw_rich_text(
+#'   "This is the first line.<br>This is the second line.<br>And some <b>text in bold.</b>"
+#' )
+#' draw_rich_text(
+#'   "This is some <span style='font-family:\"Bookman\"; font-size:20;'>big
+#'    font <span style='font-size:25; color:red'>in red.</span></span> <br>And the next
+#'    line like nothing happened."
+#' )
 #' @export
 draw_rich_text <- function(contents, hjust = 0.5, x_pt = 50, y_pt = 100, newpage = TRUE) {
   doctree <- read_html(contents)
 
   drawing_context <- setup_context()
 
-  grobs_table <- process_tags(as_list(doctree)$html$body, drawing_context)
+  grobs_table <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
 
   grobs_table$groups <- cumsum(grobs_table$type == "br")
   lines <- split(grobs_table, grobs_table$groups)
@@ -42,7 +48,7 @@ rich_text_grob <- function(contents, ..., hjust_int = 0, gp = NULL) {
 
   drawing_context <- setup_context(gp = gp)
 
-  grobs_table <- process_tags(as_list(doctree)$html$body, drawing_context)
+  grobs_table <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
 
   grobs_table$groups <- cumsum(grobs_table$type == "br")
   lines <- split(grobs_table, grobs_table$groups)

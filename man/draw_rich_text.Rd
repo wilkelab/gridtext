@@ -15,6 +15,8 @@ draw_rich_text(contents, hjust = 0.5, x_pt = 50, y_pt = 100,
 \item{x_pt}{x location, in points}
 
 \item{y_pt}{y location, in points}
+
+\item{newpage}{Bool indicating whether \code{grid.newpage()} should be called first}
 }
 \description{
 Draw rich text
@@ -22,7 +24,12 @@ Draw rich text
 \examples{
 library(grid)
 grid.newpage()
-draw_rich_text("This is the first line.<br>This is the second line.<br>And some <b>text in bold.</b>")
-draw_rich_text("This is some <span style='font-family:\\"Comic Sans MS\\"; font-size:20;'>big font
-  <span style='font-size:25; color:red'>in red.</span></span> <br>And the next line like nothing happened.")
+draw_rich_text(
+  "This is the first line.<br>This is the second line.<br>And some <b>text in bold.</b>"
+)
+draw_rich_text(
+  "This is some <span style='font-family:\\"Bookman\\"; font-size:20;'>big
+   font <span style='font-size:25; color:red'>in red.</span></span> <br>And the next
+   line like nothing happened."
+)
 }

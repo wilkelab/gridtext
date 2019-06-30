@@ -21,10 +21,10 @@
 #' library(grid)
 #'
 #' g1 <- textGrob("abcd")
-#' g2 <- box_grob(
+#' g2 <- fixed_box_grob(
 #'   g1,
-#'   width_pt = convertWidth(grobWidth(g1), "pt"),
-#'   height_pt = convertHeight(grobHeight(g1), "pt"),
+#'   width_pt = convertWidth(grobWidth(g1), "pt", valueOnly = TRUE) + 60,
+#'   height_pt = convertHeight(grobHeight(g1), "pt", valueOnly = TRUE) + 60,
 #'   angle = 40,
 #'   padding_pt = c(10, 20, 10, 20),
 #'   margin_pt = c(20, 10, 20, 10),
@@ -39,7 +39,7 @@ fixed_box_grob <- function(content_grob, width_pt = 100, height_pt = 100,
                      x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                      hjust = 0.5, vjust = 0.5, padding_pt = c(0, 0, 0, 0),
                      margin_pt = c(0, 0, 0, 0), angle = 0, fill = NA, color = NA,
-                     ..., debug = FALSE) {
+                     debug = FALSE) {
   content_width_pt <- width_pt - margin_pt[2] - margin_pt[4] - padding_pt[2] - padding_pt[4]
   content_height_pt <- height_pt - margin_pt[1] - margin_pt[3] - padding_pt[1] - padding_pt[3]
 

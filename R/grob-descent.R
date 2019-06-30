@@ -39,7 +39,7 @@ lookup_font_details <- function(gp) {
 
     font_env$font_details <- c(
       font_env$font_details,
-      setNames(list(details), key)
+      stats::setNames(list(details), key)
     )
   }
   details

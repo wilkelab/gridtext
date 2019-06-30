@@ -36,7 +36,7 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'   color = "blue",
 #'   fill = "azure1",
 #'   fontsize = 10,
-#'   fontfamily = "Comic Sans MS",
+#'   fontfamily = "Palatino",
 #'   angle = c(0, 45, -45),
 #'   padding = list(mar(5, 5, 3, 5)),
 #'   margin = list(mar(5, 5, 5, 5))
@@ -56,7 +56,7 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #'   hjust_int = 0.5,
 #'   vjust_int = 1,
 #'   angle = 0,
-#'   fontsize = 10, fontfamily = "Comic Sans MS",
+#'   fontsize = 10, fontfamily = "Palatino",
 #'   padding = list(mar(5, 5, 3, 5)),
 #'   margin = list(mar(5, 5, 5, 5))
 #' )
@@ -65,7 +65,7 @@ mar <- function(t = 0, r = 0, b = 0, l = 0, unit = "pt") {
 #' grid.draw(g)
 #'
 #'
-#' label_data <- tibble(label = "abcqgy", fontsize = 50, fontfamily = "Comic Sans MS")
+#' label_data <- tibble(label = "abcqgy", fontsize = 50, fontfamily = "Palatino")
 #' grid.newpage()
 #' grid.draw(labels_grob(label_data))
 #' @export
@@ -108,7 +108,7 @@ labels_grob <- function(label_data, width = NULL, height = NULL,
   do.call(box_collection_grob, c(grobs, list(width = width, height = height, debug = debug)))
 }
 
-#' create individual labels for labels_grob
+# create individual labels for labels_grob
 make_label_grob <- function(label, hjust_int = 0.5, vjust_int = 0.5,
                             fontfamily = "", fontface = "plain", fontsize = 12,
                             lineheight = 1.1, color = "black", ...) {
@@ -122,7 +122,7 @@ make_label_grob <- function(label, hjust_int = 0.5, vjust_int = 0.5,
   textGrob(label, x = hjust_int, y = vjust_int, hjust = hjust_int, vjust = vjust_int, gp = gp)
 }
 
-#' make frame around text grobs
+# make frame around text grobs
 make_box_grob <- function(grob, width_pt, height_pt, descent_pt,
                           x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                           hjust = 0.5, vjust = 0.5, padding = list(mar(0, 0, 0, 0)),
