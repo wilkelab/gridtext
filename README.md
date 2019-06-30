@@ -3,6 +3,13 @@
 
 # gridtext
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/gridtext)](https://cran.r-project.org/package=gridtext)
+[![Build
+Status](https://travis-ci.org/wilkelab/gridtext.svg?branch=master)](https://travis-ci.org/wilkelab/gridtext)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/wilkelab/gridtext/master.svg)](https://codecov.io/github/wilkelab/gridtext?branch=master)
+
 Improved text rendering support for grid graphics in R, written by Claus
 O. Wilke
 
