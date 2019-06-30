@@ -84,3 +84,19 @@ test_that("text_grob", {
     "not vectorized"
   )
 })
+
+test_that("set_grob_coords", {
+  g <- list(x = 0, y = 0)
+
+  # setting coords as numbers
+  expect_identical(
+    set_grob_coords(g, x = 20, y = 40),
+    list(x = 20, y = 40)
+  )
+
+  # setting coords as units
+  expect_identical(
+    set_grob_coords(g, x = unit_pt(20), y = unit_pt(40)),
+    list(x = unit_pt(20), y = unit_pt(40))
+  )
+})
