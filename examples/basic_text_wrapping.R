@@ -11,6 +11,14 @@ wrap_grob <- function(text, x = unit(0.2, "npc"), y = unit(0.8, "npc"), width = 
   sp_grob <- gridtext:::text_grob(" ", gp = gp)
   space_width_pt <- grob_width_pt(sp_grob)
 
+  if (isTRUE(render_cpp)) {
+    nodes <- mapply(gridtext:::bl_make_grob_box, grobs, widths_pt)
+    bl_nodes <- gridtext:::bl_make_node_list(nodes)
+    hbox <- gridtext:::bl_make_hbox(bl_nodes, linespacing_pt, space_width_pt)
+  } else {
+    hbox <- NULL
+  }
+
   gTree(
     x = x,
     y = y,
@@ -19,6 +27,7 @@ wrap_grob <- function(text, x = unit(0.2, "npc"), y = unit(0.8, "npc"), width = 
     widths_pt = widths_pt,
     space_width_pt = space_width_pt,
     linespacing_pt = linespacing_pt,
+    hbox = hbox,
     render_cpp = render_cpp,
     gp = gp,
     cl = "wrap_grob"
@@ -33,7 +42,8 @@ makeContent.wrap_grob <- function(x) {
 
   if (isTRUE(x$render_cpp)) {
     print("rendering via C++")
-    children <- gridtext:::test_hbox(x$grobs, x$widths_pt, width_pt, x_pt, y_pt, x$linespacing_pt, x$space_width_pt)
+    gridtext:::bl_calc_layout(x$hbox, width_pt)
+    children <- gridtext:::bl_render(x$hbox, x_pt, y_pt)
   } else {
     print("rendering via R")
     # x and y offsets as we draw

@@ -5,10 +5,20 @@ using namespace Rcpp;
 #include "hbox.h"
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_grob_box(RObject grob, double width) {
-  XPtr<NodePtr> p(new NodePtr(new GrobBox(grob, width)));
+XPtr<NodePtr> bl_make_grob_box(RObject grob, double width_pt) {
+  XPtr<NodePtr> p(new NodePtr(new GrobBox(grob, width_pt)));
 
   StringVector cl = {"bl_grob_box", "bl_box", "bl_node"};
+  p.attr("class") = cl;
+
+  return p;
+}
+
+// [[Rcpp::export]]
+XPtr<NodePtr> bl_make_hbox(XPtr<NodeList> nodes, double vspacing_pt, double hspacing_pt) {
+  XPtr<NodePtr> p(new NodePtr(new HBox(*nodes, vspacing_pt, hspacing_pt)));
+
+  StringVector cl = {"bl_hbox", "bl_box", "bl_node"};
   p.attr("class") = cl;
 
   return p;
@@ -34,10 +44,19 @@ XPtr<NodeList> bl_make_node_list(List nodes) {
 }
 
 // [[Rcpp::export]]
-RObject bl_render(XPtr<NodePtr> node, double x, double y) {
+void bl_calc_layout(XPtr<NodePtr> node, double width_pt, double height_pt = 0) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
   }
 
-  return static_pointer_cast<Box>(*node)->render(x, y);
+  static_pointer_cast<Box>(*node)->calc_layout(width_pt, height_pt);
+}
+
+// [[Rcpp::export]]
+RObject bl_render(XPtr<NodePtr> node, double x_pt, double y_pt) {
+  if (!node.inherits("bl_box")) {
+    stop("Node must be of type 'bl_box'.");
+  }
+
+  return static_pointer_cast<Box>(*node)->render(x_pt, y_pt);
 }

@@ -7,14 +7,27 @@
 using namespace Rcpp;
 
 // bl_make_grob_box
-XPtr<NodePtr> bl_make_grob_box(RObject grob, double width);
-RcppExport SEXP _gridtext_bl_make_grob_box(SEXP grobSEXP, SEXP widthSEXP) {
+XPtr<NodePtr> bl_make_grob_box(RObject grob, double width_pt);
+RcppExport SEXP _gridtext_bl_make_grob_box(SEXP grobSEXP, SEXP width_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type grob(grobSEXP);
-    Rcpp::traits::input_parameter< double >::type width(widthSEXP);
-    rcpp_result_gen = Rcpp::wrap(bl_make_grob_box(grob, width));
+    Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_grob_box(grob, width_pt));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_make_hbox
+XPtr<NodePtr> bl_make_hbox(XPtr<NodeList> nodes, double vspacing_pt, double hspacing_pt);
+RcppExport SEXP _gridtext_bl_make_hbox(SEXP nodesSEXP, SEXP vspacing_ptSEXP, SEXP hspacing_ptSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodeList> >::type nodes(nodesSEXP);
+    Rcpp::traits::input_parameter< double >::type vspacing_pt(vspacing_ptSEXP);
+    Rcpp::traits::input_parameter< double >::type hspacing_pt(hspacing_ptSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_hbox(nodes, vspacing_pt, hspacing_pt));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -29,16 +42,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// bl_calc_layout
+void bl_calc_layout(XPtr<NodePtr> node, double width_pt, double height_pt);
+RcppExport SEXP _gridtext_bl_calc_layout(SEXP nodeSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
+    Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
+    bl_calc_layout(node, width_pt, height_pt);
+    return R_NilValue;
+END_RCPP
+}
 // bl_render
-RObject bl_render(XPtr<NodePtr> node, double x, double y);
-RcppExport SEXP _gridtext_bl_render(SEXP nodeSEXP, SEXP xSEXP, SEXP ySEXP) {
+RObject bl_render(XPtr<NodePtr> node, double x_pt, double y_pt);
+RcppExport SEXP _gridtext_bl_render(SEXP nodeSEXP, SEXP x_ptSEXP, SEXP y_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(bl_render(node, x, y));
+    Rcpp::traits::input_parameter< double >::type x_pt(x_ptSEXP);
+    Rcpp::traits::input_parameter< double >::type y_pt(y_ptSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_render(node, x_pt, y_pt));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -111,7 +136,9 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_grob_box", (DL_FUNC) &_gridtext_bl_make_grob_box, 2},
+    {"_gridtext_bl_make_hbox", (DL_FUNC) &_gridtext_bl_make_hbox, 3},
     {"_gridtext_bl_make_node_list", (DL_FUNC) &_gridtext_bl_make_node_list, 1},
+    {"_gridtext_bl_calc_layout", (DL_FUNC) &_gridtext_bl_calc_layout, 3},
     {"_gridtext_bl_render", (DL_FUNC) &_gridtext_bl_render, 3},
     {"_gridtext_unit_pt", (DL_FUNC) &_gridtext_unit_pt, 1},
     {"_gridtext_gpar_empty", (DL_FUNC) &_gridtext_gpar_empty, 0},
