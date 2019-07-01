@@ -33,8 +33,16 @@ text_grob <- function(label, x_pt = 0L, y_pt = 0L, gp = NULL, name = NULL) {
     .Call(`_gridtext_text_grob`, label, x_pt, y_pt, gp, name)
 }
 
+rect_grob <- function(x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, gp = NULL, name = NULL) {
+    .Call(`_gridtext_rect_grob`, x_pt, y_pt, width_pt, height_pt, gp, name)
+}
+
 set_grob_coords <- function(grob, x, y) {
     .Call(`_gridtext_set_grob_coords`, grob, x, y)
+}
+
+test_grid_renderer <- function() {
+    .Call(`_gridtext_test_grid_renderer`)
 }
 
 test_hbox <- function(grobs, widths, box_width, x, y, vspacing, hspacing) {

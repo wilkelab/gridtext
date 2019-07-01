@@ -1,3 +1,20 @@
+/* Various test routines.
+ * To be deleted eventually.
+ */
+
+#include "grid-renderer.h"
+
+// [[Rcpp::export]]
+List test_grid_renderer() {
+  GridRenderer r;
+
+  r.text("Hello", 10, 200);
+  r.text("World", 10, 180, "red", 14, "bold");
+  r.text("Some more text", 50, 160, "blue");
+  return r.collect_grobs();
+}
+
+
 #include "hbox.h"
 
 // [[Rcpp::export]]

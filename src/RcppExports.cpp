@@ -103,6 +103,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rect_grob
+List rect_grob(NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, NumericVector height_pt, RObject gp, RObject name);
+RcppExport SEXP _gridtext_rect_grob(SEXP x_ptSEXP, SEXP y_ptSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP gpSEXP, SEXP nameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x_pt(x_ptSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y_pt(y_ptSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type width_pt(width_ptSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type height_pt(height_ptSEXP);
+    Rcpp::traits::input_parameter< RObject >::type gp(gpSEXP);
+    Rcpp::traits::input_parameter< RObject >::type name(nameSEXP);
+    rcpp_result_gen = Rcpp::wrap(rect_grob(x_pt, y_pt, width_pt, height_pt, gp, name));
+    return rcpp_result_gen;
+END_RCPP
+}
 // set_grob_coords
 RObject set_grob_coords(RObject grob, NumericVector x, NumericVector y);
 RcppExport SEXP _gridtext_set_grob_coords(SEXP grobSEXP, SEXP xSEXP, SEXP ySEXP) {
@@ -113,6 +129,16 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     rcpp_result_gen = Rcpp::wrap(set_grob_coords(grob, x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// test_grid_renderer
+List test_grid_renderer();
+RcppExport SEXP _gridtext_test_grid_renderer() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(test_grid_renderer());
     return rcpp_result_gen;
 END_RCPP
 }
@@ -145,7 +171,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_unit_pt", (DL_FUNC) &_gridtext_unit_pt, 1},
     {"_gridtext_gpar_empty", (DL_FUNC) &_gridtext_gpar_empty, 0},
     {"_gridtext_text_grob", (DL_FUNC) &_gridtext_text_grob, 5},
+    {"_gridtext_rect_grob", (DL_FUNC) &_gridtext_rect_grob, 6},
     {"_gridtext_set_grob_coords", (DL_FUNC) &_gridtext_set_grob_coords, 3},
+    {"_gridtext_test_grid_renderer", (DL_FUNC) &_gridtext_test_grid_renderer, 0},
     {"_gridtext_test_hbox", (DL_FUNC) &_gridtext_test_hbox, 7},
     {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
     {NULL, NULL, 0}

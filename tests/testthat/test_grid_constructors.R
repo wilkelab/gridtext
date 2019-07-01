@@ -85,6 +85,49 @@ test_that("text_grob", {
   )
 })
 
+test_that("rect_grob", {
+  # basic functionality, gp is set to gpar() if not provided
+  expect_identical(
+    rect_grob(10, 20, 100, 140, name = "abc"),
+    rectGrob(
+      x = unit(10, "pt"), y = unit(20, "pt"),
+      width = unit(100, "pt"), height = unit(140, "pt"),
+      hjust = 0, vjust = 0,
+      gp = gpar(),
+      name = "abc"
+    )
+  )
+
+  # gp is set as requested
+  gp <- gpar(col = "blue", fill = "red")
+  expect_identical(
+    rect_grob(10, 20, 100, 140, gp = gp, name = "abc"),
+    rectGrob(
+      x = unit(10, "pt"), y = unit(20, "pt"),
+      width = unit(100, "pt"), height = unit(140, "pt"),
+      hjust = 0, vjust = 0,
+      gp = gp,
+      name = "abc"
+    )
+  )
+
+  # if no name is provided, different names are assigned
+  g1 <- rect_grob()
+  g2 <- rect_grob()
+  expect_false(identical(g1$name, g2$name))
+
+  # function is not vectorized
+  expect_error(
+    rect_grob(c(10, 20), 20, 100, 140),
+    "not vectorized"
+  )
+
+  expect_error(
+    rect_grob(10, numeric(0), 100, 140),
+    "not vectorized"
+  )
+})
+
 test_that("set_grob_coords", {
   g <- list(x = 0, y = 0)
 
