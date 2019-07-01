@@ -12,4 +12,7 @@
 typedef shared_ptr<LayoutNode> NodePtr;
 typedef vector<NodePtr > NodeList;
 
+// grid renderer
+class GridRenderer;
+
 #endif
