@@ -100,6 +100,47 @@ List rect_grob(NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, N
   return out;
 }
 
+List roundrect_grob(NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, NumericVector height_pt,
+                    NumericVector r_pt, RObject gp, RObject name) {
+  if (x_pt.size() != 1 || y_pt.size() != 1 || width_pt.size() != 1 || height_pt.size() != 1 || r_pt.size() != 1) {
+    stop("Function roundrect_grob() is not vectorized.\n");
+  }
+
+  if (gp.isNULL()) {
+    gp = gpar_empty();
+  }
+
+  // need to produce a unique name for each grob, otherwise grid gets grumpy
+  static int tg_count = 0;
+  if (name.isNULL()) {
+    tg_count += 1;
+    string s("gridtext.roundrect.");
+    s = s + to_string(tg_count);
+    CharacterVector vs;
+    vs.push_back(s);
+    name = vs;
+  }
+
+  NumericVector justv(2);  // c(0, 0)
+
+  List out = List::create(
+    _["x"] = unit_pt(x_pt), _["y"] = unit_pt(y_pt),
+    _["width"] = unit_pt(width_pt), _["height"] = unit_pt(height_pt),
+    _["r"] = unit_pt(r_pt),
+    _["just"] = justv,
+    _["name"] = name, _["gp"] = gp, _["vp"] = R_NilValue
+  );
+
+  Rcpp::StringVector cl(3);
+  cl(0) = "roundrect";
+  cl(1) = "grob";
+  cl(2) = "gDesc";
+
+  out.attr("class") = cl;
+
+  return out;
+}
+
 
 RObject set_grob_coords(RObject grob, NumericVector x, NumericVector y) {
   static_cast<List>(grob)["x"] = x;

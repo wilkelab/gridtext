@@ -35,6 +35,11 @@ List text_grob(CharacterVector label, NumericVector x_pt = 0, NumericVector y_pt
 List rect_grob(NumericVector x_pt = 0, NumericVector y_pt = 0, NumericVector width_pt = 0, NumericVector height_pt = 0,
                RObject gp = R_NilValue, RObject name = R_NilValue);
 
+// replacement for roundrectGrop(x_pt, y_pt, width_pt, height_pt, r = unit(r_pt, "pt), gp = gpar(), just = c(0, 0), default.units = "pt", name = NULL)
+// [[Rcpp::export]]
+List roundrect_grob(NumericVector x_pt = 0, NumericVector y_pt = 0, NumericVector width_pt = 0, NumericVector height_pt = 0,
+                    NumericVector r_pt = 5, RObject gp = R_NilValue, RObject name = R_NilValue);
+
 // replacement for editGrob(grob, x = x, y = y)
 // [[Rcpp::export]]
 RObject set_grob_coords(RObject grob, NumericVector x, NumericVector y);

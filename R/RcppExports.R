@@ -37,6 +37,10 @@ rect_grob <- function(x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, gp = 
     .Call(`_gridtext_rect_grob`, x_pt, y_pt, width_pt, height_pt, gp, name)
 }
 
+roundrect_grob <- function(x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, r_pt = 5L, gp = NULL, name = NULL) {
+    .Call(`_gridtext_roundrect_grob`, x_pt, y_pt, width_pt, height_pt, r_pt, gp, name)
+}
+
 set_grob_coords <- function(grob, x, y) {
     .Call(`_gridtext_set_grob_coords`, grob, x, y)
 }
