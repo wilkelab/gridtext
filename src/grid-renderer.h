@@ -13,9 +13,12 @@ using namespace std;
 class GridRenderer {
 private:
   List m_grobs;
+  Environment m_grid_env;
 
 public:
-  GridRenderer() {}
+  GridRenderer() {
+    m_grid_env = Environment::namespace_env("grid");
+  }
 
   void text(CharacterVector label, Length x, Length y, CharacterVector color = "#000000",
             double fontsize = 12, CharacterVector fontface = "plain", CharacterVector fontfamily = "") {
@@ -23,8 +26,7 @@ public:
     NumericVector sizev(1, fontsize);
 
     // make gp
-    Environment grid = Environment::namespace_env("grid");
-    Function gpar = grid["gpar"];
+    Function gpar = m_grid_env["gpar"];
     List gp = gpar(_["col"] = color, _["fontfamily"] = fontfamily, _["fontface"] = fontface, _["fontsize"] = sizev);
 
     m_grobs.push_back(text_grob(label, xv, yv, gp));
