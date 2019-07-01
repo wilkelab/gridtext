@@ -23,8 +23,7 @@ public:
     NumericVector sizev(1, fontsize);
 
     // make gp
-    // doesn't work when package isn't attached
-    Environment grid("package:grid");
+    Environment grid = Environment::namespace_env("grid");
     Function gpar = grid["gpar"];
     List gp = gpar(_["col"] = color, _["fontfamily"] = fontfamily, _["fontface"] = fontface, _["fontsize"] = sizev);
 
