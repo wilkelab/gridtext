@@ -21,7 +21,7 @@ List test_grid_renderer() {
 
 
 #include "hbox.h"
-
+/*
 // [[Rcpp::export]]
 RObject test_hbox(List grobs, NumericVector widths, double box_width, double x, double y,
                   double vspacing, double hspacing) {
@@ -38,3 +38,4 @@ RObject test_hbox(List grobs, NumericVector widths, double box_width, double x, 
   hb.calc_layout(box_width);
   return hb.render(x, y);
 }
+*/

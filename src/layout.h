@@ -8,7 +8,7 @@ using namespace Rcpp;
 #include <memory>
 using namespace std;
 
-#include "length.h"
+#include "gridtext_types.h"
 
 // base class for a generic node in the
 // layout tree
@@ -30,6 +30,7 @@ private:
 };
 
 // generic box class
+template <class Renderer = GridRenderer>
 class Box : public LayoutNode {
 public:
   Box() : LayoutNode(LayoutNode::box) {}
@@ -54,7 +55,7 @@ public:
 
   // render into absolute coordinates, using the reference coordinates
   // from the enclosing box
-  virtual RObject render(Length xref, Length yref) = 0;
+  virtual void render(Renderer &r, Length xref, Length yref) = 0;
 };
 
 class Glue : public LayoutNode {

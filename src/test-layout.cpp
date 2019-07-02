@@ -1,12 +1,12 @@
 #include <testthat.h>
 
 #include "layout.h"
-#include "hbox.h"
+#include "text-box.h"
 
 context("Node list") {
   test_that("Create polymorphic node list") {
     NodePtr n1(new Glue());
-    NodePtr n2(new GrobBox(R_NilValue));
+    NodePtr n2(new TextBox<>("abcd"));
 
     NodeList l;
     l.push_back(n1);

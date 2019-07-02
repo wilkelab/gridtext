@@ -6,52 +6,10 @@ using namespace Rcpp;
 
 #include "grid.h"
 #include "gridtext_types.h"
+#include "layout.h"
 
-// A box holding a single R grob
-class GrobBox : public Box {
-private:
-  RObject m_grob;
-  Length m_width;
-  Length m_ascent;
-  Length m_descent;
-  Length m_voff;
-  // position of the box in enclosing box, modulo vertical offset (voff),
-  // which gets added to m_y;
-  // the box reference point is the leftmost point of the baseline.
-  Length m_x, m_y;
-
-public:
-  GrobBox(RObject grob, Length width = 0, Length ascent = 0,
-          Length descent = 0, Length voff = 0) :
-    m_grob(grob), m_width(width), m_ascent(ascent), m_descent(descent), m_voff(voff),
-    m_x(0), m_y(0) {}
-  ~GrobBox() {};
-
-  Length width() { return m_width; }
-  Length ascent() { return m_ascent; }
-  Length descent() { return m_descent; }
-  Length voff() { return m_voff; }
-
-  // nothing to be done for a box that contains a grob
-  void calc_layout(Length, Length) {;}
-
-  // place box in internal coordinates used in enclosing box
-  void place(Length x, Length y) {
-    m_x = x;
-    m_y = y;
-  }
-
-  // render into absolute coordinates, using the reference coordinates
-  // from the enclosing box
-  RObject render(Length xref, Length yref) {
-    Length x = m_x + xref;
-    Length y = m_y + m_voff + yref;
-
-    return set_grob_coords(m_grob, unit_pt(x), unit_pt(y));
-  }
-};
-
-class HBox : public Box {
+template <class Renderer = GridRenderer>
+class HBox : public Box<Renderer> {
 private:
   NodeList m_nodes;
   Length m_vspacing;
@@ -82,7 +40,7 @@ public:
       LayoutNode::NodeType nt = (*i_node)->type();
 
       if (nt == LayoutNode::box) {
-        auto b = static_pointer_cast<Box>(*i_node);
+        auto b = static_pointer_cast<Box<Renderer> >(*i_node);
         b->calc_layout(width_hint);
         b->place(x_off, y_off);
         x_off += b->width();
@@ -104,19 +62,13 @@ public:
     m_y = y;
   }
 
-  virtual RObject render(Length xref, Length yref) {
-    List out;
-
+  void render(Renderer &r, Length xref, Length yref) {
     // render all grobs in the list
     for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
-      if ((*i_node)->type() == box) {
-        out.push_back(static_pointer_cast<Box>(*i_node)->render(xref, yref));
+      if ((*i_node)->type() == LayoutNode::box) {
+        static_pointer_cast<Box<Renderer> >(*i_node)->render(r, xref, yref);
       }
     }
-
-    // turn list into gList to keep grid happy
-    out.attr("class") = "gList";
-    return out;
   }
 };
 
