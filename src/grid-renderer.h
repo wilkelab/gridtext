@@ -4,50 +4,93 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#include <string>
+#include <vector>
+#include <iostream>
 using namespace std;
 
 #include "grid.h"
 #include "length.h"
+#include "layout.h"
 
 class GridRenderer {
+public:
+  // GridRenderer stores its graphics context in a grid gpar() list
+  typedef List GraphicsContext;
+
 private:
-  List m_grobs;
-  Environment m_grid_env;
+  vector<RObject> m_grobs;
+  Environment m_gridtext_env; // for callback to R functions of this package
+
+  RObject gpar_lookup(List gp, const char* element) {
+    if (!gp.containsElementNamed(element)) {
+      return R_NilValue;
+    } else {
+      return gp[element];
+    }
+  }
 
 public:
   GridRenderer() {
-    m_grid_env = Environment::namespace_env("grid");
+    m_gridtext_env = Environment::namespace_env("gridtext");
   }
 
-  void text(String label, Length x, Length y, String color = "#000000",
-            double fontsize = 12, String fontface = "plain", String fontfamily = "") {
-    NumericVector xv(1, x), yv(1, y);
-    NumericVector sizev(1, fontsize);
-
+  TextInfo text_info() {
     // make gp
-    Function gpar = m_grid_env["gpar"];
-    List gp = gpar(_["col"] = color, _["fontfamily"] = fontfamily, _["fontface"] = fontface, _["fontsize"] = sizev);
-
-    m_grobs.push_back(text_grob(CharacterVector(label), xv, yv, gp));
+    //Function gpar = m_grid_env["gpar"];
+    //List gp = gpar(_["col"] = color, _["fontfamily"] = fontfamily, _["fontface"] = fontface, _["fontsize"] = sizev);
+    return TextInfo();
   }
 
-  void rect(Length x, Length y, Length width, Length height, String color = "#000000",
-            String fill = NA_STRING, int linetype = 1, double linewidth = 1, Length r = 0,
-            String linejoin = "round", double linemitre = 1) {
+  void text(String label, Length x, Length y, const GraphicsContext &gp) {
+    m_grobs.push_back(text_grob(CharacterVector(label), NumericVector(1, x), NumericVector(1, y), gp));
+  }
+
+  void rect(Length x, Length y, Length width, Length height, const GraphicsContext &gp, Length r = 0) {
     // skip drawing if nothing would show anyways
-    if (fill == NA_STRING && (color == NA_STRING || linetype == 0)) {
+
+    // default assumption is we don't have a fill color but we do have line color and type
+    bool have_fill_col = false;
+    bool have_line_col = true;
+    bool have_line_type = true;
+    RObject fill_obj = gpar_lookup(gp, "fill");
+
+    if (!fill_obj.isNULL()) {
+      CharacterVector fill(fill_obj);
+      if (fill.size() > 0 && !CharacterVector::is_na(fill[0])) {
+        have_fill_col = true;
+      }
+    }
+
+    // if we have a fill color, further checks don't matter
+    if (!have_fill_col) {
+      RObject color = gpar_lookup(gp, "col");
+      if (!color.isNULL()) {
+        CharacterVector col(color);
+        if (col.size() == 0 || CharacterVector::is_na(col[0])) {
+          have_line_col = false;
+        }
+      }
+    }
+
+    // if we don't have a fill color but do have a line color,
+    // need to check line type
+    if (!have_fill_col && have_line_col) {
+      RObject linetype = gpar_lookup(gp, "lty");
+      if (!linetype.isNULL()) {
+        NumericVector lty(linetype);
+        if (lty.size() == 0 || lty[0] == 0) {
+          have_line_type = false;
+        }
+      }
+    }
+
+    if (!have_fill_col && (!have_line_col || !have_line_type)) {
       return;
     }
 
-    NumericVector xv(1, x), yv(1, y), widthv(1, width), heightv(1, height);
-    NumericVector lwdv(1, linewidth), mitrev(1, linemitre);
-    IntegerVector ltyv(1, linetype);
+    // now that we know we should draw, go ahead
 
-    // make gp
-    Function gpar = m_grid_env["gpar"];
-    List gp = gpar(_["col"] = color, _["fill"] = fill, _["lty"] = ltyv, _["lwd"] = lwdv,
-                   _["linejoin"] = linejoin, _["linemitre"] = mitrev);
+    NumericVector xv(1, x), yv(1, y), widthv(1, width), heightv(1, height);
 
     // draw simple rect grob or rounded rect grob depending on provided radius
     if (r < 0.01) {
@@ -60,10 +103,20 @@ public:
 
 
   List collect_grobs() {
-    List out = m_grobs;
+    // turn vector of grobs into list; doing it this way avoids
+    // List.push_back() which is slow.
+    List out(m_grobs.size());
+
+    size_t i = 0;
+    for (auto i_grob = m_grobs.begin(); i_grob != m_grobs.end(); i_grob++) {
+      out[i] = *i_grob;
+      i++;
+    }
+    // clear internal grobs list; the renderer is reset with each collect_grobs() call
+    m_grobs.clear();
+
     // turn list into gList to keep grid happy
     out.attr("class") = "gList";
-    m_grobs = List();
 
     return out;
   }

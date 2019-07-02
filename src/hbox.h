@@ -5,10 +5,9 @@
 using namespace Rcpp;
 
 #include "grid.h"
-#include "gridtext_types.h"
 #include "layout.h"
 
-template <class Renderer = GridRenderer>
+template <class Renderer>
 class HBox : public Box<Renderer> {
 private:
   NodeList m_nodes;

@@ -2,11 +2,12 @@
 
 #include "layout.h"
 #include "text-box.h"
+#include "grid-renderer.h"
 
 context("Node list") {
   test_that("Create polymorphic node list") {
     NodePtr n1(new Glue());
-    NodePtr n2(new TextBox<>("abcd"));
+    NodePtr n2(new TextBox<GridRenderer>("abcd", List()));
 
     NodeList l;
     l.push_back(n1);

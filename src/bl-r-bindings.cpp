@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 XPtr<NodePtr> bl_make_text_box(String label, double voff_pt) {
-  XPtr<NodePtr> p(new NodePtr(new TextBox<>(label, voff_pt)));
+  XPtr<NodePtr> p(new NodePtr(new TextBox<GridRenderer>(label, voff_pt)));
 
   StringVector cl = {"bl_text_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
@@ -18,7 +18,7 @@ XPtr<NodePtr> bl_make_text_box(String label, double voff_pt) {
 
 // [[Rcpp::export]]
 XPtr<NodePtr> bl_make_hbox(XPtr<NodeList> nodes, double vspacing_pt, double hspacing_pt) {
-  XPtr<NodePtr> p(new NodePtr(new HBox<>(*nodes, vspacing_pt, hspacing_pt)));
+  XPtr<NodePtr> p(new NodePtr(new HBox<GridRenderer>(*nodes, vspacing_pt, hspacing_pt)));
 
   StringVector cl = {"bl_hbox", "bl_box", "bl_node"};
   p.attr("class") = cl;
@@ -51,7 +51,7 @@ void bl_calc_layout(XPtr<NodePtr> node, double width_pt, double height_pt = 0) {
     stop("Node must be of type 'bl_box'.");
   }
 
-  static_pointer_cast<Box<> >(*node)->calc_layout(width_pt, height_pt);
+  static_pointer_cast<Box<GridRenderer> >(*node)->calc_layout(width_pt, height_pt);
 }
 
 // [[Rcpp::export]]
@@ -61,6 +61,6 @@ RObject bl_render(XPtr<NodePtr> node, double x_pt, double y_pt) {
   }
 
   GridRenderer gr;
-  static_pointer_cast<Box<> >(*node)->render(gr, x_pt, y_pt);
+  static_pointer_cast<Box<GridRenderer> >(*node)->render(gr, x_pt, y_pt);
   return gr.collect_grobs();
 }

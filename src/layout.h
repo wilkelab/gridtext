@@ -8,7 +8,7 @@ using namespace Rcpp;
 #include <memory>
 using namespace std;
 
-#include "gridtext_types.h"
+#include "length.h"
 
 // base class for a generic node in the
 // layout tree
@@ -30,7 +30,7 @@ private:
 };
 
 // generic box class
-template <class Renderer = GridRenderer>
+template <class Renderer>
 class Box : public LayoutNode {
 public:
   Box() : LayoutNode(LayoutNode::box) {}
@@ -69,9 +69,20 @@ public:
   Length width() {return m_width;}
 };
 
-
 // node list (vector of pointers to layout nodes)
 typedef shared_ptr<LayoutNode> NodePtr;
 typedef vector<NodePtr > NodeList;
+
+
+// struct that holds width, height, etc. data for text labels
+struct TextInfo {
+  Length width;    // width of the label
+  Length ascent;   // ascent from baseline
+  Length descent;  // descent below baseline
+  Length space;    // width of a space
+
+  TextInfo(Length w = 0, Length a = 0, Length d = 0, Length s = 0) :
+    width(w), ascent(a), descent(d), space(s) {}
+};
 
 #endif

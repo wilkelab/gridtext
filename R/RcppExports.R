@@ -25,12 +25,12 @@ grid_renderer <- function() {
     .Call(`_gridtext_grid_renderer`)
 }
 
-grid_renderer_text <- function(gr, label, x, y, color = "#000000", fontsize = 12, fontface = "plain", fontfamily = "") {
-    invisible(.Call(`_gridtext_grid_renderer_text`, gr, label, x, y, color, fontsize, fontface, fontfamily))
+grid_renderer_text <- function(gr, label, x, y, gp) {
+    invisible(.Call(`_gridtext_grid_renderer_text`, gr, label, x, y, gp))
 }
 
-grid_renderer_rect <- function(gr, x, y, width, height, color = "#000000", fill = NA_character_, linetype = 1L, linewidth = 1, r = 0L, linejoin = "round", linemitre = 1) {
-    invisible(.Call(`_gridtext_grid_renderer_rect`, gr, x, y, width, height, color, fill, linetype, linewidth, r, linejoin, linemitre))
+grid_renderer_rect <- function(gr, x, y, width, height, gp, r = 0L) {
+    invisible(.Call(`_gridtext_grid_renderer_rect`, gr, x, y, width, height, gp, r))
 }
 
 grid_renderer_collect_grobs <- function(gr) {
@@ -59,9 +59,5 @@ roundrect_grob <- function(x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, 
 
 set_grob_coords <- function(grob, x, y) {
     .Call(`_gridtext_set_grob_coords`, grob, x, y)
-}
-
-test_grid_renderer <- function() {
-    .Call(`_gridtext_test_grid_renderer`)
 }
 

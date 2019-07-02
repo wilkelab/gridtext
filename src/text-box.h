@@ -4,15 +4,14 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#include "gridtext_types.h"
 #include "layout.h"
-#include "grid-renderer.h"
 
 // A box holding a single R grob
-template <class Renderer = GridRenderer>
+template <class Renderer>
 class TextBox : public Box<Renderer> {
 private:
   String m_label;
+  typename Renderer::GraphicsContext m_gp;
   Length m_width;
   Length m_ascent;
   Length m_descent;
@@ -23,9 +22,21 @@ private:
   Length m_x, m_y;
 
 public:
-  TextBox(String label, Length voff = 0) :
-    m_label(label), m_width(0), m_ascent(0), m_descent(0), m_voff(voff),
-    m_x(0), m_y(0) {}
+  TextBox(String label, const typename Renderer::GraphicsContext &gp, Length voff = 0) :
+    m_label(label), m_gp(gp), m_width(0), m_ascent(0), m_descent(0), m_voff(voff),
+    m_x(0), m_y(0) {
+    /*
+    Environment env = Environment::namespace_env("gridtext");
+    Function text_details = env["text_details"];
+    List info = text_details(
+      _["label"] = label, _["fontfamily"] = "",
+      _["fontface"] = "plain", _["fontsize"] = 12
+    );
+    m_width = info["width_pt"];
+    m_ascent = info["ascent_pt"];
+    m_descent = info["descent_pt"];
+     */
+  }
   ~TextBox() {};
 
   Length width() { return m_width; }
@@ -48,7 +59,7 @@ public:
     Length x = m_x + xref;
     Length y = m_y + m_voff + yref;
 
-    r.text(m_label, x, y);
+    r.text(m_label, x, y, m_gp);
       // String color = "#000000",
       // double fontsize = 12, String fontface = "plain", String fontfamily = "")
   }

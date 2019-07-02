@@ -78,25 +78,22 @@ BEGIN_RCPP
 END_RCPP
 }
 // grid_renderer_text
-void grid_renderer_text(XPtr<GridRenderer> gr, String label, Length x, Length y, String color, double fontsize, String fontface, String fontfamily);
-RcppExport SEXP _gridtext_grid_renderer_text(SEXP grSEXP, SEXP labelSEXP, SEXP xSEXP, SEXP ySEXP, SEXP colorSEXP, SEXP fontsizeSEXP, SEXP fontfaceSEXP, SEXP fontfamilySEXP) {
+void grid_renderer_text(XPtr<GridRenderer> gr, String label, Length x, Length y, List gp);
+RcppExport SEXP _gridtext_grid_renderer_text(SEXP grSEXP, SEXP labelSEXP, SEXP xSEXP, SEXP ySEXP, SEXP gpSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< XPtr<GridRenderer> >::type gr(grSEXP);
     Rcpp::traits::input_parameter< String >::type label(labelSEXP);
     Rcpp::traits::input_parameter< Length >::type x(xSEXP);
     Rcpp::traits::input_parameter< Length >::type y(ySEXP);
-    Rcpp::traits::input_parameter< String >::type color(colorSEXP);
-    Rcpp::traits::input_parameter< double >::type fontsize(fontsizeSEXP);
-    Rcpp::traits::input_parameter< String >::type fontface(fontfaceSEXP);
-    Rcpp::traits::input_parameter< String >::type fontfamily(fontfamilySEXP);
-    grid_renderer_text(gr, label, x, y, color, fontsize, fontface, fontfamily);
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
+    grid_renderer_text(gr, label, x, y, gp);
     return R_NilValue;
 END_RCPP
 }
 // grid_renderer_rect
-void grid_renderer_rect(XPtr<GridRenderer> gr, Length x, Length y, Length width, Length height, String color, String fill, int linetype, double linewidth, Length r, String linejoin, double linemitre);
-RcppExport SEXP _gridtext_grid_renderer_rect(SEXP grSEXP, SEXP xSEXP, SEXP ySEXP, SEXP widthSEXP, SEXP heightSEXP, SEXP colorSEXP, SEXP fillSEXP, SEXP linetypeSEXP, SEXP linewidthSEXP, SEXP rSEXP, SEXP linejoinSEXP, SEXP linemitreSEXP) {
+void grid_renderer_rect(XPtr<GridRenderer> gr, Length x, Length y, Length width, Length height, List gp, Length r);
+RcppExport SEXP _gridtext_grid_renderer_rect(SEXP grSEXP, SEXP xSEXP, SEXP ySEXP, SEXP widthSEXP, SEXP heightSEXP, SEXP gpSEXP, SEXP rSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< XPtr<GridRenderer> >::type gr(grSEXP);
@@ -104,14 +101,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Length >::type y(ySEXP);
     Rcpp::traits::input_parameter< Length >::type width(widthSEXP);
     Rcpp::traits::input_parameter< Length >::type height(heightSEXP);
-    Rcpp::traits::input_parameter< String >::type color(colorSEXP);
-    Rcpp::traits::input_parameter< String >::type fill(fillSEXP);
-    Rcpp::traits::input_parameter< int >::type linetype(linetypeSEXP);
-    Rcpp::traits::input_parameter< double >::type linewidth(linewidthSEXP);
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
     Rcpp::traits::input_parameter< Length >::type r(rSEXP);
-    Rcpp::traits::input_parameter< String >::type linejoin(linejoinSEXP);
-    Rcpp::traits::input_parameter< double >::type linemitre(linemitreSEXP);
-    grid_renderer_rect(gr, x, y, width, height, color, fill, linetype, linewidth, r, linejoin, linemitre);
+    grid_renderer_rect(gr, x, y, width, height, gp, r);
     return R_NilValue;
 END_RCPP
 }
@@ -208,16 +200,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// test_grid_renderer
-List test_grid_renderer();
-RcppExport SEXP _gridtext_test_grid_renderer() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(test_grid_renderer());
-    return rcpp_result_gen;
-END_RCPP
-}
 
 RcppExport SEXP run_testthat_tests();
 
@@ -228,8 +210,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_calc_layout", (DL_FUNC) &_gridtext_bl_calc_layout, 3},
     {"_gridtext_bl_render", (DL_FUNC) &_gridtext_bl_render, 3},
     {"_gridtext_grid_renderer", (DL_FUNC) &_gridtext_grid_renderer, 0},
-    {"_gridtext_grid_renderer_text", (DL_FUNC) &_gridtext_grid_renderer_text, 8},
-    {"_gridtext_grid_renderer_rect", (DL_FUNC) &_gridtext_grid_renderer_rect, 12},
+    {"_gridtext_grid_renderer_text", (DL_FUNC) &_gridtext_grid_renderer_text, 5},
+    {"_gridtext_grid_renderer_rect", (DL_FUNC) &_gridtext_grid_renderer_rect, 7},
     {"_gridtext_grid_renderer_collect_grobs", (DL_FUNC) &_gridtext_grid_renderer_collect_grobs, 1},
     {"_gridtext_unit_pt", (DL_FUNC) &_gridtext_unit_pt, 1},
     {"_gridtext_gpar_empty", (DL_FUNC) &_gridtext_gpar_empty, 0},
@@ -237,7 +219,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_rect_grob", (DL_FUNC) &_gridtext_rect_grob, 6},
     {"_gridtext_roundrect_grob", (DL_FUNC) &_gridtext_roundrect_grob, 7},
     {"_gridtext_set_grob_coords", (DL_FUNC) &_gridtext_set_grob_coords, 3},
-    {"_gridtext_test_grid_renderer", (DL_FUNC) &_gridtext_test_grid_renderer, 0},
     {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
     {NULL, NULL, 0}
 };

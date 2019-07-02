@@ -10,19 +10,18 @@ XPtr<GridRenderer> grid_renderer() {
 }
 
 // [[Rcpp::export]]
-void grid_renderer_text(XPtr<GridRenderer> gr, String label, Length x, Length y,
-                        String color = "#000000", double fontsize = 12,
-                        String fontface = "plain", String fontfamily = "") {
-  return gr->text(label, x, y, color, fontsize, fontface, fontfamily);
+void grid_renderer_text(XPtr<GridRenderer> gr, String label, Length x, Length y, List gp) {
+//                        String color = "#000000", double fontsize = 12,
+//                        String fontface = "plain", String fontfamily = ""
+  return gr->text(label, x, y, gp);
 }
 
 // [[Rcpp::export]]
-void grid_renderer_rect(XPtr<GridRenderer> gr, Length x, Length y, Length width, Length height,
-                        String color = "#000000", String fill = NA_STRING, int linetype = 1,
-                        double linewidth = 1, Length r = 0, String linejoin = "round",
-                        double linemitre = 1) {
-  return gr->rect(x, y, width, height, color, fill, linetype, linewidth, r,
-                  linejoin, linemitre);
+void grid_renderer_rect(XPtr<GridRenderer> gr, Length x, Length y, Length width, Length height, List gp, Length r = 0) {
+//                        String color = "#000000", String fill = NA_STRING, int linetype = 1,
+//                        double linewidth = 1, String linejoin = "round",
+//                        double linemitre = 1) {
+  return gr->rect(x, y, width, height, gp, r);
 }
 
 // [[Rcpp::export]]
