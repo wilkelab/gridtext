@@ -91,6 +91,19 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// grid_renderer_text_details
+List grid_renderer_text_details(XPtr<GridRenderer> gr, String label, List gp);
+RcppExport SEXP _gridtext_grid_renderer_text_details(SEXP grSEXP, SEXP labelSEXP, SEXP gpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<GridRenderer> >::type gr(grSEXP);
+    Rcpp::traits::input_parameter< String >::type label(labelSEXP);
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
+    rcpp_result_gen = Rcpp::wrap(grid_renderer_text_details(gr, label, gp));
+    return rcpp_result_gen;
+END_RCPP
+}
 // grid_renderer_rect
 void grid_renderer_rect(XPtr<GridRenderer> gr, Length x, Length y, Length width, Length height, List gp, Length r);
 RcppExport SEXP _gridtext_grid_renderer_rect(SEXP grSEXP, SEXP xSEXP, SEXP ySEXP, SEXP widthSEXP, SEXP heightSEXP, SEXP gpSEXP, SEXP rSEXP) {
@@ -211,6 +224,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_render", (DL_FUNC) &_gridtext_bl_render, 3},
     {"_gridtext_grid_renderer", (DL_FUNC) &_gridtext_grid_renderer, 0},
     {"_gridtext_grid_renderer_text", (DL_FUNC) &_gridtext_grid_renderer_text, 5},
+    {"_gridtext_grid_renderer_text_details", (DL_FUNC) &_gridtext_grid_renderer_text_details, 3},
     {"_gridtext_grid_renderer_rect", (DL_FUNC) &_gridtext_grid_renderer_rect, 7},
     {"_gridtext_grid_renderer_collect_grobs", (DL_FUNC) &_gridtext_grid_renderer_collect_grobs, 1},
     {"_gridtext_unit_pt", (DL_FUNC) &_gridtext_unit_pt, 1},

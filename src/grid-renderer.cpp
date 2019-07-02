@@ -11,16 +11,23 @@ XPtr<GridRenderer> grid_renderer() {
 
 // [[Rcpp::export]]
 void grid_renderer_text(XPtr<GridRenderer> gr, String label, Length x, Length y, List gp) {
-//                        String color = "#000000", double fontsize = 12,
-//                        String fontface = "plain", String fontfamily = ""
   return gr->text(label, x, y, gp);
 }
 
 // [[Rcpp::export]]
+List grid_renderer_text_details(XPtr<GridRenderer> gr, String label, List gp) {
+  TextDetails td = gr->text_details(label, gp);
+
+  List out = List::create(
+    _["width_pt"] = td.width, _["ascent_pt"] = td.ascent,
+    _["descent_pt"] = td.descent, _["space_pt"] = td.space
+  );
+
+  return out;
+}
+
+// [[Rcpp::export]]
 void grid_renderer_rect(XPtr<GridRenderer> gr, Length x, Length y, Length width, Length height, List gp, Length r = 0) {
-//                        String color = "#000000", String fill = NA_STRING, int linetype = 1,
-//                        double linewidth = 1, String linejoin = "round",
-//                        double linemitre = 1) {
   return gr->rect(x, y, width, height, gp, r);
 }
 

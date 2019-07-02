@@ -34,11 +34,20 @@ public:
     m_gridtext_env = Environment::namespace_env("gridtext");
   }
 
-  TextInfo text_info() {
-    // make gp
-    //Function gpar = m_grid_env["gpar"];
-    //List gp = gpar(_["col"] = color, _["fontfamily"] = fontfamily, _["fontface"] = fontface, _["fontsize"] = sizev);
-    return TextInfo();
+  TextDetails text_details(String label, GraphicsContext gp) {
+    // call R function to look up text info
+    Function td = m_gridtext_env["text_details"];
+    List info = td(label, gp);
+    RObject width_pt = info["width_pt"];
+    RObject ascent_pt = info["ascent_pt"];
+    RObject descent_pt = info["descent_pt"];
+    RObject space_pt = info["space_pt"];
+    return TextDetails(
+      NumericVector(width_pt)[0],
+      NumericVector(ascent_pt)[0],
+      NumericVector(descent_pt)[0],
+      NumericVector(space_pt)[0]
+    );
   }
 
   void text(String label, Length x, Length y, const GraphicsContext &gp) {

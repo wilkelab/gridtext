@@ -75,13 +75,13 @@ typedef vector<NodePtr > NodeList;
 
 
 // struct that holds width, height, etc. data for text labels
-struct TextInfo {
+struct TextDetails {
   Length width;    // width of the label
   Length ascent;   // ascent from baseline
   Length descent;  // descent below baseline
   Length space;    // width of a space
 
-  TextInfo(Length w = 0, Length a = 0, Length d = 0, Length s = 0) :
+  TextDetails(Length w = 0, Length a = 0, Length d = 0, Length s = 0) :
     width(w), ascent(a), descent(d), space(s) {}
 };
 
