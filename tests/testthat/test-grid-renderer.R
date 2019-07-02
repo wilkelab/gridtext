@@ -39,16 +39,18 @@ test_that("smart rendering of rects", {
 })
 
 test_that("visual tests", {
+  draw_grob <- function(g) {
+    grid.newpage()
+    grid.draw(g)
+    invisible()
+  }
+
   r <- grid_renderer()
   grid_renderer_text(r, "blue", 10, 400, color = "blue")
   grid_renderer_text(r, "red bold", 20, 380, color = "red", fontface = "bold")
   grid_renderer_text(r, "roman", 30, 360, fontfamily = "Times")
   g <- grid_renderer_collect_grobs(r)
-
-  vdiffr::expect_doppelganger("Text in different stylings", {
-    grid.newpage()
-    grid.draw(g)
-    })
+  vdiffr::expect_doppelganger("Text in different stylings", draw_grob(g))
 
   r <- grid_renderer()
   grid_renderer_rect(r, 100, 400, 200, 20, color = "blue")
@@ -56,9 +58,5 @@ test_that("visual tests", {
   grid_renderer_text(r, "text 1, square box blue", 100, 400, fontsize = 20)
   grid_renderer_text(r, "text 2, rounded box filled", 100, 200, fontsize = 20)
   g <- grid_renderer_collect_grobs(r)
-
-  vdiffr::expect_doppelganger("Mixing text and boxes", {
-    grid.newpage()
-    grid.draw(g)
-  })
+  vdiffr::expect_doppelganger("Mixing text and boxes", draw_grob(g))
 })

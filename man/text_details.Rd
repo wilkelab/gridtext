@@ -16,10 +16,10 @@ text_details(label, gp = gpar())
 Calculate text details for a given text label
 }
 \examples{
-text_details("Hello world!", gpar(fontfamily = "", fontface = "plain", fontsize = 12))
-text_details("Hello world!", gpar(fontfamily = "", fontface = "plain", fontsize = 24))
+text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12))
+text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 24))
 text_details(
   "Hello world\\nwith newline",
-  gpar(fontfamily = "", fontface = "plain", fontsize = 12)
+  grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12)
 )
 }

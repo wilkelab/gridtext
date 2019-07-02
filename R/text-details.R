@@ -5,11 +5,11 @@
 #' @param gp Grid graphical parameters defining the font (`fontfamily`, `fontface`, and
 #'   `fontface` should be defined).
 #' @examples
-#' text_details("Hello world!", gpar(fontfamily = "", fontface = "plain", fontsize = 12))
-#' text_details("Hello world!", gpar(fontfamily = "", fontface = "plain", fontsize = 24))
+#' text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12))
+#' text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 24))
 #' text_details(
 #'   "Hello world\nwith newline",
-#'   gpar(fontfamily = "", fontface = "plain", fontsize = 12)
+#'   grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12)
 #' )
 #' @export
 text_details <- function(label, gp = gpar()) {
