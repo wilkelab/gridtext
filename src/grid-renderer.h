@@ -19,7 +19,6 @@ public:
 
 private:
   vector<RObject> m_grobs;
-  Environment m_gridtext_env; // for callback to R functions of this package
 
   RObject gpar_lookup(List gp, const char* element) {
     if (!gp.containsElementNamed(element)) {
@@ -31,12 +30,13 @@ private:
 
 public:
   GridRenderer() {
-    m_gridtext_env = Environment::namespace_env("gridtext");
   }
 
-  TextDetails text_details(String label, GraphicsContext gp) {
+  static TextDetails text_details(String label, GraphicsContext gp) {
     // call R function to look up text info
-    Function td = m_gridtext_env["text_details"];
+    Environment env = Environment::namespace_env("gridtext");
+
+    Function td = env["text_details"];
     List info = td(label, gp);
     RObject width_pt = info["width_pt"];
     RObject ascent_pt = info["ascent_pt"];

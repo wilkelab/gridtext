@@ -93,7 +93,6 @@ test_that("text details are calculated correctly", {
   gp = gpar(fontsize = 20)
   td <- text_details("abcd", gp)
 
-  r <- grid_renderer()
-  td2 <- grid_renderer_text_details(r, "abcd", gp)
+  td2 <- grid_renderer_text_details("abcd", gp)
   expect_identical(td, td2)
 })

@@ -25,17 +25,10 @@ public:
   TextBox(String label, const typename Renderer::GraphicsContext &gp, Length voff = 0) :
     m_label(label), m_gp(gp), m_width(0), m_ascent(0), m_descent(0), m_voff(voff),
     m_x(0), m_y(0) {
-    /*
-    Environment env = Environment::namespace_env("gridtext");
-    Function text_details = env["text_details"];
-    List info = text_details(
-      _["label"] = label, _["fontfamily"] = "",
-      _["fontface"] = "plain", _["fontsize"] = 12
-    );
-    m_width = info["width_pt"];
-    m_ascent = info["ascent_pt"];
-    m_descent = info["descent_pt"];
-     */
+    TextDetails td = Renderer::text_details(label, gp);
+    m_width = td.width;
+    m_ascent = td.ascent;
+    m_descent = td.descent;
   }
   ~TextBox() {};
 

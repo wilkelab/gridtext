@@ -15,8 +15,8 @@ void grid_renderer_text(XPtr<GridRenderer> gr, String label, Length x, Length y,
 }
 
 // [[Rcpp::export]]
-List grid_renderer_text_details(XPtr<GridRenderer> gr, String label, List gp) {
-  TextDetails td = gr->text_details(label, gp);
+List grid_renderer_text_details(String label, List gp) {
+  TextDetails td = GridRenderer::text_details(label, gp);
 
   List out = List::create(
     _["width_pt"] = td.width, _["ascent_pt"] = td.ascent,

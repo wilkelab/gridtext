@@ -29,8 +29,8 @@ grid_renderer_text <- function(gr, label, x, y, gp) {
     invisible(.Call(`_gridtext_grid_renderer_text`, gr, label, x, y, gp))
 }
 
-grid_renderer_text_details <- function(gr, label, gp) {
-    .Call(`_gridtext_grid_renderer_text_details`, gr, label, gp)
+grid_renderer_text_details <- function(label, gp) {
+    .Call(`_gridtext_grid_renderer_text_details`, label, gp)
 }
 
 grid_renderer_rect <- function(gr, x, y, width, height, gp, r = 0L) {
