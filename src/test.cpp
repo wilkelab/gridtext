@@ -2,22 +2,30 @@
  * To be deleted eventually.
  */
 
+#include "text-box.h"
 #include "hbox.h"
-/*
+#include "grid-renderer.h"
+
 // [[Rcpp::export]]
-RObject test_hbox(List grobs, NumericVector widths, double box_width, double x, double y,
-                  double vspacing, double hspacing) {
+RObject test_hbox(CharacterVector tokens, double box_width, double x, double y, List gp) {
   // build list of grob boxes
   NodeList nodes;
 
   int i_width = 0;
-  for (auto i_grob = grobs.begin(); i_grob != grobs.end(); i_grob++) {
-    nodes.push_back(NodePtr(new GrobBox(*i_grob, widths[i_width])));
+  for (auto i_token = tokens.begin(); i_token != tokens.end(); i_token++) {
+    nodes.push_back(NodePtr(new TextBox<GridRenderer>(*i_token, gp, 0)));
     i_width++;
   }
 
-  HBox hb(nodes, vspacing, hspacing);
+  TextDetails td = GridRenderer::text_details("abc", gp);
+  Length hspacing = td.space;
+  Length vspacing = 1.2*(td.ascent + td.descent);
+
+  HBox<GridRenderer> hb(nodes, vspacing, hspacing);
   hb.calc_layout(box_width);
-  return hb.render(x, y);
+
+  GridRenderer rd;
+  hb.render(rd, x, y);
+  return rd.collect_grobs();
 }
-*/
+

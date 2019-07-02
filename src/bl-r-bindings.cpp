@@ -7,8 +7,8 @@ using namespace Rcpp;
 #include "grid-renderer.h"
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_text_box(String label, double voff_pt) {
-  XPtr<NodePtr> p(new NodePtr(new TextBox<GridRenderer>(label, voff_pt)));
+XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt) {
+  XPtr<NodePtr> p(new NodePtr(new TextBox<GridRenderer>(label, gp, voff_pt)));
 
   StringVector cl = {"bl_text_box", "bl_box", "bl_node"};
   p.attr("class") = cl;

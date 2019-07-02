@@ -7,14 +7,15 @@
 using namespace Rcpp;
 
 // bl_make_text_box
-XPtr<NodePtr> bl_make_text_box(String label, double voff_pt);
-RcppExport SEXP _gridtext_bl_make_text_box(SEXP labelSEXP, SEXP voff_ptSEXP) {
+XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt);
+RcppExport SEXP _gridtext_bl_make_text_box(SEXP labelSEXP, SEXP gpSEXP, SEXP voff_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< String >::type label(labelSEXP);
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
     Rcpp::traits::input_parameter< double >::type voff_pt(voff_ptSEXP);
-    rcpp_result_gen = Rcpp::wrap(bl_make_text_box(label, voff_pt));
+    rcpp_result_gen = Rcpp::wrap(bl_make_text_box(label, gp, voff_pt));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -212,11 +213,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// test_hbox
+RObject test_hbox(CharacterVector tokens, double box_width, double x, double y, List gp);
+RcppExport SEXP _gridtext_test_hbox(SEXP tokensSEXP, SEXP box_widthSEXP, SEXP xSEXP, SEXP ySEXP, SEXP gpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type tokens(tokensSEXP);
+    Rcpp::traits::input_parameter< double >::type box_width(box_widthSEXP);
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type y(ySEXP);
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_hbox(tokens, box_width, x, y, gp));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP run_testthat_tests();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 2},
+    {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
     {"_gridtext_bl_make_hbox", (DL_FUNC) &_gridtext_bl_make_hbox, 3},
     {"_gridtext_bl_make_node_list", (DL_FUNC) &_gridtext_bl_make_node_list, 1},
     {"_gridtext_bl_calc_layout", (DL_FUNC) &_gridtext_bl_calc_layout, 3},
@@ -232,6 +248,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_rect_grob", (DL_FUNC) &_gridtext_rect_grob, 6},
     {"_gridtext_roundrect_grob", (DL_FUNC) &_gridtext_roundrect_grob, 7},
     {"_gridtext_set_grob_coords", (DL_FUNC) &_gridtext_set_grob_coords, 3},
+    {"_gridtext_test_hbox", (DL_FUNC) &_gridtext_test_hbox, 5},
     {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
     {NULL, NULL, 0}
 };
