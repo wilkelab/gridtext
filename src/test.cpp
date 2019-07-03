@@ -2,8 +2,9 @@
  * To be deleted eventually.
  */
 
-#include "text-box.h"
 #include "hbox.h"
+#include "rect-box.h"
+#include "text-box.h"
 #include "grid-renderer.h"
 
 // [[Rcpp::export]]
@@ -24,7 +25,10 @@ RObject test_hbox(CharacterVector tokens, double box_width, double x, double y, 
   HBox<GridRenderer> hb(nodes, vspacing, hspacing);
   hb.calc_layout(box_width);
 
+  RectBox<GridRenderer> rb(box_width, 200, Margin(0, -10, -150, -10), Margin(), gp);
+
   GridRenderer rd;
+  rb.render(rd, x, y);
   hb.render(rd, x, y);
   return rd.collect_grobs();
 }

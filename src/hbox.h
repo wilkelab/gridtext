@@ -41,15 +41,14 @@ public:
       if (nt == LayoutNode::box) {
         auto b = static_pointer_cast<Box<Renderer> >(*i_node);
         b->calc_layout(width_hint);
-        b->place(x_off, y_off);
-        x_off += b->width();
-        if (x_off > width_hint) { // simple wrapping, no fancy logic
+        if (x_off + b->width() > width_hint) { // simple wrapping, no fancy logic
           x_off = 0;
           y_off = y_off - m_vspacing;
-        } else {
-          // add space, this needs to be replaced by glue
-          x_off += m_hspacing;
         }
+        b->place(x_off, y_off);
+        x_off += b->width();
+        // add space, this needs to be replaced by glue
+        x_off += m_hspacing;
       } else if (nt == LayoutNode::glue) {
         // not implemented
       }

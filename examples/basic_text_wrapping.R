@@ -71,7 +71,7 @@ g1 <- wrap_grob(text, gp = gpar(fontsize = 14), render_cpp = FALSE)
 g2 <- wrap_grob(
   text,
   x = unit(0.2015, "npc"), y = unit(0.8015, "npc"),
-  gp = gpar(fontsize = 14, col = "red"), render_cpp = TRUE
+  gp = gpar(fontsize = 14, col = "red", fill = "cornsilk"), render_cpp = TRUE
 )
 grid.newpage()
 grid.draw(g1)

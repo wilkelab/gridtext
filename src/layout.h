@@ -74,7 +74,7 @@ typedef shared_ptr<LayoutNode> NodePtr;
 typedef vector<NodePtr > NodeList;
 
 
-// struct that holds width, height, etc. data for text labels
+// struct that holds width, ascent, etc. data for text labels
 struct TextDetails {
   Length width;    // width of the label
   Length ascent;   // ascent from baseline
@@ -83,6 +83,17 @@ struct TextDetails {
 
   TextDetails(Length w = 0, Length a = 0, Length d = 0, Length s = 0) :
     width(w), ascent(a), descent(d), space(s) {}
+};
+
+// struct that holds margin or padding info, in the form top, right, bottom, left
+struct Margin {
+  Length top;
+  Length right;
+  Length bottom;
+  Length left;
+
+  Margin(Length t = 0, Length r = 0, Length b = 0, Length l = 0) :
+    top(t), right(r), bottom(b), left(l) {}
 };
 
 #endif

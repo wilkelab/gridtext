@@ -6,7 +6,7 @@ using namespace Rcpp;
 
 #include "layout.h"
 
-// A box holding a single R grob
+// A box holding a single text label
 template <class Renderer>
 class TextBox : public Box<Renderer> {
 private:
@@ -53,8 +53,6 @@ public:
     Length y = m_y + m_voff + yref;
 
     r.text(m_label, x, y, m_gp);
-      // String color = "#000000",
-      // double fontsize = 12, String fontface = "plain", String fontfamily = "")
   }
 };
 
