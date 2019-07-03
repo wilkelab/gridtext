@@ -21,6 +21,16 @@ public:
     penalty
   };
 
+  enum SizePolicy {
+    fixed,    // box size is fixed upon construction
+    native,   // box determines its own ideal size
+    expand,   // box expands as much as possible
+    relative  // box takes up a set proportion of the size hint
+    //   provided to calc_layout(); in this case
+    //   Length units are interpreted as percent, i.e.,
+    //   a Length of 100 means full size
+  };
+
   LayoutNode(NodeType type = none) : m_type(type) {}
   virtual ~LayoutNode() {}
   NodeType type() {return m_type;}

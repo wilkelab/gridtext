@@ -2,13 +2,13 @@
  * To be deleted eventually.
  */
 
-#include "hbox.h"
+#include "par-box.h"
 #include "rect-box.h"
 #include "text-box.h"
 #include "grid-renderer.h"
 
 // [[Rcpp::export]]
-RObject test_hbox(CharacterVector tokens, double box_width, double x, double y, List gp) {
+RObject test_par_box(CharacterVector tokens, double box_width, double x, double y, List gp) {
   // build list of grob boxes
   NodeList nodes;
 
@@ -22,14 +22,14 @@ RObject test_hbox(CharacterVector tokens, double box_width, double x, double y, 
   Length hspacing = td.space;
   Length vspacing = 1.2*(td.ascent + td.descent);
 
-  HBox<GridRenderer> hb(nodes, vspacing, hspacing);
-  hb.calc_layout(box_width);
+  ParBox<GridRenderer> pb(nodes, vspacing, hspacing);
+  pb.calc_layout(box_width);
 
-  RectBox<GridRenderer> rb(box_width, 200, Margin(0, -10, -150, -10), Margin(), gp);
+  RectBox<GridRenderer> rb(nullptr, box_width, 200, Margin(-10, -10, -10, -10), Margin(), gp);
 
   GridRenderer rd;
   rb.render(rd, x, y);
-  hb.render(rd, x, y);
+  pb.render(rd, x, y);
   return rd.collect_grobs();
 }
 

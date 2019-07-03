@@ -10,21 +10,30 @@ using namespace Rcpp;
 template <class Renderer>
 class RectBox : public Box<Renderer> {
 private:
-  Margin m_margin, m_padding;
+  NodePtr m_content;  // any layout node to be placed inside of the rectangle
+  Length m_width, m_height; // width and height of the rectangle box (*not the inside*)
+  Margin m_margin, m_padding; // margin and padding
   typename Renderer::GraphicsContext m_gp;
-  Length m_width;
-  Length m_height;
+  double m_content_hjust, m_content_vjust; // horzontal and vertical justification for content inside the box
+  LayoutNode::SizePolicy m_width_policy, m_height_policy; // width and height policies
   Length m_r; // radius of rounded corners
   // position of the box in enclosing box.
   // the box reference point is the leftmost point of the baseline.
   Length m_x, m_y;
 
 public:
-  RectBox(Length width, Length height, const Margin &margin, const Margin &padding,
-          const typename Renderer::GraphicsContext &gp, Length r = 0) :
-    m_margin(margin), m_padding(padding), m_gp(gp), m_width(width), m_height(height),
-    m_r(r), m_x(0), m_y(0) {
-  }
+  RectBox(const NodePtr &content,
+          Length width, Length height,
+          const Margin &margin, const Margin &padding,
+          const typename Renderer::GraphicsContext &gp,
+          double content_hjust = 0, double content_vjust = 1,
+          LayoutNode::SizePolicy width_policy = LayoutNode::native,
+          LayoutNode::SizePolicy height_policy = LayoutNode::native,
+          Length r = 0) :
+    m_content(content), m_width(width), m_height(height), m_margin(margin), m_padding(padding),
+    m_gp(gp), m_content_hjust(content_hjust), m_content_vjust(content_vjust),
+    m_width_policy(width_policy), m_height_policy(height_policy),
+    m_r(r), m_x(0), m_y(0) {}
   ~RectBox() {};
 
   Length width() { return m_width; }

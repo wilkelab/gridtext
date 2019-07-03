@@ -34,7 +34,7 @@ makeContent.wrap_grob <- function(x) {
 
   if (isTRUE(x$render_cpp)) {
     print("rendering via C++")
-    children <- gridtext:::test_hbox(tokens, width_pt, x_pt, y_pt, x$gp)
+    children <- gridtext:::test_par_box(tokens, width_pt, x_pt, y_pt, x$gp)
   } else {
     print("rendering via R")
     # x and y offsets as we draw
@@ -68,13 +68,15 @@ text <- "The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet
 
 
 g1 <- wrap_grob(text, gp = gpar(fontsize = 14), render_cpp = FALSE)
+grid.newpage()
+grid.draw(g1)
+
 g2 <- wrap_grob(
   text,
-  x = unit(0.2015, "npc"), y = unit(0.8015, "npc"),
+  x = unit(0.2, "npc"), y = unit(0.2, "npc"),
   gp = gpar(fontsize = 14, col = "red", fill = "cornsilk"), render_cpp = TRUE
 )
 grid.newpage()
-grid.draw(g1)
 grid.draw(g2)
 
 # benchmark shows layouting via C++ is about 10 times faster
@@ -83,7 +85,7 @@ grid.draw(g2)
 tokens <- stringr::str_split(text, "[[:space:]]+")[[1]]
 gp <- gpar(fontfamily = "Times", fontsize = 10, col = "blue")
 f_cpp <- function(tokens, gp) {
-  gridtext:::test_hbox(tokens, 200, 20, 400, gp)
+  gridtext:::test_par_box(tokens, 200, 20, 400, gp)
 }
 
 f_R <- function(tokens, gp) {

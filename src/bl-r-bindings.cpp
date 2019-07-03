@@ -2,7 +2,7 @@
 using namespace Rcpp;
 
 #include "layout.h"
-#include "hbox.h"
+#include "par-box.h"
 #include "text-box.h"
 #include "grid-renderer.h"
 
@@ -17,10 +17,10 @@ XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt) {
 }
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_hbox(XPtr<NodeList> nodes, double vspacing_pt, double hspacing_pt) {
-  XPtr<NodePtr> p(new NodePtr(new HBox<GridRenderer>(*nodes, vspacing_pt, hspacing_pt)));
+XPtr<NodePtr> bl_make_par_box(XPtr<NodeList> nodes, double vspacing_pt, double hspacing_pt) {
+  XPtr<NodePtr> p(new NodePtr(new ParBox<GridRenderer>(*nodes, vspacing_pt, hspacing_pt)));
 
-  StringVector cl = {"bl_hbox", "bl_box", "bl_node"};
+  StringVector cl = {"bl_par_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
 
   return p;

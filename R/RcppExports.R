@@ -5,8 +5,8 @@ bl_make_text_box <- function(label, gp, voff_pt) {
     .Call(`_gridtext_bl_make_text_box`, label, gp, voff_pt)
 }
 
-bl_make_hbox <- function(nodes, vspacing_pt, hspacing_pt) {
-    .Call(`_gridtext_bl_make_hbox`, nodes, vspacing_pt, hspacing_pt)
+bl_make_par_box <- function(nodes, vspacing_pt, hspacing_pt) {
+    .Call(`_gridtext_bl_make_par_box`, nodes, vspacing_pt, hspacing_pt)
 }
 
 bl_make_node_list <- function(nodes) {
@@ -65,7 +65,7 @@ set_grob_coords <- function(grob, x, y) {
     .Call(`_gridtext_set_grob_coords`, grob, x, y)
 }
 
-test_hbox <- function(tokens, box_width, x, y, gp) {
-    .Call(`_gridtext_test_hbox`, tokens, box_width, x, y, gp)
+test_par_box <- function(tokens, box_width, x, y, gp) {
+    .Call(`_gridtext_test_par_box`, tokens, box_width, x, y, gp)
 }
 
