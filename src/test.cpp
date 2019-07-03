@@ -25,7 +25,9 @@ RObject test_par_box(CharacterVector tokens, double box_width, double x, double 
   ParBox<GridRenderer> pb(nodes, vspacing, hspacing);
   pb.calc_layout(box_width);
 
-  RectBox<GridRenderer> rb(nullptr, box_width, 200, Margin(-10, -10, -10, -10), Margin(), gp);
+  RectBox<GridRenderer> rb(nullptr, box_width, 200, Margin(0, 0, 0, 0), Margin(10, 10, 10, 10), gp,
+                           0, 1, LayoutNode::fixed, LayoutNode::native);
+  rb.calc_layout(box_width, 200);
 
   GridRenderer rd;
   rb.render(rd, x, y);

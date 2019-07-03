@@ -20,6 +20,44 @@ private:
   // position of the box in enclosing box.
   // the box reference point is the leftmost point of the baseline.
   Length m_x, m_y;
+  double m_rel_width, m_rel_height; // used to store relative width and height when needed
+
+  // layout calculation when there is no content
+  void calc_empty_layout(Length width_hint, Length height_hint) {
+    // width
+    switch(m_width_policy) {
+    case LayoutNode::native:
+      m_width = m_margin.left + m_margin.right + m_padding.left + m_padding.right;
+      break;
+    case LayoutNode::expand:
+      m_width = width_hint;
+      break;
+    case LayoutNode::relative:
+      m_width = width_hint * m_rel_width;
+      break;
+    case LayoutNode::fixed:
+    default:
+      // nothing to be done for fixed layout, width was set upon creation
+      break;
+    }
+
+    // height
+    switch(m_height_policy) {
+    case LayoutNode::native:
+      m_height = m_margin.top + m_margin.bottom + m_padding.top + m_padding.bottom;
+      break;
+    case LayoutNode::expand:
+      m_height = height_hint;
+      break;
+    case LayoutNode::relative:
+      m_height = height_hint * m_rel_height;
+      break;
+    case LayoutNode::fixed:
+    default:
+      // nothing to be done for fixed layout, width was set upon creation
+      break;
+    }
+  }
 
 public:
   RectBox(const NodePtr &content,
@@ -33,7 +71,15 @@ public:
     m_content(content), m_width(width), m_height(height), m_margin(margin), m_padding(padding),
     m_gp(gp), m_content_hjust(content_hjust), m_content_vjust(content_vjust),
     m_width_policy(width_policy), m_height_policy(height_policy),
-    m_r(r), m_x(0), m_y(0) {}
+    m_r(r), m_x(0), m_y(0), m_rel_width(0), m_rel_height(0) {
+    // save relative width and height if needed
+    if (m_width_policy == LayoutNode::relative) {
+      m_rel_width = m_width/100;
+    }
+    if (m_height_policy == LayoutNode::relative) {
+      m_rel_height = m_height/100;
+    }
+  }
   ~RectBox() {};
 
   Length width() { return m_width; }
@@ -42,7 +88,14 @@ public:
   Length voff() { return 0; }
 
   // this will eventually have to call layout calculation on the boxes it contains
-  void calc_layout(Length, Length) {;}
+  void calc_layout(Length width_hint, Length height_hint) {
+    if (m_content == nullptr) {
+      calc_empty_layout(width_hint, height_hint);
+    } else {
+      // not yet implemented
+      calc_empty_layout(width_hint, height_hint);
+    }
+  }
 
   // place box in internal coordinates used in enclosing box
   void place(Length x, Length y) {
