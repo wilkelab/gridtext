@@ -6,16 +6,13 @@
 
 using namespace Rcpp;
 
-// bl_make_text_box
-XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt);
-RcppExport SEXP _gridtext_bl_make_text_box(SEXP labelSEXP, SEXP gpSEXP, SEXP voff_ptSEXP) {
+// bl_make_null_box
+XPtr<NodePtr> bl_make_null_box();
+RcppExport SEXP _gridtext_bl_make_null_box() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< String >::type label(labelSEXP);
-    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
-    Rcpp::traits::input_parameter< double >::type voff_pt(voff_ptSEXP);
-    rcpp_result_gen = Rcpp::wrap(bl_make_text_box(label, gp, voff_pt));
+    rcpp_result_gen = Rcpp::wrap(bl_make_null_box());
     return rcpp_result_gen;
 END_RCPP
 }
@@ -29,6 +26,40 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type vspacing_pt(vspacing_ptSEXP);
     Rcpp::traits::input_parameter< double >::type hspacing_pt(hspacing_ptSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_make_par_box(nodes, vspacing_pt, hspacing_pt));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_make_rect_box
+XPtr<NodePtr> bl_make_rect_box(XPtr<NodePtr> content, double width_pt, double height_pt, NumericVector margin, NumericVector padding, List gp, double content_hjust, double content_vjust, String width_policy, String height_policy, double r);
+RcppExport SEXP _gridtext_bl_make_rect_box(SEXP contentSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP marginSEXP, SEXP paddingSEXP, SEXP gpSEXP, SEXP content_hjustSEXP, SEXP content_vjustSEXP, SEXP width_policySEXP, SEXP height_policySEXP, SEXP rSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type content(contentSEXP);
+    Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
+    Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type margin(marginSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type padding(paddingSEXP);
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
+    Rcpp::traits::input_parameter< double >::type content_hjust(content_hjustSEXP);
+    Rcpp::traits::input_parameter< double >::type content_vjust(content_vjustSEXP);
+    Rcpp::traits::input_parameter< String >::type width_policy(width_policySEXP);
+    Rcpp::traits::input_parameter< String >::type height_policy(height_policySEXP);
+    Rcpp::traits::input_parameter< double >::type r(rSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_rect_box(content, width_pt, height_pt, margin, padding, gp, content_hjust, content_vjust, width_policy, height_policy, r));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_make_text_box
+XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt);
+RcppExport SEXP _gridtext_bl_make_text_box(SEXP labelSEXP, SEXP gpSEXP, SEXP voff_ptSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< String >::type label(labelSEXP);
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
+    Rcpp::traits::input_parameter< double >::type voff_pt(voff_ptSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_text_box(label, gp, voff_pt));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -232,8 +263,10 @@ END_RCPP
 RcppExport SEXP run_testthat_tests();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
+    {"_gridtext_bl_make_null_box", (DL_FUNC) &_gridtext_bl_make_null_box, 0},
     {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 3},
+    {"_gridtext_bl_make_rect_box", (DL_FUNC) &_gridtext_bl_make_rect_box, 11},
+    {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
     {"_gridtext_bl_make_node_list", (DL_FUNC) &_gridtext_bl_make_node_list, 1},
     {"_gridtext_bl_calc_layout", (DL_FUNC) &_gridtext_bl_calc_layout, 3},
     {"_gridtext_bl_render", (DL_FUNC) &_gridtext_bl_render, 3},
