@@ -48,6 +48,7 @@ public:
     int lines = 0;
     Length ascent = 0;
     Length descent = 0;
+    Length width = 0;
 
     for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
       LayoutNode::NodeType nt = (*i_node)->type();
@@ -64,6 +65,9 @@ public:
         }
         b->place(x_off, y_off);
         x_off += b->width();
+        if (x_off > width) { // record box width
+          width = x_off;
+        }
         // add space, this needs to be replaced by glue
         x_off += m_hspacing;
 
@@ -81,6 +85,7 @@ public:
     m_multiline_shift = lines*m_vspacing; // multi-line boxes need to be shifted upwards
     m_ascent = ascent + m_multiline_shift;
     m_descent = descent;
+    m_width = width;
   }
 
   void place(Length x, Length y) {
