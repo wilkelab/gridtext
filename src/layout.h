@@ -53,6 +53,9 @@ public:
   // descent of the box (height below the baseline)
   virtual Length descent() = 0;
   // vertical offset (vertical shift of baseline)
+  virtual Length height() {
+    return ascent() + descent();
+  }
   virtual Length voff() = 0;
 
   // calculate the internal layout of the box

@@ -22,16 +22,14 @@ RObject test_par_box(CharacterVector tokens, double box_width, double x, double 
   Length hspacing = td.space;
   Length vspacing = 1.2*(td.ascent + td.descent);
 
-  ParBox<GridRenderer> pb(nodes, vspacing, hspacing);
-  pb.calc_layout(box_width);
+  NodePtr pb(new ParBox<GridRenderer>(nodes, vspacing, hspacing));
 
-  RectBox<GridRenderer> rb(nullptr, box_width, 200, Margin(0, 0, 0, 0), Margin(10, 10, 10, 10), gp,
-                           0, 1, LayoutNode::fixed, LayoutNode::native);
+  RectBox<GridRenderer> rb(pb, box_width, 200, Margin(0, 0, 0, 0), Margin(10, 10, 10, 10), gp,
+                           0, 1, LayoutNode::native, LayoutNode::native);
   rb.calc_layout(box_width, 200);
 
   GridRenderer rd;
   rb.render(rd, x, y);
-  pb.render(rd, x, y);
   return rd.collect_grobs();
 }
 
