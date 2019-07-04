@@ -24,7 +24,7 @@ makeContent.wrap_grob <- function(x) {
   x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
   y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
   width_pt <- convertWidth(x$width, "pt", valueOnly = TRUE)
-  children <- gridtext:::test_par_box(tokens, width_pt, x_pt, y_pt, x$gp)
+  children <- gridtext:::test_par_box(x$tokens, width_pt, x_pt, y_pt, x$gp)
   setChildren(x, children)
 }
 
@@ -39,7 +39,8 @@ text <- "The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet
 
 
 g <- wrap_grob(
-  text,
+  #text,
+  "Label: pqgj",
   x = unit(0.2, "npc"), y = unit(0.2, "npc"),
   gp = gpar(fontsize = 14, col = "blue", fill = "cornsilk")
 )

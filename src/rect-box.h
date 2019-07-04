@@ -50,7 +50,6 @@ private:
         auto b = static_pointer_cast<Box<Renderer> >(m_content);
         b->calc_layout(content_width_hint, content_height_hint);
         m_height = b->height() + m_margin.top + m_margin.bottom + m_padding.top + m_padding.bottom;
-        b->place(m_margin.left + m_padding.left, m_margin.bottom + m_padding.bottom + b->descent() - b->voff());
       }
     } else {
       // height is also defined
@@ -160,6 +159,22 @@ public:
       calc_layout_native_width(width_hint, height_hint);
     } else {
       calc_layout_defined_width(width_hint, height_hint);
+    }
+
+    // after layouting, we need to place the content if we have some
+    if (!(m_content == nullptr)) {
+      auto b = static_pointer_cast<Box<Renderer> >(m_content);
+      Length x_align = m_content_hjust *
+        (m_width - m_margin.left - m_margin.right - m_padding.left - m_padding.right // available internal space
+           - b->width()); // actual space needed
+      Length y_align = m_content_vjust *
+        (m_height - m_margin.top - m_margin.bottom - m_padding.top - m_padding.bottom // available internal space
+         - b->height()); // actual space needed
+
+      b->place(
+          m_margin.left + m_padding.left + x_align,
+          m_margin.bottom + m_padding.bottom + y_align + b->descent() - b->voff()
+      );
     }
   }
 
