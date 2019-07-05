@@ -8,6 +8,17 @@ using namespace Rcpp;
 #include "text-box.h"
 #include "grid-renderer.h"
 
+// for testing and debugging only
+// [[Rcpp::export]]
+XPtr<NodePtr> bl_make_null_ptr() {
+  XPtr<NodePtr> p(new NodePtr(nullptr));
+
+  StringVector cl = {"bl_null_ptr", "bl_box", "bl_node"};
+  p.attr("class") = cl;
+
+  return p;
+}
+
 // [[Rcpp::export]]
 XPtr<NodePtr> bl_make_null_box() {
   XPtr<NodePtr> p(new NodePtr(new NullBox<GridRenderer>()));

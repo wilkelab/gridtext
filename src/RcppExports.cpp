@@ -6,6 +6,16 @@
 
 using namespace Rcpp;
 
+// bl_make_null_ptr
+XPtr<NodePtr> bl_make_null_ptr();
+RcppExport SEXP _gridtext_bl_make_null_ptr() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(bl_make_null_ptr());
+    return rcpp_result_gen;
+END_RCPP
+}
 // bl_make_null_box
 XPtr<NodePtr> bl_make_null_box();
 RcppExport SEXP _gridtext_bl_make_null_box() {
@@ -263,6 +273,7 @@ END_RCPP
 RcppExport SEXP run_testthat_tests();
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_gridtext_bl_make_null_ptr", (DL_FUNC) &_gridtext_bl_make_null_ptr, 0},
     {"_gridtext_bl_make_null_box", (DL_FUNC) &_gridtext_bl_make_null_box, 0},
     {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 3},
     {"_gridtext_bl_make_rect_box", (DL_FUNC) &_gridtext_bl_make_rect_box, 11},
