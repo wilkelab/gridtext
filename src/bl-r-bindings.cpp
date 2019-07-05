@@ -20,8 +20,8 @@ XPtr<NodePtr> bl_make_null_ptr() {
 }
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_null_box() {
-  XPtr<NodePtr> p(new NodePtr(new NullBox<GridRenderer>()));
+XPtr<NodePtr> bl_make_null_box(double width_pt = 0, double height_pt = 0) {
+  XPtr<NodePtr> p(new NodePtr(new NullBox<GridRenderer>(width_pt, height_pt)));
 
   StringVector cl = {"bl_null_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
@@ -123,6 +123,51 @@ void bl_calc_layout(XPtr<NodePtr> node, double width_pt, double height_pt = 0) {
   }
 
   static_pointer_cast<Box<GridRenderer> >(*node)->calc_layout(width_pt, height_pt);
+}
+
+// [[Rcpp::export]]
+double bl_box_width(XPtr<NodePtr> node) {
+  if (!node.inherits("bl_box")) {
+    stop("Node must be of type 'bl_box'.");
+  }
+
+  return static_pointer_cast<Box<GridRenderer> >(*node)->width();
+}
+
+// [[Rcpp::export]]
+double bl_box_height(XPtr<NodePtr> node) {
+  if (!node.inherits("bl_box")) {
+    stop("Node must be of type 'bl_box'.");
+  }
+
+  return static_pointer_cast<Box<GridRenderer> >(*node)->height();
+}
+
+// [[Rcpp::export]]
+double bl_box_ascent(XPtr<NodePtr> node) {
+  if (!node.inherits("bl_box")) {
+    stop("Node must be of type 'bl_box'.");
+  }
+
+  return static_pointer_cast<Box<GridRenderer> >(*node)->ascent();
+}
+
+// [[Rcpp::export]]
+double bl_box_descent(XPtr<NodePtr> node) {
+  if (!node.inherits("bl_box")) {
+    stop("Node must be of type 'bl_box'.");
+  }
+
+  return static_pointer_cast<Box<GridRenderer> >(*node)->descent();
+}
+
+// [[Rcpp::export]]
+double bl_box_voff(XPtr<NodePtr> node) {
+  if (!node.inherits("bl_box")) {
+    stop("Node must be of type 'bl_box'.");
+  }
+
+  return static_pointer_cast<Box<GridRenderer> >(*node)->voff();
 }
 
 // [[Rcpp::export]]

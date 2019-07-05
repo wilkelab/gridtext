@@ -6,7 +6,14 @@ using namespace Rcpp;
 
 #include "layout.h"
 
-// A box drawing a rectangle around content
+/* The RectBox class draws a box with margin and padding around
+ * a box with content. The RectBox can either adjust its size
+ * so that the content fits snugly (size policy "native") or its
+ * size can be prespecified. In the latter case, the content box can
+ * be aligned relative to the RectBox. The reference point of
+ * the RectBox is the lower left corner.
+ */
+
 template <class Renderer>
 class RectBox : public Box<Renderer> {
 private:

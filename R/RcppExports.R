@@ -5,8 +5,8 @@ bl_make_null_ptr <- function() {
     .Call(`_gridtext_bl_make_null_ptr`)
 }
 
-bl_make_null_box <- function() {
-    .Call(`_gridtext_bl_make_null_box`)
+bl_make_null_box <- function(width_pt = 0, height_pt = 0) {
+    .Call(`_gridtext_bl_make_null_box`, width_pt, height_pt)
 }
 
 bl_make_par_box <- function(nodes, vspacing_pt, hspacing_pt) {
@@ -27,6 +27,26 @@ bl_make_node_list <- function(nodes) {
 
 bl_calc_layout <- function(node, width_pt, height_pt = 0) {
     invisible(.Call(`_gridtext_bl_calc_layout`, node, width_pt, height_pt))
+}
+
+bl_box_width <- function(node) {
+    .Call(`_gridtext_bl_box_width`, node)
+}
+
+bl_box_height <- function(node) {
+    .Call(`_gridtext_bl_box_height`, node)
+}
+
+bl_box_ascent <- function(node) {
+    .Call(`_gridtext_bl_box_ascent`, node)
+}
+
+bl_box_descent <- function(node) {
+    .Call(`_gridtext_bl_box_descent`, node)
+}
+
+bl_box_voff <- function(node) {
+    .Call(`_gridtext_bl_box_voff`, node)
 }
 
 bl_render <- function(node, x_pt, y_pt) {

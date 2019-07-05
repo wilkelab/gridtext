@@ -17,12 +17,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_null_box
-XPtr<NodePtr> bl_make_null_box();
-RcppExport SEXP _gridtext_bl_make_null_box() {
+XPtr<NodePtr> bl_make_null_box(double width_pt, double height_pt);
+RcppExport SEXP _gridtext_bl_make_null_box(SEXP width_ptSEXP, SEXP height_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(bl_make_null_box());
+    Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
+    Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_null_box(width_pt, height_pt));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -94,6 +96,61 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
     bl_calc_layout(node, width_pt, height_pt);
     return R_NilValue;
+END_RCPP
+}
+// bl_box_width
+double bl_box_width(XPtr<NodePtr> node);
+RcppExport SEXP _gridtext_bl_box_width(SEXP nodeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_box_width(node));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_box_height
+double bl_box_height(XPtr<NodePtr> node);
+RcppExport SEXP _gridtext_bl_box_height(SEXP nodeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_box_height(node));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_box_ascent
+double bl_box_ascent(XPtr<NodePtr> node);
+RcppExport SEXP _gridtext_bl_box_ascent(SEXP nodeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_box_ascent(node));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_box_descent
+double bl_box_descent(XPtr<NodePtr> node);
+RcppExport SEXP _gridtext_bl_box_descent(SEXP nodeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_box_descent(node));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_box_voff
+double bl_box_voff(XPtr<NodePtr> node);
+RcppExport SEXP _gridtext_bl_box_voff(SEXP nodeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_box_voff(node));
+    return rcpp_result_gen;
 END_RCPP
 }
 // bl_render
@@ -274,12 +331,17 @@ RcppExport SEXP run_testthat_tests();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_null_ptr", (DL_FUNC) &_gridtext_bl_make_null_ptr, 0},
-    {"_gridtext_bl_make_null_box", (DL_FUNC) &_gridtext_bl_make_null_box, 0},
+    {"_gridtext_bl_make_null_box", (DL_FUNC) &_gridtext_bl_make_null_box, 2},
     {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 3},
     {"_gridtext_bl_make_rect_box", (DL_FUNC) &_gridtext_bl_make_rect_box, 11},
     {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
     {"_gridtext_bl_make_node_list", (DL_FUNC) &_gridtext_bl_make_node_list, 1},
     {"_gridtext_bl_calc_layout", (DL_FUNC) &_gridtext_bl_calc_layout, 3},
+    {"_gridtext_bl_box_width", (DL_FUNC) &_gridtext_bl_box_width, 1},
+    {"_gridtext_bl_box_height", (DL_FUNC) &_gridtext_bl_box_height, 1},
+    {"_gridtext_bl_box_ascent", (DL_FUNC) &_gridtext_bl_box_ascent, 1},
+    {"_gridtext_bl_box_descent", (DL_FUNC) &_gridtext_bl_box_descent, 1},
+    {"_gridtext_bl_box_voff", (DL_FUNC) &_gridtext_bl_box_voff, 1},
     {"_gridtext_bl_render", (DL_FUNC) &_gridtext_bl_render, 3},
     {"_gridtext_grid_renderer", (DL_FUNC) &_gridtext_grid_renderer, 0},
     {"_gridtext_grid_renderer_text", (DL_FUNC) &_gridtext_grid_renderer_text, 5},

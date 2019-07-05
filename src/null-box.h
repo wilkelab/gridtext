@@ -6,15 +6,24 @@ using namespace Rcpp;
 
 #include "layout.h"
 
-// A box holding nothing and having no extent
+/* The NullBox draws nothing. If given a width or a height,
+ * it can be used as a spacer. The reference point of
+ * the NullBox is the lower left corner.
+ */
+
 template <class Renderer>
 class NullBox : public Box<Renderer> {
+private:
+  Length m_width;
+  Length m_height;
+
 public:
-  NullBox() {}
+  NullBox(Length width = 0, Length height = 0) :
+    m_width(width), m_height(height) {}
   ~NullBox() {}
 
-  Length width() { return 0; }
-  Length ascent() { return 0; }
+  Length width() { return m_width; }
+  Length ascent() { return m_height; }
   Length descent() { return 0; }
   Length voff() { return 0; }
 
