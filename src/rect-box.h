@@ -72,7 +72,6 @@ private:
         Length content_height_hint = m_height - m_margin.top - m_margin.bottom - m_padding.top - m_padding.bottom;
         auto b = static_pointer_cast<Box<Renderer> >(m_content);
         b->calc_layout(content_width_hint, content_height_hint);
-        b->place(m_margin.left + m_padding.left, m_margin.bottom + m_padding.bottom + b->descent() - b->voff());
       }
     }
   }
@@ -91,9 +90,8 @@ private:
         Length content_height_hint = height_hint - m_margin.top - m_margin.bottom - m_padding.top - m_padding.bottom;
         auto b = static_pointer_cast<Box<Renderer> >(m_content);
         b->calc_layout(content_width_hint, content_height_hint);
-        m_width = b->width() + m_margin.right + m_padding.left + m_padding.right;
-        m_height = b->height() + m_margin.bottom + m_padding.top + m_padding.bottom;
-        b->place(m_margin.left + m_padding.left, m_margin.bottom + m_padding.bottom + b->descent() - b->voff());
+        m_width = b->width() + m_margin.left + m_margin.right + m_padding.left + m_padding.right;
+        m_height = b->height() + m_margin.top + m_margin.bottom + m_padding.top + m_padding.bottom;
       }
     } else {
       // height is defined
@@ -119,8 +117,7 @@ private:
         Length content_height_hint = m_height - m_margin.top - m_margin.bottom - m_padding.top - m_padding.bottom;
         auto b = static_pointer_cast<Box<Renderer> >(m_content);
         b->calc_layout(content_width_hint, content_height_hint);
-        m_width = b->width() + m_margin.right + m_padding.left + m_padding.right;
-        b->place(m_margin.left + m_padding.left, m_margin.bottom + m_padding.bottom + b->descent() - b->voff());
+        m_width = b->width() + m_margin.left + m_margin.right + m_padding.left + m_padding.right;
       }
     }
   }

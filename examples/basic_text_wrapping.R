@@ -39,8 +39,8 @@ text <- "The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet
 
 
 g <- wrap_grob(
-  #text,
-  "Label: pqgj",
+  text,
+  #"Label: pqgj",
   x = unit(0.2, "npc"), y = unit(0.2, "npc"),
   gp = gpar(fontsize = 14, col = "blue", fill = "cornsilk")
 )
