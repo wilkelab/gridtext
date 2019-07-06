@@ -75,6 +75,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// bl_make_raster_box
+XPtr<BoxPtr<GridRenderer> > bl_make_raster_box(RObject image, double width_pt, double height_pt, String width_policy, String height_policy, bool interpolate, List gp);
+RcppExport SEXP _gridtext_bl_make_raster_box(SEXP imageSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP width_policySEXP, SEXP height_policySEXP, SEXP interpolateSEXP, SEXP gpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type image(imageSEXP);
+    Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
+    Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
+    Rcpp::traits::input_parameter< String >::type width_policy(width_policySEXP);
+    Rcpp::traits::input_parameter< String >::type height_policy(height_policySEXP);
+    Rcpp::traits::input_parameter< bool >::type interpolate(interpolateSEXP);
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_raster_box(image, width_pt, height_pt, width_policy, height_policy, interpolate, gp));
+    return rcpp_result_gen;
+END_RCPP
+}
 // bl_make_vbox
 XPtr<BoxPtr<GridRenderer> > bl_make_vbox(XPtr<BoxList<GridRenderer> > nodes, double width_pt, double hjust, double vjust, String width_policy);
 RcppExport SEXP _gridtext_bl_make_vbox(SEXP nodesSEXP, SEXP width_ptSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP width_policySEXP) {
@@ -309,8 +326,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // raster_grob
-List raster_grob(RObject image, NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, NumericVector height_pt, LogicalVector interpolate, RObject name);
-RcppExport SEXP _gridtext_raster_grob(SEXP imageSEXP, SEXP x_ptSEXP, SEXP y_ptSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP interpolateSEXP, SEXP nameSEXP) {
+List raster_grob(RObject image, NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, NumericVector height_pt, LogicalVector interpolate, RObject gp, RObject name);
+RcppExport SEXP _gridtext_raster_grob(SEXP imageSEXP, SEXP x_ptSEXP, SEXP y_ptSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP interpolateSEXP, SEXP gpSEXP, SEXP nameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -320,8 +337,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type width_pt(width_ptSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type height_pt(height_ptSEXP);
     Rcpp::traits::input_parameter< LogicalVector >::type interpolate(interpolateSEXP);
+    Rcpp::traits::input_parameter< RObject >::type gp(gpSEXP);
     Rcpp::traits::input_parameter< RObject >::type name(nameSEXP);
-    rcpp_result_gen = Rcpp::wrap(raster_grob(image, x_pt, y_pt, width_pt, height_pt, interpolate, name));
+    rcpp_result_gen = Rcpp::wrap(raster_grob(image, x_pt, y_pt, width_pt, height_pt, interpolate, gp, name));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -395,6 +413,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 3},
     {"_gridtext_bl_make_rect_box", (DL_FUNC) &_gridtext_bl_make_rect_box, 11},
     {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
+    {"_gridtext_bl_make_raster_box", (DL_FUNC) &_gridtext_bl_make_raster_box, 7},
     {"_gridtext_bl_make_vbox", (DL_FUNC) &_gridtext_bl_make_vbox, 5},
     {"_gridtext_bl_make_node_list", (DL_FUNC) &_gridtext_bl_make_node_list, 1},
     {"_gridtext_bl_box_width", (DL_FUNC) &_gridtext_bl_box_width, 1},
@@ -414,7 +433,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_unit_pt", (DL_FUNC) &_gridtext_unit_pt, 1},
     {"_gridtext_gpar_empty", (DL_FUNC) &_gridtext_gpar_empty, 0},
     {"_gridtext_text_grob", (DL_FUNC) &_gridtext_text_grob, 5},
-    {"_gridtext_raster_grob", (DL_FUNC) &_gridtext_raster_grob, 7},
+    {"_gridtext_raster_grob", (DL_FUNC) &_gridtext_raster_grob, 8},
     {"_gridtext_rect_grob", (DL_FUNC) &_gridtext_rect_grob, 6},
     {"_gridtext_roundrect_grob", (DL_FUNC) &_gridtext_roundrect_grob, 7},
     {"_gridtext_set_grob_coords", (DL_FUNC) &_gridtext_set_grob_coords, 3},

@@ -90,19 +90,19 @@ test_that("raster_grob", {
   image <- matrix(0:1, ncol = 5, nrow = 4)
 
   expect_identical(
-    raster_grob(image, 10, 20, 50, 40, name = "abc"),
+    raster_grob(image, 10, 20, 50, 40, gp = gpar(), name = "abc"),
     rasterGrob(
       image,
       x = unit(10, "pt"), y = unit(20, "pt"),
       width = unit(50, "pt"), height = unit(40, "pt"),
       hjust = 0, vjust = 0,
       interpolate = TRUE,
-      gp = NULL,
+      gp = gpar(),
       name = "abc"
     )
   )
 
-  # interpolate is set as requested
+  # interpolate is set as requested, gp default is NULL
   expect_identical(
     raster_grob(image, 10, 20, 50, 40, interpolate = FALSE, name = "abc"),
     rasterGrob(

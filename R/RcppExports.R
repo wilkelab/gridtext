@@ -21,6 +21,10 @@ bl_make_text_box <- function(label, gp, voff_pt = 0) {
     .Call(`_gridtext_bl_make_text_box`, label, gp, voff_pt)
 }
 
+bl_make_raster_box <- function(image, width_pt, height_pt, width_policy = "fixed", height_policy = "fixed", interpolate = TRUE, gp = NULL) {
+    .Call(`_gridtext_bl_make_raster_box`, image, width_pt, height_pt, width_policy, height_policy, interpolate, gp)
+}
+
 bl_make_vbox <- function(nodes, width_pt = 0, hjust = 0, vjust = 1, width_policy = "native") {
     .Call(`_gridtext_bl_make_vbox`, nodes, width_pt, hjust, vjust, width_policy)
 }
@@ -97,8 +101,8 @@ text_grob <- function(label, x_pt = 0L, y_pt = 0L, gp = NULL, name = NULL) {
     .Call(`_gridtext_text_grob`, label, x_pt, y_pt, gp, name)
 }
 
-raster_grob <- function(image, x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, interpolate = TRUE, name = NULL) {
-    .Call(`_gridtext_raster_grob`, image, x_pt, y_pt, width_pt, height_pt, interpolate, name)
+raster_grob <- function(image, x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, interpolate = TRUE, gp = NULL, name = NULL) {
+    .Call(`_gridtext_raster_grob`, image, x_pt, y_pt, width_pt, height_pt, interpolate, gp, name)
 }
 
 rect_grob <- function(x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, gp = NULL, name = NULL) {

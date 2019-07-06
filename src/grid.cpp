@@ -62,7 +62,7 @@ List text_grob(CharacterVector label, NumericVector x_pt, NumericVector y_pt, RO
 }
 
 List raster_grob(RObject image, NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, NumericVector height_pt,
-                 LogicalVector interpolate, RObject name) {
+                 LogicalVector interpolate, RObject gp, RObject name) {
   if (x_pt.size() != 1 || y_pt.size() != 1 || width_pt.size() != 1 || height_pt.size() != 1) {
     stop("Function raster_grob() is not vectorized.\n");
   }
@@ -92,7 +92,7 @@ List raster_grob(RObject image, NumericVector x_pt, NumericVector y_pt, NumericV
     _["width"] = unit_pt(width_pt), _["height"] = unit_pt(height_pt),
     _["just"] = "centre", _["hjust"] = 0., _["vjust"] = 0.,
     _["interpolate"] = interpolate,
-    _["name"] = name, _["gp"] = R_NilValue, _["vp"] = R_NilValue
+    _["name"] = name, _["gp"] = gp, _["vp"] = R_NilValue
   );
 
   Rcpp::StringVector cl(3);

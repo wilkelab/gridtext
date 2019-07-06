@@ -4,6 +4,7 @@ using namespace Rcpp;
 #include "layout.h"
 #include "null-box.h"
 #include "par-box.h"
+#include "raster-box.h"
 #include "rect-box.h"
 #include "text-box.h"
 #include "vbox.h"
@@ -93,6 +94,27 @@ XPtr<BoxPtr<GridRenderer> > bl_make_text_box(String label, List gp, double voff_
   XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer>(new TextBox<GridRenderer>(label, gp, voff_pt)));
 
   StringVector cl = {"bl_text_box", "bl_box", "bl_node"};
+  p.attr("class") = cl;
+
+  return p;
+}
+
+
+//RasterBox(RObject image, Length width, Length height, const typename Renderer::GraphicsContext &gp,
+//          SizePolicy width_policy = SizePolicy::fixed, SizePolicy height_policy = SizePolicy::fixed,
+//          bool interpolate = true) :
+
+// [[Rcpp::export]]
+XPtr<BoxPtr<GridRenderer> > bl_make_raster_box(RObject image, double width_pt, double height_pt,
+                                               String width_policy = "fixed", String height_policy = "fixed",
+                                               bool interpolate = true, List gp = R_NilValue) {
+  SizePolicy w_policy = convert_size_policy(width_policy);
+  SizePolicy h_policy = convert_size_policy(height_policy);
+
+  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer>(new RasterBox<GridRenderer>(
+      image, width_pt, height_pt, gp, w_policy, h_policy, interpolate)));
+
+  StringVector cl = {"bl_raster_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
 
   return p;
