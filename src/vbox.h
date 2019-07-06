@@ -17,17 +17,26 @@ private:
   BoxList<Renderer> m_nodes;
   Length m_width;
   Length m_height;
+  SizePolicy m_width_policy; // width policy; height policy is always "native"
   // reference point of the box
   Length m_x, m_y;
   // justification of box relative to reference
   Length m_hjust, m_vjust;
+  double m_rel_width; // used to store relative width when needed
 
 public:
-  VBox(const BoxList<Renderer>& nodes, double hjust, double vjust) :
+  VBox(const BoxList<Renderer>& nodes, Length width = 0, double hjust = 0, double vjust = 1,
+       SizePolicy width_policy = SizePolicy::native) :
     m_nodes(nodes),
-    m_width(0), m_height(0),
+    m_width(width), m_height(0),
+    m_width_policy(width_policy),
     m_x(0), m_y(0),
-    m_hjust(hjust), m_vjust(vjust) {}
+    m_hjust(hjust), m_vjust(vjust),
+    m_rel_width(0) {
+    if (m_width_policy == SizePolicy::relative) {
+      m_rel_width = m_width/100;
+    }
+  }
   ~VBox() {};
 
   Length width() { return m_width; }
@@ -36,6 +45,23 @@ public:
   Length voff() { return 0; }
 
   void calc_layout(Length width_hint, Length height_hint) {
+    switch(m_width_policy) {
+    case SizePolicy::expand:
+      m_width = width_hint;
+      break;
+    case SizePolicy::relative:
+      m_width = width_hint * m_rel_width;
+      width_hint = m_width;
+      break;
+    case SizePolicy::fixed:
+      width_hint = m_width;
+      break;
+    case SizePolicy::native:
+    default:
+      // nothing to be done for native policy, will be handled below
+      break;
+    }
+
     // y offset as we layout
     Length y_off = 0;
     // calculated box width
@@ -57,7 +83,12 @@ public:
         width = b->width();
       }
     }
-    m_width = width;
+
+    if (m_width_policy == SizePolicy::native) {
+      // we record the calculated width for native width policy
+      // in all other cases, it's already set
+      m_width = width;
+    }
     m_height = -y_off;
   }
 

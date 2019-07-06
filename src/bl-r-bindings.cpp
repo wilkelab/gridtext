@@ -99,8 +99,12 @@ XPtr<BoxPtr<GridRenderer> > bl_make_text_box(String label, List gp, double voff_
 }
 
 // [[Rcpp::export]]
-XPtr<BoxPtr<GridRenderer> > bl_make_vbox(XPtr<BoxList<GridRenderer> > nodes, double hjust, double vjust) {
-  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer> (new VBox<GridRenderer>(*nodes, hjust, vjust)));
+XPtr<BoxPtr<GridRenderer> > bl_make_vbox(XPtr<BoxList<GridRenderer> > nodes, double width_pt = 0,
+                                         double hjust = 0, double vjust = 1, String width_policy = "native") {
+  SizePolicy w_policy = convert_size_policy(width_policy);
+
+  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer>(new VBox<GridRenderer>(
+      *nodes, width_pt, hjust, vjust, w_policy)));
 
   StringVector cl = {"bl_vbox", "bl_box", "bl_node"};
   p.attr("class") = cl;

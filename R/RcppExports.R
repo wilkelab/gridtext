@@ -21,8 +21,8 @@ bl_make_text_box <- function(label, gp, voff_pt = 0) {
     .Call(`_gridtext_bl_make_text_box`, label, gp, voff_pt)
 }
 
-bl_make_vbox <- function(nodes, hjust, vjust) {
-    .Call(`_gridtext_bl_make_vbox`, nodes, hjust, vjust)
+bl_make_vbox <- function(nodes, width_pt = 0, hjust = 0, vjust = 1, width_policy = "native") {
+    .Call(`_gridtext_bl_make_vbox`, nodes, width_pt, hjust, vjust, width_policy)
 }
 
 bl_make_node_list <- function(nodes) {
