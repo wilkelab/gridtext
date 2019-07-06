@@ -7,7 +7,7 @@
 using namespace Rcpp;
 
 // bl_make_null_ptr
-XPtr<NodePtr> bl_make_null_ptr();
+XPtr<BoxPtr<GridRenderer> > bl_make_null_ptr();
 RcppExport SEXP _gridtext_bl_make_null_ptr() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -17,7 +17,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_null_box
-XPtr<NodePtr> bl_make_null_box(double width_pt, double height_pt);
+XPtr<BoxPtr<GridRenderer> > bl_make_null_box(double width_pt, double height_pt);
 RcppExport SEXP _gridtext_bl_make_null_box(SEXP width_ptSEXP, SEXP height_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -29,12 +29,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_par_box
-XPtr<NodePtr> bl_make_par_box(XPtr<NodeList> nodes, double vspacing_pt, double hspacing_pt);
+XPtr<BoxPtr<GridRenderer> > bl_make_par_box(XPtr<BoxList<GridRenderer> > nodes, double vspacing_pt, double hspacing_pt);
 RcppExport SEXP _gridtext_bl_make_par_box(SEXP nodesSEXP, SEXP vspacing_ptSEXP, SEXP hspacing_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodeList> >::type nodes(nodesSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxList<GridRenderer> > >::type nodes(nodesSEXP);
     Rcpp::traits::input_parameter< double >::type vspacing_pt(vspacing_ptSEXP);
     Rcpp::traits::input_parameter< double >::type hspacing_pt(hspacing_ptSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_make_par_box(nodes, vspacing_pt, hspacing_pt));
@@ -42,12 +42,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_rect_box
-XPtr<NodePtr> bl_make_rect_box(XPtr<NodePtr> content, double width_pt, double height_pt, NumericVector margin, NumericVector padding, List gp, double content_hjust, double content_vjust, String width_policy, String height_policy, double r);
+XPtr<BoxPtr<GridRenderer> > bl_make_rect_box(XPtr<BoxPtr<GridRenderer> > content, double width_pt, double height_pt, NumericVector margin, NumericVector padding, List gp, double content_hjust, double content_vjust, String width_policy, String height_policy, double r);
 RcppExport SEXP _gridtext_bl_make_rect_box(SEXP contentSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP marginSEXP, SEXP paddingSEXP, SEXP gpSEXP, SEXP content_hjustSEXP, SEXP content_vjustSEXP, SEXP width_policySEXP, SEXP height_policySEXP, SEXP rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type content(contentSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type content(contentSEXP);
     Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
     Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type margin(marginSEXP);
@@ -63,7 +63,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_text_box
-XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt);
+XPtr<BoxPtr<GridRenderer> > bl_make_text_box(String label, List gp, double voff_pt);
 RcppExport SEXP _gridtext_bl_make_text_box(SEXP labelSEXP, SEXP gpSEXP, SEXP voff_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -76,12 +76,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_vbox
-XPtr<NodePtr> bl_make_vbox(XPtr<NodeList> nodes, double hjust, double vjust);
+XPtr<BoxPtr<GridRenderer> > bl_make_vbox(XPtr<BoxList<GridRenderer> > nodes, double hjust, double vjust);
 RcppExport SEXP _gridtext_bl_make_vbox(SEXP nodesSEXP, SEXP hjustSEXP, SEXP vjustSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodeList> >::type nodes(nodesSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxList<GridRenderer> > >::type nodes(nodesSEXP);
     Rcpp::traits::input_parameter< double >::type hjust(hjustSEXP);
     Rcpp::traits::input_parameter< double >::type vjust(vjustSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_make_vbox(nodes, hjust, vjust));
@@ -89,7 +89,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_node_list
-XPtr<NodeList> bl_make_node_list(List nodes);
+XPtr<BoxList<GridRenderer> > bl_make_node_list(List nodes);
 RcppExport SEXP _gridtext_bl_make_node_list(SEXP nodesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -100,11 +100,11 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_calc_layout
-void bl_calc_layout(XPtr<NodePtr> node, double width_pt, double height_pt);
+void bl_calc_layout(XPtr<BoxPtr<GridRenderer> > node, double width_pt, double height_pt);
 RcppExport SEXP _gridtext_bl_calc_layout(SEXP nodeSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
     Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
     Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
     bl_calc_layout(node, width_pt, height_pt);
@@ -112,67 +112,67 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_box_width
-double bl_box_width(XPtr<NodePtr> node);
+double bl_box_width(XPtr<BoxPtr<GridRenderer> > node);
 RcppExport SEXP _gridtext_bl_box_width(SEXP nodeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_box_width(node));
     return rcpp_result_gen;
 END_RCPP
 }
 // bl_box_height
-double bl_box_height(XPtr<NodePtr> node);
+double bl_box_height(XPtr<BoxPtr<GridRenderer> > node);
 RcppExport SEXP _gridtext_bl_box_height(SEXP nodeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_box_height(node));
     return rcpp_result_gen;
 END_RCPP
 }
 // bl_box_ascent
-double bl_box_ascent(XPtr<NodePtr> node);
+double bl_box_ascent(XPtr<BoxPtr<GridRenderer> > node);
 RcppExport SEXP _gridtext_bl_box_ascent(SEXP nodeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_box_ascent(node));
     return rcpp_result_gen;
 END_RCPP
 }
 // bl_box_descent
-double bl_box_descent(XPtr<NodePtr> node);
+double bl_box_descent(XPtr<BoxPtr<GridRenderer> > node);
 RcppExport SEXP _gridtext_bl_box_descent(SEXP nodeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_box_descent(node));
     return rcpp_result_gen;
 END_RCPP
 }
 // bl_box_voff
-double bl_box_voff(XPtr<NodePtr> node);
+double bl_box_voff(XPtr<BoxPtr<GridRenderer> > node);
 RcppExport SEXP _gridtext_bl_box_voff(SEXP nodeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_box_voff(node));
     return rcpp_result_gen;
 END_RCPP
 }
 // bl_render
-RObject bl_render(XPtr<NodePtr> node, double x_pt, double y_pt);
+RObject bl_render(XPtr<BoxPtr<GridRenderer> > node, double x_pt, double y_pt);
 RcppExport SEXP _gridtext_bl_render(SEXP nodeSEXP, SEXP x_ptSEXP, SEXP y_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<NodePtr> >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
     Rcpp::traits::input_parameter< double >::type x_pt(x_ptSEXP);
     Rcpp::traits::input_parameter< double >::type y_pt(y_ptSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_render(node, x_pt, y_pt));

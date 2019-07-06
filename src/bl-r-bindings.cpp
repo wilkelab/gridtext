@@ -11,8 +11,8 @@ using namespace Rcpp;
 
 // for testing and debugging only
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_null_ptr() {
-  XPtr<NodePtr> p(new NodePtr(nullptr));
+XPtr<BoxPtr<GridRenderer> > bl_make_null_ptr() {
+  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer>(nullptr));
 
   StringVector cl = {"bl_null_ptr", "bl_box", "bl_node"};
   p.attr("class") = cl;
@@ -21,8 +21,8 @@ XPtr<NodePtr> bl_make_null_ptr() {
 }
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_null_box(double width_pt = 0, double height_pt = 0) {
-  XPtr<NodePtr> p(new NodePtr(new NullBox<GridRenderer>(width_pt, height_pt)));
+XPtr<BoxPtr<GridRenderer> > bl_make_null_box(double width_pt = 0, double height_pt = 0) {
+  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer> (new NullBox<GridRenderer>(width_pt, height_pt)));
 
   StringVector cl = {"bl_null_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
@@ -31,8 +31,8 @@ XPtr<NodePtr> bl_make_null_box(double width_pt = 0, double height_pt = 0) {
 }
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_par_box(XPtr<NodeList> nodes, double vspacing_pt, double hspacing_pt) {
-  XPtr<NodePtr> p(new NodePtr(new ParBox<GridRenderer>(*nodes, vspacing_pt, hspacing_pt)));
+XPtr<BoxPtr<GridRenderer> > bl_make_par_box(XPtr<BoxList<GridRenderer> > nodes, double vspacing_pt, double hspacing_pt) {
+  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer>(new ParBox<GridRenderer>(*nodes, vspacing_pt, hspacing_pt)));
 
   StringVector cl = {"bl_par_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
@@ -49,23 +49,23 @@ Margin convert_margin(NumericVector margin) {
   return Margin(margin[0], margin[1], margin[2], margin[3]);
 }
 
-LayoutNode::SizePolicy convert_size_policy(String size_policy) {
+SizePolicy convert_size_policy(String size_policy) {
   // we identify the size policy simply by its first letter
   switch (size_policy.get_cstring()[0]) {
   case 'n':
-    return LayoutNode::native;
+    return SizePolicy::native;
   case 'e':
-    return LayoutNode::expand;
+    return SizePolicy::expand;
   case 'r':
-    return LayoutNode::relative;
+    return SizePolicy::relative;
   case 'f':
   default:
-    return LayoutNode::fixed;
+    return SizePolicy::fixed;
   }
 }
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_rect_box(XPtr<NodePtr> content, double width_pt, double height_pt,
+XPtr<BoxPtr<GridRenderer> > bl_make_rect_box(XPtr<BoxPtr<GridRenderer> > content, double width_pt, double height_pt,
                                NumericVector margin, NumericVector padding, List gp,
                                double content_hjust = 0, double content_vjust = 1, String width_policy = "fixed",
                                String height_policy = "fixed", double r = 0) {
@@ -75,10 +75,10 @@ XPtr<NodePtr> bl_make_rect_box(XPtr<NodePtr> content, double width_pt, double he
 
   Margin marg = convert_margin(margin);
   Margin pad = convert_margin(padding);
-  LayoutNode::SizePolicy w_policy = convert_size_policy(width_policy);
-  LayoutNode::SizePolicy h_policy = convert_size_policy(height_policy);
+  SizePolicy w_policy = convert_size_policy(width_policy);
+  SizePolicy h_policy = convert_size_policy(height_policy);
 
-  XPtr<NodePtr> p(new NodePtr(new RectBox<GridRenderer>(
+  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer>(new RectBox<GridRenderer>(
       *content, width_pt, height_pt, marg, pad, gp, content_hjust, content_vjust, w_policy, h_policy, r
     )));
 
@@ -89,8 +89,8 @@ XPtr<NodePtr> bl_make_rect_box(XPtr<NodePtr> content, double width_pt, double he
 }
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt = 0) {
-  XPtr<NodePtr> p(new NodePtr(new TextBox<GridRenderer>(label, gp, voff_pt)));
+XPtr<BoxPtr<GridRenderer> > bl_make_text_box(String label, List gp, double voff_pt = 0) {
+  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer>(new TextBox<GridRenderer>(label, gp, voff_pt)));
 
   StringVector cl = {"bl_text_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
@@ -99,8 +99,8 @@ XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt = 0) {
 }
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_vbox(XPtr<NodeList> nodes, double hjust, double vjust) {
-  XPtr<NodePtr> p(new NodePtr(new VBox<GridRenderer>(*nodes, hjust, vjust)));
+XPtr<BoxPtr<GridRenderer> > bl_make_vbox(XPtr<BoxList<GridRenderer> > nodes, double hjust, double vjust) {
+  XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer> (new VBox<GridRenderer>(*nodes, hjust, vjust)));
 
   StringVector cl = {"bl_vbox", "bl_box", "bl_node"};
   p.attr("class") = cl;
@@ -109,15 +109,15 @@ XPtr<NodePtr> bl_make_vbox(XPtr<NodeList> nodes, double hjust, double vjust) {
 }
 
 // [[Rcpp::export]]
-XPtr<NodeList> bl_make_node_list(List nodes) {
-  XPtr<NodeList> nlist(new NodeList());
+XPtr<BoxList<GridRenderer> > bl_make_node_list(List nodes) {
+  XPtr<BoxList<GridRenderer> > nlist(new BoxList<GridRenderer>());
 
   for (auto i_node = nodes.begin(); i_node != nodes.end(); i_node++) {
     RObject obj(static_cast<RObject>(*i_node));
     if (!obj.inherits("bl_node")) {
       stop("All list elements must be of type 'bl_node'.");
     }
-    XPtr<NodePtr> p(obj);
+    XPtr<BoxPtr<GridRenderer> > p(obj);
     nlist->push_back(*p);
   }
 
@@ -128,66 +128,66 @@ XPtr<NodeList> bl_make_node_list(List nodes) {
 }
 
 // [[Rcpp::export]]
-void bl_calc_layout(XPtr<NodePtr> node, double width_pt, double height_pt = 0) {
+void bl_calc_layout(XPtr<BoxPtr<GridRenderer> > node, double width_pt, double height_pt = 0) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
   }
 
-  static_pointer_cast<Box<GridRenderer> >(*node)->calc_layout(width_pt, height_pt);
+  (*node)->calc_layout(width_pt, height_pt);
 }
 
 // [[Rcpp::export]]
-double bl_box_width(XPtr<NodePtr> node) {
+double bl_box_width(XPtr<BoxPtr<GridRenderer> > node) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
   }
 
-  return static_pointer_cast<Box<GridRenderer> >(*node)->width();
+  return (*node)->width();
 }
 
 // [[Rcpp::export]]
-double bl_box_height(XPtr<NodePtr> node) {
+double bl_box_height(XPtr<BoxPtr<GridRenderer> > node) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
   }
 
-  return static_pointer_cast<Box<GridRenderer> >(*node)->height();
+  return (*node)->height();
 }
 
 // [[Rcpp::export]]
-double bl_box_ascent(XPtr<NodePtr> node) {
+double bl_box_ascent(XPtr<BoxPtr<GridRenderer> > node) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
   }
 
-  return static_pointer_cast<Box<GridRenderer> >(*node)->ascent();
+  return (*node)->ascent();
 }
 
 // [[Rcpp::export]]
-double bl_box_descent(XPtr<NodePtr> node) {
+double bl_box_descent(XPtr<BoxPtr<GridRenderer> > node) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
   }
 
-  return static_pointer_cast<Box<GridRenderer> >(*node)->descent();
+  return (*node)->descent();
 }
 
 // [[Rcpp::export]]
-double bl_box_voff(XPtr<NodePtr> node) {
+double bl_box_voff(XPtr<BoxPtr<GridRenderer> > node) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
   }
 
-  return static_pointer_cast<Box<GridRenderer> >(*node)->voff();
+  return (*node)->voff();
 }
 
 // [[Rcpp::export]]
-RObject bl_render(XPtr<NodePtr> node, double x_pt, double y_pt) {
+RObject bl_render(XPtr<BoxPtr<GridRenderer> > node, double x_pt, double y_pt) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
   }
 
   GridRenderer gr;
-  static_pointer_cast<Box<GridRenderer> >(*node)->render(gr, x_pt, y_pt);
+  (*node)->render(gr, x_pt, y_pt);
   return gr.collect_grobs();
 }

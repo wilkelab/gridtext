@@ -15,7 +15,7 @@ using namespace Rcpp;
 template <class Renderer>
 class ParBox : public Box<Renderer> {
 private:
-  NodeList m_nodes;
+  BoxList<Renderer> m_nodes;
   Length m_vspacing;
   Length m_hspacing;
   Length m_width;
@@ -30,7 +30,7 @@ private:
   Length m_x, m_y;
 
 public:
-  ParBox(const NodeList& nodes, Length vspacing, Length hspacing) :
+  ParBox(const BoxList<Renderer>& nodes, Length vspacing, Length hspacing) :
     m_nodes(nodes), m_vspacing(vspacing), m_hspacing(hspacing),
     m_width(0), m_ascent(0), m_descent(0), m_voff(0),
     m_x(0), m_y(0) {}
@@ -50,33 +50,32 @@ public:
     Length descent = 0;
 
     for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
-      LayoutNode::NodeType nt = (*i_node)->type();
+      NodeType nt = (*i_node)->type();
 
-      if (nt == LayoutNode::box) {
-        auto b = static_pointer_cast<Box<Renderer> >(*i_node);
+      if (nt == NodeType::box) {
         // we propagate width and height hints to all child nodes,
         // in case they are useful there
-        b->calc_layout(width_hint, height_hint);
-        if (x_off + b->width() > width_hint) { // simple wrapping, no fancy logic
+        (*i_node)->calc_layout(width_hint, height_hint);
+        if (x_off + (*i_node)->width() > width_hint) { // simple wrapping, no fancy logic
           x_off = 0;
           y_off = y_off - m_vspacing;
           lines += 1;
           descent = 0; // reset descent when starting new line
           // we don't reset ascent because we only record it for the first line
         }
-        b->place(x_off, y_off);
-        x_off += b->width();
+        (*i_node)->place(x_off, y_off);
+        x_off += (*i_node)->width();
         // add space, this needs to be replaced by glue
         x_off += m_hspacing;
 
         // record ascent and descent
-        if (b->descent() > descent) {
-          descent = b->descent();
+        if ((*i_node)->descent() > descent) {
+          descent = (*i_node)->descent();
         }
-        if (lines == 0 && b->ascent() > ascent) {
-          ascent = b->ascent();
+        if (lines == 0 && (*i_node)->ascent() > ascent) {
+          ascent = (*i_node)->ascent();
         }
-      } else if (nt == LayoutNode::glue) {
+      } else if (nt == NodeType::glue) {
         // not implemented
       }
     }
@@ -94,13 +93,7 @@ public:
   void render(Renderer &r, Length xref, Length yref) {
     // render all grobs in the list
     for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
-      if ((*i_node)->type() == LayoutNode::box) {
-        static_pointer_cast<Box<Renderer> >(*i_node)->render(
-            r,
-            xref + m_x,
-            yref + m_voff + m_y + m_multiline_shift
-        );
-      }
+      (*i_node)->render(r, xref + m_x, yref + m_voff + m_y + m_multiline_shift);
     }
   }
 };

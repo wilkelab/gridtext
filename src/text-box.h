@@ -32,6 +32,7 @@ public:
   }
   ~TextBox() {};
 
+
   Length width() { return m_width; }
   Length ascent() { return m_ascent; }
   Length descent() { return m_descent; }

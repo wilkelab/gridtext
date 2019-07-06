@@ -10,41 +10,34 @@ using namespace std;
 
 #include "length.h"
 
-// base class for a generic node in the
-// layout tree
-class LayoutNode {
-public:
-  enum NodeType {
-    none,
-    box,
-    glue,
-    penalty
-  };
-
-  enum SizePolicy {
-    fixed,    // box size is fixed upon construction
-    native,   // box determines its own ideal size
-    expand,   // box expands as much as possible
-    relative  // box takes up a set proportion of the size hint
-    //   provided to calc_layout(); in this case
-    //   Length units are interpreted as percent, i.e.,
-    //   a Length of 100 means full size
-  };
-
-  LayoutNode(NodeType type = none) : m_type(type) {}
-  virtual ~LayoutNode() {}
-  NodeType type() {return m_type;}
-
-private:
-  NodeType m_type;
+enum class NodeType {
+  none,
+  box,
+  glue,
+  penalty
 };
 
-// generic box class
-template <class Renderer>
-class Box : public LayoutNode {
+enum class SizePolicy {
+  fixed,    // box size is fixed upon construction
+  native,   // box determines its own ideal size
+  expand,   // box expands as much as possible
+  relative  /* box takes up a set proportion of the size hint
+ * provided to calc_layout(); in this case
+ * Length units are interpreted as percent, i.e.,
+ * a Length of 100 means full size
+ */
+};
+
+
+// base class for a generic node in the
+// layout tree
+template <class Renderer> class BoxNode {
 public:
-  Box() : LayoutNode(LayoutNode::box) {}
-  virtual ~Box() {}
+  BoxNode() {}
+  virtual ~BoxNode() {}
+
+  // returns the node type (box, glue, penalty)
+  virtual NodeType type() = 0;
 
   // width of the box
   virtual Length width() = 0;
@@ -71,21 +64,21 @@ public:
   virtual void render(Renderer &r, Length xref, Length yref) = 0;
 };
 
-class Glue : public LayoutNode {
+template <class Renderer> class Box : public BoxNode<Renderer> {
   Length m_width, m_stretch, m_shrink;
 
 public:
-  Glue(Length width = 0, Length stretch = 0, Length shrink = 0) :
-    LayoutNode(LayoutNode::glue), m_width(width), m_stretch(stretch), m_shrink(shrink) {}
-  virtual ~Glue() {}
-
-  Length width() {return m_width;}
+  Box() {}
+  ~Box() {}
+  NodeType type() {return NodeType::box;}
 };
 
-// node list (vector of pointers to layout nodes)
-typedef shared_ptr<LayoutNode> NodePtr;
-typedef vector<NodePtr > NodeList;
+// box list (vector of pointers to boxes)
+template <class Renderer>
+using BoxPtr = shared_ptr<BoxNode<Renderer> >;
 
+template <class Renderer>
+using BoxList = vector<BoxPtr<Renderer> >;
 
 // struct that holds width, ascent, etc. data for text labels
 struct TextDetails {
