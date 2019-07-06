@@ -5,8 +5,6 @@
 using namespace Rcpp;
 
 #include <vector>
-#include <iostream>
-using namespace std;
 
 #include "grid.h"
 #include "length.h"

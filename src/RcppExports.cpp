@@ -75,6 +75,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// bl_make_vbox
+XPtr<NodePtr> bl_make_vbox(XPtr<NodeList> nodes, double hjust, double vjust);
+RcppExport SEXP _gridtext_bl_make_vbox(SEXP nodesSEXP, SEXP hjustSEXP, SEXP vjustSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<NodeList> >::type nodes(nodesSEXP);
+    Rcpp::traits::input_parameter< double >::type hjust(hjustSEXP);
+    Rcpp::traits::input_parameter< double >::type vjust(vjustSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_vbox(nodes, hjust, vjust));
+    return rcpp_result_gen;
+END_RCPP
+}
 // bl_make_node_list
 XPtr<NodeList> bl_make_node_list(List nodes);
 RcppExport SEXP _gridtext_bl_make_node_list(SEXP nodesSEXP) {
@@ -335,6 +348,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 3},
     {"_gridtext_bl_make_rect_box", (DL_FUNC) &_gridtext_bl_make_rect_box, 11},
     {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
+    {"_gridtext_bl_make_vbox", (DL_FUNC) &_gridtext_bl_make_vbox, 3},
     {"_gridtext_bl_make_node_list", (DL_FUNC) &_gridtext_bl_make_node_list, 1},
     {"_gridtext_bl_calc_layout", (DL_FUNC) &_gridtext_bl_calc_layout, 3},
     {"_gridtext_bl_box_width", (DL_FUNC) &_gridtext_bl_box_width, 1},

@@ -6,6 +6,7 @@ using namespace Rcpp;
 #include "par-box.h"
 #include "rect-box.h"
 #include "text-box.h"
+#include "vbox.h"
 #include "grid-renderer.h"
 
 // for testing and debugging only
@@ -88,10 +89,20 @@ XPtr<NodePtr> bl_make_rect_box(XPtr<NodePtr> content, double width_pt, double he
 }
 
 // [[Rcpp::export]]
-XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt) {
+XPtr<NodePtr> bl_make_text_box(String label, List gp, double voff_pt = 0) {
   XPtr<NodePtr> p(new NodePtr(new TextBox<GridRenderer>(label, gp, voff_pt)));
 
   StringVector cl = {"bl_text_box", "bl_box", "bl_node"};
+  p.attr("class") = cl;
+
+  return p;
+}
+
+// [[Rcpp::export]]
+XPtr<NodePtr> bl_make_vbox(XPtr<NodeList> nodes, double hjust, double vjust) {
+  XPtr<NodePtr> p(new NodePtr(new VBox<GridRenderer>(*nodes, hjust, vjust)));
+
+  StringVector cl = {"bl_vbox", "bl_box", "bl_node"};
   p.attr("class") = cl;
 
   return p;

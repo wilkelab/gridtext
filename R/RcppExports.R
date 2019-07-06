@@ -17,8 +17,12 @@ bl_make_rect_box <- function(content, width_pt, height_pt, margin, padding, gp, 
     .Call(`_gridtext_bl_make_rect_box`, content, width_pt, height_pt, margin, padding, gp, content_hjust, content_vjust, width_policy, height_policy, r)
 }
 
-bl_make_text_box <- function(label, gp, voff_pt) {
+bl_make_text_box <- function(label, gp, voff_pt = 0) {
     .Call(`_gridtext_bl_make_text_box`, label, gp, voff_pt)
+}
+
+bl_make_vbox <- function(nodes, hjust, vjust) {
+    .Call(`_gridtext_bl_make_vbox`, nodes, hjust, vjust)
 }
 
 bl_make_node_list <- function(nodes) {

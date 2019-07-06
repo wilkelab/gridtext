@@ -4,7 +4,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#include "grid.h"
 #include "layout.h"
 
 /* The VBox class takes a list of boxes and lays them out
@@ -37,13 +36,10 @@ public:
   Length voff() { return 0; }
 
   void calc_layout(Length width_hint, Length height_hint) {
-/*
-        // x and y offset as we layout
-    Length x_off = 0, y_off = 0;
-
-    int lines = 0;
-    Length ascent = 0;
-    Length descent = 0;
+    // y offset as we layout
+    Length y_off = 0;
+    // calculated box width
+    Length width = 0;
 
     for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
       LayoutNode::NodeType nt = (*i_node)->type();
@@ -53,34 +49,20 @@ public:
         // we propagate width and height hints to all child nodes,
         // in case they are useful there
         b->calc_layout(width_hint, height_hint);
-        if (x_off + b->width() > width_hint) { // simple wrapping, no fancy logic
-          x_off = 0;
-          y_off = y_off - m_vspacing;
-          lines += 1;
-          descent = 0; // reset descent when starting new line
-          // we don't reset ascent because we only record it for the first line
-        }
-        b->place(x_off, y_off);
-        x_off += b->width();
-        // add space, this needs to be replaced by glue
-        x_off += m_hspacing;
+        y_off -= b->ascent();
+        // place node, ignoring any vertical offset from baseline
+        // (we stack boxes vertically, baselines don't matter here)
+        b->place(0, y_off - b->voff());
+        y_off -= b->descent(); // account for box descent if any
 
-        // record ascent and descent
-        if (b->descent() > descent) {
-          descent = b->descent();
+        // record width
+        if (b->width() > width) {
+          width = b->width();
         }
-        if (lines == 0 && b->ascent() > ascent) {
-          ascent = b->ascent();
-        }
-      } else if (nt == LayoutNode::glue) {
-        // not implemented
       }
     }
-    m_multiline_shift = lines*m_vspacing; // multi-line boxes need to be shifted upwards
-    m_ascent = ascent + m_multiline_shift;
-    m_descent = descent;
-    m_width = width_hint;
- */
+    m_width = width;
+    m_height = -y_off;
   }
 
   void place(Length x, Length y) {
@@ -95,7 +77,7 @@ public:
         static_pointer_cast<Box<Renderer> >(*i_node)->render(
             r,
             xref + m_x - m_hjust*m_width,
-            yref + m_y - m_vjust*m_height
+            yref + m_height + m_y - m_vjust*m_height
         );
       }
     }
