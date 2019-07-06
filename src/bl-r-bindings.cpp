@@ -132,15 +132,6 @@ XPtr<BoxList<GridRenderer> > bl_make_node_list(List nodes) {
 }
 
 // [[Rcpp::export]]
-void bl_calc_layout(XPtr<BoxPtr<GridRenderer> > node, double width_pt, double height_pt = 0) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
-  }
-
-  (*node)->calc_layout(width_pt, height_pt);
-}
-
-// [[Rcpp::export]]
 double bl_box_width(XPtr<BoxPtr<GridRenderer> > node) {
   if (!node.inherits("bl_box")) {
     stop("Node must be of type 'bl_box'.");
@@ -184,6 +175,25 @@ double bl_box_voff(XPtr<BoxPtr<GridRenderer> > node) {
 
   return (*node)->voff();
 }
+
+// [[Rcpp::export]]
+void bl_calc_layout(XPtr<BoxPtr<GridRenderer> > node, double width_pt, double height_pt = 0) {
+  if (!node.inherits("bl_box")) {
+    stop("Node must be of type 'bl_box'.");
+  }
+
+  (*node)->calc_layout(width_pt, height_pt);
+}
+
+// [[Rcpp::export]]
+void bl_place(XPtr<BoxPtr<GridRenderer> > node, double x_pt, double y_pt) {
+  if (!node.inherits("bl_box")) {
+    stop("Node must be of type 'bl_box'.");
+  }
+
+  (*node)->place(x_pt, y_pt);
+}
+
 
 // [[Rcpp::export]]
 RObject bl_render(XPtr<BoxPtr<GridRenderer> > node, double x_pt, double y_pt) {

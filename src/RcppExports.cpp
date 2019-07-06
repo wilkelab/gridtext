@@ -101,18 +101,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// bl_calc_layout
-void bl_calc_layout(XPtr<BoxPtr<GridRenderer> > node, double width_pt, double height_pt);
-RcppExport SEXP _gridtext_bl_calc_layout(SEXP nodeSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
-    Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
-    Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
-    bl_calc_layout(node, width_pt, height_pt);
-    return R_NilValue;
-END_RCPP
-}
 // bl_box_width
 double bl_box_width(XPtr<BoxPtr<GridRenderer> > node);
 RcppExport SEXP _gridtext_bl_box_width(SEXP nodeSEXP) {
@@ -166,6 +154,30 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_box_voff(node));
     return rcpp_result_gen;
+END_RCPP
+}
+// bl_calc_layout
+void bl_calc_layout(XPtr<BoxPtr<GridRenderer> > node, double width_pt, double height_pt);
+RcppExport SEXP _gridtext_bl_calc_layout(SEXP nodeSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< double >::type width_pt(width_ptSEXP);
+    Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
+    bl_calc_layout(node, width_pt, height_pt);
+    return R_NilValue;
+END_RCPP
+}
+// bl_place
+void bl_place(XPtr<BoxPtr<GridRenderer> > node, double x_pt, double y_pt);
+RcppExport SEXP _gridtext_bl_place(SEXP nodeSEXP, SEXP x_ptSEXP, SEXP y_ptSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<BoxPtr<GridRenderer> > >::type node(nodeSEXP);
+    Rcpp::traits::input_parameter< double >::type x_pt(x_ptSEXP);
+    Rcpp::traits::input_parameter< double >::type y_pt(y_ptSEXP);
+    bl_place(node, x_pt, y_pt);
+    return R_NilValue;
 END_RCPP
 }
 // bl_render
@@ -352,12 +364,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
     {"_gridtext_bl_make_vbox", (DL_FUNC) &_gridtext_bl_make_vbox, 5},
     {"_gridtext_bl_make_node_list", (DL_FUNC) &_gridtext_bl_make_node_list, 1},
-    {"_gridtext_bl_calc_layout", (DL_FUNC) &_gridtext_bl_calc_layout, 3},
     {"_gridtext_bl_box_width", (DL_FUNC) &_gridtext_bl_box_width, 1},
     {"_gridtext_bl_box_height", (DL_FUNC) &_gridtext_bl_box_height, 1},
     {"_gridtext_bl_box_ascent", (DL_FUNC) &_gridtext_bl_box_ascent, 1},
     {"_gridtext_bl_box_descent", (DL_FUNC) &_gridtext_bl_box_descent, 1},
     {"_gridtext_bl_box_voff", (DL_FUNC) &_gridtext_bl_box_voff, 1},
+    {"_gridtext_bl_calc_layout", (DL_FUNC) &_gridtext_bl_calc_layout, 3},
+    {"_gridtext_bl_place", (DL_FUNC) &_gridtext_bl_place, 3},
     {"_gridtext_bl_render", (DL_FUNC) &_gridtext_bl_render, 3},
     {"_gridtext_grid_renderer", (DL_FUNC) &_gridtext_grid_renderer, 0},
     {"_gridtext_grid_renderer_text", (DL_FUNC) &_gridtext_grid_renderer_text, 5},
