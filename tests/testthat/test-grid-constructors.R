@@ -85,6 +85,55 @@ test_that("text_grob", {
   )
 })
 
+test_that("raster_grob", {
+  # basic functionality
+  image <- matrix(0:1, ncol = 5, nrow = 4)
+
+  expect_identical(
+    raster_grob(image, 10, 20, 50, 40, name = "abc"),
+    rasterGrob(
+      image,
+      x = unit(10, "pt"), y = unit(20, "pt"),
+      width = unit(50, "pt"), height = unit(40, "pt"),
+      hjust = 0, vjust = 0,
+      interpolate = TRUE,
+      gp = NULL,
+      name = "abc"
+    )
+  )
+
+  # interpolate is set as requested
+  expect_identical(
+    raster_grob(image, 10, 20, 50, 40, interpolate = FALSE, name = "abc"),
+    rasterGrob(
+      image,
+      x = unit(10, "pt"), y = unit(20, "pt"),
+      width = unit(50, "pt"), height = unit(40, "pt"),
+      hjust = 0, vjust = 0,
+      interpolate = FALSE,
+      gp = NULL,
+      name = "abc"
+    )
+  )
+
+  # if no name is provided, different names are assigned
+  g1 <- raster_grob(image)
+  g2 <- raster_grob(image)
+  expect_false(identical(g1$name, g2$name))
+
+  # function is not vectorized
+  expect_error(
+    raster_grob(image, c(10, 20), 20, 100, 140),
+    "not vectorized"
+  )
+
+  expect_error(
+    raster_grob(image, 10, numeric(0), 100, 140),
+    "not vectorized"
+  )
+})
+
+
 test_that("rect_grob", {
   # basic functionality, gp is set to gpar() if not provided
   expect_identical(

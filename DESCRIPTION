@@ -28,6 +28,7 @@ Imports:
 Suggests:
     covr,
     knitr,
+    png,
     rmarkdown,
     testthat,
     vdiffr

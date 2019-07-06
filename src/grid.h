@@ -30,6 +30,11 @@ List gpar_empty();
 List text_grob(CharacterVector label, NumericVector x_pt = 0, NumericVector y_pt = 0,
                RObject gp = R_NilValue, RObject name = R_NilValue);
 
+// replacement for rasterGrop(image, x_pt, y_pt, width_pt, height_pt, gp = gpar(), hjust = 0, vjust = 0, default.units = "pt", interpolate = TRUE, name = NULL)
+// [[Rcpp::export]]
+List raster_grob(RObject image, NumericVector x_pt = 0, NumericVector y_pt = 0, NumericVector width_pt = 0, NumericVector height_pt = 0,
+                 LogicalVector interpolate = true, RObject name = R_NilValue);
+
 // replacement for rectGrop(x_pt, y_pt, width_pt, height_pt, gp = gpar(), hjust = 0, vjust = 0, default.units = "pt", name = NULL)
 // [[Rcpp::export]]
 List rect_grob(NumericVector x_pt = 0, NumericVector y_pt = 0, NumericVector width_pt = 0, NumericVector height_pt = 0,

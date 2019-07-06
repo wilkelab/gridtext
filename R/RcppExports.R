@@ -73,6 +73,10 @@ grid_renderer_text_details <- function(label, gp) {
     .Call(`_gridtext_grid_renderer_text_details`, label, gp)
 }
 
+grid_renderer_raster <- function(gr, image, x, y, width, height, interpolate = TRUE) {
+    invisible(.Call(`_gridtext_grid_renderer_raster`, gr, image, x, y, width, height, interpolate))
+}
+
 grid_renderer_rect <- function(gr, x, y, width, height, gp, r = 0L) {
     invisible(.Call(`_gridtext_grid_renderer_rect`, gr, x, y, width, height, gp, r))
 }
@@ -91,6 +95,10 @@ gpar_empty <- function() {
 
 text_grob <- function(label, x_pt = 0L, y_pt = 0L, gp = NULL, name = NULL) {
     .Call(`_gridtext_text_grob`, label, x_pt, y_pt, gp, name)
+}
+
+raster_grob <- function(image, x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, interpolate = TRUE, name = NULL) {
+    .Call(`_gridtext_raster_grob`, image, x_pt, y_pt, width_pt, height_pt, interpolate, name)
 }
 
 rect_grob <- function(x_pt = 0L, y_pt = 0L, width_pt = 0L, height_pt = 0L, gp = NULL, name = NULL) {

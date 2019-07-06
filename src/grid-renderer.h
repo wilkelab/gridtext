@@ -52,6 +52,17 @@ public:
     m_grobs.push_back(text_grob(CharacterVector(label), NumericVector(1, x), NumericVector(1, y), gp));
   }
 
+  void raster(RObject image, Length x, Length y, Length width, Length height, bool interpolate = true) {
+    if (!image.isNULL()) {
+      m_grobs.push_back(
+        raster_grob(
+          image, NumericVector(1, x), NumericVector(1, y),
+          NumericVector(1, width), NumericVector(1, height), LogicalVector(1, interpolate)
+        )
+      );
+    }
+  }
+
   void rect(Length x, Length y, Length width, Length height, const GraphicsContext &gp, Length r = 0) {
     // skip drawing if nothing would show anyways
 

@@ -229,6 +229,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// grid_renderer_raster
+void grid_renderer_raster(XPtr<GridRenderer> gr, RObject image, Length x, Length y, Length width, Length height, bool interpolate);
+RcppExport SEXP _gridtext_grid_renderer_raster(SEXP grSEXP, SEXP imageSEXP, SEXP xSEXP, SEXP ySEXP, SEXP widthSEXP, SEXP heightSEXP, SEXP interpolateSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< XPtr<GridRenderer> >::type gr(grSEXP);
+    Rcpp::traits::input_parameter< RObject >::type image(imageSEXP);
+    Rcpp::traits::input_parameter< Length >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Length >::type y(ySEXP);
+    Rcpp::traits::input_parameter< Length >::type width(widthSEXP);
+    Rcpp::traits::input_parameter< Length >::type height(heightSEXP);
+    Rcpp::traits::input_parameter< bool >::type interpolate(interpolateSEXP);
+    grid_renderer_raster(gr, image, x, y, width, height, interpolate);
+    return R_NilValue;
+END_RCPP
+}
 // grid_renderer_rect
 void grid_renderer_rect(XPtr<GridRenderer> gr, Length x, Length y, Length width, Length height, List gp, Length r);
 RcppExport SEXP _gridtext_grid_renderer_rect(SEXP grSEXP, SEXP xSEXP, SEXP ySEXP, SEXP widthSEXP, SEXP heightSEXP, SEXP gpSEXP, SEXP rSEXP) {
@@ -289,6 +305,23 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< RObject >::type gp(gpSEXP);
     Rcpp::traits::input_parameter< RObject >::type name(nameSEXP);
     rcpp_result_gen = Rcpp::wrap(text_grob(label, x_pt, y_pt, gp, name));
+    return rcpp_result_gen;
+END_RCPP
+}
+// raster_grob
+List raster_grob(RObject image, NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, NumericVector height_pt, LogicalVector interpolate, RObject name);
+RcppExport SEXP _gridtext_raster_grob(SEXP imageSEXP, SEXP x_ptSEXP, SEXP y_ptSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP interpolateSEXP, SEXP nameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type image(imageSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x_pt(x_ptSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y_pt(y_ptSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type width_pt(width_ptSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type height_pt(height_ptSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type interpolate(interpolateSEXP);
+    Rcpp::traits::input_parameter< RObject >::type name(nameSEXP);
+    rcpp_result_gen = Rcpp::wrap(raster_grob(image, x_pt, y_pt, width_pt, height_pt, interpolate, name));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -375,11 +408,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_grid_renderer", (DL_FUNC) &_gridtext_grid_renderer, 0},
     {"_gridtext_grid_renderer_text", (DL_FUNC) &_gridtext_grid_renderer_text, 5},
     {"_gridtext_grid_renderer_text_details", (DL_FUNC) &_gridtext_grid_renderer_text_details, 2},
+    {"_gridtext_grid_renderer_raster", (DL_FUNC) &_gridtext_grid_renderer_raster, 7},
     {"_gridtext_grid_renderer_rect", (DL_FUNC) &_gridtext_grid_renderer_rect, 7},
     {"_gridtext_grid_renderer_collect_grobs", (DL_FUNC) &_gridtext_grid_renderer_collect_grobs, 1},
     {"_gridtext_unit_pt", (DL_FUNC) &_gridtext_unit_pt, 1},
     {"_gridtext_gpar_empty", (DL_FUNC) &_gridtext_gpar_empty, 0},
     {"_gridtext_text_grob", (DL_FUNC) &_gridtext_text_grob, 5},
+    {"_gridtext_raster_grob", (DL_FUNC) &_gridtext_raster_grob, 7},
     {"_gridtext_rect_grob", (DL_FUNC) &_gridtext_rect_grob, 6},
     {"_gridtext_roundrect_grob", (DL_FUNC) &_gridtext_roundrect_grob, 7},
     {"_gridtext_set_grob_coords", (DL_FUNC) &_gridtext_set_grob_coords, 3},

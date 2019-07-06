@@ -61,6 +61,51 @@ List text_grob(CharacterVector label, NumericVector x_pt, NumericVector y_pt, RO
   return out;
 }
 
+List raster_grob(RObject image, NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, NumericVector height_pt,
+                 LogicalVector interpolate, RObject name) {
+  if (x_pt.size() != 1 || y_pt.size() != 1 || width_pt.size() != 1 || height_pt.size() != 1) {
+    stop("Function raster_grob() is not vectorized.\n");
+  }
+
+  // need to produce a unique name for each grob, otherwise grid gets grumpy
+  static int tg_count = 0;
+  if (name.isNULL()) {
+    tg_count += 1;
+    string s("gridtext.raster.");
+    s = s + to_string(tg_count);
+    CharacterVector vs;
+    vs.push_back(s);
+    name = vs;
+  }
+
+  RObject raster = image;
+  if (!raster.inherits("nativeRaster")) {
+    // convert to raster by calling grDevices::as.raster()
+    Environment env = Environment::namespace_env("grDevices");
+    Function as_raster = env["as.raster"];
+    raster = as_raster(image);
+  }
+
+  List out = List::create(
+    _["raster"] = raster,
+    _["x"] = unit_pt(x_pt), _["y"] = unit_pt(y_pt),
+    _["width"] = unit_pt(width_pt), _["height"] = unit_pt(height_pt),
+    _["just"] = "centre", _["hjust"] = 0., _["vjust"] = 0.,
+    _["interpolate"] = interpolate,
+    _["name"] = name, _["gp"] = R_NilValue, _["vp"] = R_NilValue
+  );
+
+  Rcpp::StringVector cl(3);
+  cl(0) = "rastergrob";
+  cl(1) = "grob";
+  cl(2) = "gDesc";
+
+  out.attr("class") = cl;
+
+  return out;
+}
+
+
 
 List rect_grob(NumericVector x_pt, NumericVector y_pt, NumericVector width_pt, NumericVector height_pt,
                RObject gp, RObject name) {

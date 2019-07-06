@@ -27,6 +27,11 @@ List grid_renderer_text_details(String label, List gp) {
 }
 
 // [[Rcpp::export]]
+void grid_renderer_raster(XPtr<GridRenderer> gr, RObject image, Length x, Length y, Length width, Length height, bool interpolate = true) {
+  return gr->raster(image, x, y, width, height, interpolate);
+}
+
+// [[Rcpp::export]]
 void grid_renderer_rect(XPtr<GridRenderer> gr, Length x, Length y, Length width, Length height, List gp, Length r = 0) {
   return gr->rect(x, y, width, height, gp, r);
 }
