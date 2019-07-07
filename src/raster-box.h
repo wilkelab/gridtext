@@ -55,14 +55,10 @@ public:
     m_native_width = d.first * 72.27 / m_dpi;
     m_native_height = d.second * 72.27 / m_dpi;
 
-    if (m_width_policy == SizePolicy::native) {
-      m_width = m_native_width;
-    } else if (m_width_policy == SizePolicy::relative) {
+    if (m_width_policy == SizePolicy::relative) {
       m_rel_width = m_width/100;
     }
-    if (m_height_policy == SizePolicy::native) {
-      m_height = m_native_height;
-    } if (m_height_policy == SizePolicy::relative) {
+    if (m_height_policy == SizePolicy::relative) {
       m_rel_height = m_height/100;
     }
   }
@@ -75,7 +71,9 @@ public:
 
   void calc_layout(Length width_hint, Length height_hint) {
     if (m_width_policy == SizePolicy::native && m_height_policy == SizePolicy::native) {
-      return; // nothing to be done if image is to be placed at native size
+      m_width = m_native_width;
+      m_height = m_native_height;
+      return;
     }
 
     switch(m_width_policy) {
@@ -97,9 +95,17 @@ public:
     case SizePolicy::relative:
       m_height = height_hint * m_rel_height;
       break;
+    case SizePolicy::native:
+      m_height = m_width * m_native_height / m_native_width;
+      break;
     case SizePolicy::fixed:
     default:
       break;
+    }
+
+    // can only do this calculation after height is set
+    if (m_width_policy == SizePolicy::native) {
+      m_width = m_height * m_native_width / m_native_height;
     }
   }
 
