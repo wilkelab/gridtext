@@ -8,15 +8,16 @@ test_that("image dimensions are used", {
   # dpi = 72.27 turns lengths in pixels to lengths in pt
   rb <- bl_make_raster_box(logo, dpi = 72.27)
   bl_calc_layout(rb, 100, 100)
+  bl_place(rb, 30, 5)
   g <- bl_render(rb, 10, 20)
 
   img <- g[[1]]
-  expect_identical(img$x, unit(10, "pt"))
-  expect_identical(img$y, unit(20, "pt"))
-  expect_identical(img$width, unit(ncol(logo), "pt"))
-  expect_identical(img$height, unit(nrow(logo), "pt"))
+  expect_identical(img$x, unit(40, "pt"))
+  expect_identical(img$y, unit(25, "pt"))
+  expect_equal(img$width, unit(ncol(logo), "pt"))
+  expect_equal(img$height, unit(nrow(logo), "pt"))
 
-  # test the same now with raster object
+  # test now with raster object
   logo2 <- as.raster(logo)
   rb <- bl_make_raster_box(logo2, dpi = 72.27)
   bl_calc_layout(rb, 100, 100)
@@ -25,10 +26,10 @@ test_that("image dimensions are used", {
   img <- g[[1]]
   expect_identical(img$x, unit(10, "pt"))
   expect_identical(img$y, unit(20, "pt"))
-  expect_identical(img$width, unit(ncol(logo), "pt"))
-  expect_identical(img$height, unit(nrow(logo), "pt"))
+  expect_equal(img$width, unit(ncol(logo), "pt"))
+  expect_equal(img$height, unit(nrow(logo), "pt"))
 
-  # test the same now with nativeRaster object
+  # test now with nativeRaster object
   logo3 <- png::readPNG(logo_file, native = TRUE)
   rb <- bl_make_raster_box(logo3, dpi = 72.27)
   bl_calc_layout(rb, 100, 100)
@@ -37,8 +38,23 @@ test_that("image dimensions are used", {
   img <- g[[1]]
   expect_identical(img$x, unit(10, "pt"))
   expect_identical(img$y, unit(20, "pt"))
-  expect_identical(img$width, unit(ncol(logo), "pt"))
-  expect_identical(img$height, unit(nrow(logo), "pt"))
+  expect_equal(img$width, unit(ncol(logo), "pt"))
+  expect_equal(img$height, unit(nrow(logo), "pt"))
+
+  # dimensions are reported correctly
+  expect_equal(bl_box_width(rb), ncol(logo))
+  expect_equal(bl_box_height(rb), nrow(logo))
+  expect_equal(bl_box_ascent(rb), nrow(logo))
+  expect_identical(bl_box_descent(rb), 0)
+  expect_identical(bl_box_voff(rb), 0)
+
+  m <- 1:10
+  dim(m) <- 10
+
+  expect_error(
+    bl_make_raster_box(m),
+    "Cannot extract image dimensions."
+  )
 })
 
 
