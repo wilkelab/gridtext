@@ -21,8 +21,8 @@ bl_make_text_box <- function(label, gp, voff_pt = 0) {
     .Call(`_gridtext_bl_make_text_box`, label, gp, voff_pt)
 }
 
-bl_make_raster_box <- function(image, width_pt, height_pt, width_policy = "native", height_policy = "native", respect_aspect = TRUE, interpolate = TRUE, gp = NULL) {
-    .Call(`_gridtext_bl_make_raster_box`, image, width_pt, height_pt, width_policy, height_policy, respect_aspect, interpolate, gp)
+bl_make_raster_box <- function(image, width_pt = 0, height_pt = 0, width_policy = "native", height_policy = "native", respect_aspect = TRUE, interpolate = TRUE, dpi = 150, gp = NULL) {
+    .Call(`_gridtext_bl_make_raster_box`, image, width_pt, height_pt, width_policy, height_policy, respect_aspect, interpolate, dpi, gp)
 }
 
 bl_make_vbox <- function(nodes, width_pt = 0, hjust = 0, vjust = 1, width_policy = "native") {

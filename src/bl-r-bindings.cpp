@@ -101,15 +101,15 @@ XPtr<BoxPtr<GridRenderer> > bl_make_text_box(String label, List gp, double voff_
 
 
 // [[Rcpp::export]]
-XPtr<BoxPtr<GridRenderer> > bl_make_raster_box(RObject image, double width_pt, double height_pt,
+XPtr<BoxPtr<GridRenderer> > bl_make_raster_box(RObject image, double width_pt = 0, double height_pt = 0,
                                                String width_policy = "native", String height_policy = "native",
-                                               bool respect_aspect = true, bool interpolate = true,
+                                               bool respect_aspect = true, bool interpolate = true, double dpi = 150,
                                                List gp = R_NilValue) {
   SizePolicy w_policy = convert_size_policy(width_policy);
   SizePolicy h_policy = convert_size_policy(height_policy);
 
   XPtr<BoxPtr<GridRenderer> > p(new BoxPtr<GridRenderer>(new RasterBox<GridRenderer>(
-      image, width_pt, height_pt, gp, w_policy, h_policy, respect_aspect, interpolate)));
+      image, width_pt, height_pt, gp, w_policy, h_policy, respect_aspect, interpolate, dpi)));
 
   StringVector cl = {"bl_raster_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
