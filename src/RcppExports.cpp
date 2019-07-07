@@ -76,8 +76,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_raster_box
-XPtr<BoxPtr<GridRenderer> > bl_make_raster_box(RObject image, double width_pt, double height_pt, String width_policy, String height_policy, bool interpolate, List gp);
-RcppExport SEXP _gridtext_bl_make_raster_box(SEXP imageSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP width_policySEXP, SEXP height_policySEXP, SEXP interpolateSEXP, SEXP gpSEXP) {
+XPtr<BoxPtr<GridRenderer> > bl_make_raster_box(RObject image, double width_pt, double height_pt, String width_policy, String height_policy, bool respect_aspect, bool interpolate, List gp);
+RcppExport SEXP _gridtext_bl_make_raster_box(SEXP imageSEXP, SEXP width_ptSEXP, SEXP height_ptSEXP, SEXP width_policySEXP, SEXP height_policySEXP, SEXP respect_aspectSEXP, SEXP interpolateSEXP, SEXP gpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -86,9 +86,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type height_pt(height_ptSEXP);
     Rcpp::traits::input_parameter< String >::type width_policy(width_policySEXP);
     Rcpp::traits::input_parameter< String >::type height_policy(height_policySEXP);
+    Rcpp::traits::input_parameter< bool >::type respect_aspect(respect_aspectSEXP);
     Rcpp::traits::input_parameter< bool >::type interpolate(interpolateSEXP);
     Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
-    rcpp_result_gen = Rcpp::wrap(bl_make_raster_box(image, width_pt, height_pt, width_policy, height_policy, interpolate, gp));
+    rcpp_result_gen = Rcpp::wrap(bl_make_raster_box(image, width_pt, height_pt, width_policy, height_policy, respect_aspect, interpolate, gp));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -413,7 +414,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 3},
     {"_gridtext_bl_make_rect_box", (DL_FUNC) &_gridtext_bl_make_rect_box, 11},
     {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
-    {"_gridtext_bl_make_raster_box", (DL_FUNC) &_gridtext_bl_make_raster_box, 7},
+    {"_gridtext_bl_make_raster_box", (DL_FUNC) &_gridtext_bl_make_raster_box, 8},
     {"_gridtext_bl_make_vbox", (DL_FUNC) &_gridtext_bl_make_vbox, 5},
     {"_gridtext_bl_make_node_list", (DL_FUNC) &_gridtext_bl_make_node_list, 1},
     {"_gridtext_bl_box_width", (DL_FUNC) &_gridtext_bl_box_width, 1},
