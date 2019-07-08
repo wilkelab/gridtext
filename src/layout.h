@@ -80,11 +80,6 @@ using BoxPtr = XPtr<BoxNode<Renderer>>;
 template <class Renderer>
 using BoxList = vector<BoxPtr<Renderer>>;
 
-template <class Renderer>
-BoxNode<Renderer>* box_nullptr() {
-  return static_cast<BoxNode<Renderer>*>(nullptr);
-}
-
 // struct that holds width, ascent, etc. data for text labels
 struct TextDetails {
   Length width;    // width of the label

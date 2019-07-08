@@ -188,8 +188,8 @@ List roundrect_grob(NumericVector x_pt, NumericVector y_pt, NumericVector width_
 
 
 RObject set_grob_coords(RObject grob, NumericVector x, NumericVector y) {
-  static_cast<List>(grob)["x"] = x;
-  static_cast<List>(grob)["y"] = y;
+  as<List>(grob)["x"] = x;
+  as<List>(grob)["y"] = y;
 
   return grob;
 }

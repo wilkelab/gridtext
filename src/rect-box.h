@@ -48,7 +48,7 @@ private:
     // if height policy is `native`, we need to layout the content box
     // before deciding on the height
     if (m_height_policy == SizePolicy::native) {
-      if (m_content == box_nullptr<Renderer>()) {
+      if (!m_content) {
         // content is empty, nothing to layout
         m_height = m_margin.top + m_margin.bottom + m_padding.top + m_padding.bottom;
       } else {
@@ -73,7 +73,7 @@ private:
       }
 
       // if we have content, we still need to layout it
-      if (!(m_content == box_nullptr<Renderer>())) {
+      if (m_content) {
         Length content_width_hint = m_width - m_margin.left - m_margin.right - m_padding.left - m_padding.right;
         Length content_height_hint = m_height - m_margin.top - m_margin.bottom - m_padding.top - m_padding.bottom;
         m_content->calc_layout(content_width_hint, content_height_hint);
@@ -86,7 +86,7 @@ private:
     // if height policy is `native`, we need to layout the content box
     // before deciding on the height
     if (m_height_policy == SizePolicy::native) {
-      if (m_content == box_nullptr<Renderer>()) {
+      if (!m_content) {
         // content is empty, nothing to layout
         m_width = m_margin.left + m_margin.right + m_padding.left + m_padding.right;
         m_height = m_margin.top + m_margin.bottom + m_padding.top + m_padding.bottom;
@@ -113,7 +113,7 @@ private:
       }
 
       // height is set, but we still need to set width
-      if (m_content == box_nullptr<Renderer>()) {
+      if (!m_content) {
         // content is empty, nothing to layout
         m_width = m_margin.left + m_margin.right + m_padding.left + m_padding.right;
       } else {
@@ -162,7 +162,7 @@ public:
     }
 
     // after layouting, we need to place the content if we have some
-    if (!(m_content == box_nullptr<Renderer>())) {
+    if (m_content) {
       Length x_align = m_content_hjust *
         (m_width - m_margin.left - m_margin.right - m_padding.left - m_padding.right // available internal space
            - m_content->width()); // actual space needed
@@ -194,7 +194,7 @@ public:
     r.rect(x, y, width, height, m_gp, m_r);
 
     // if we have content we need to render it
-    if (!(m_content == box_nullptr<Renderer>())) {
+    if (m_content) {
       m_content->render(r, xref, yref);
     }
   }

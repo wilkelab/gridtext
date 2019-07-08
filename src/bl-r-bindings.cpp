@@ -91,18 +91,19 @@ BoxPtr<GridRenderer> bl_make_rect_box(RObject content, double width_pt, double h
   StringVector cl = {"bl_rect_box", "bl_box", "bl_node"};
 
   if (content.isNULL()) {
+    // R doesn't like null pointers, so we have to create
+    // a null box instead
+    BoxPtr<GridRenderer> nb(new NullBox<GridRenderer>(0, 0));
     BoxPtr<GridRenderer> p(new RectBox<GridRenderer>(
-      BoxPtr<GridRenderer>(new NullBox<GridRenderer>(0, 0)),
-      width_pt, height_pt, marg, pad, gp,
+      nb, width_pt, height_pt, marg, pad, gp,
       content_hjust, content_vjust, w_policy, h_policy, r
-      )
-    );
+    ));
 
     p.attr("class") = cl;
     return p;
   } else {
     BoxPtr<GridRenderer> p(new RectBox<GridRenderer>(
-      static_cast<BoxPtr<GridRenderer>>(content),
+      as<BoxPtr<GridRenderer>>(content),
       width_pt, height_pt, marg, pad, gp, content_hjust, content_vjust, w_policy, h_policy, r
     ));
 
