@@ -75,8 +75,8 @@ test_that("size policies, respect_aspect = FALSE", {
   expect_identical(img$height, unit(80, "pt"))
 
   rb <- bl_make_raster_box(logo, width = 50, height = 80,
-                                      width_policy = "relative", height_policy = "expand",
-                                      respect_aspect = FALSE)
+                           width_policy = "relative", height_policy = "expand",
+                           respect_aspect = FALSE)
   bl_calc_layout(rb, 200, 100)
   g <- bl_render(rb, 10, 20)
 
@@ -87,8 +87,8 @@ test_that("size policies, respect_aspect = FALSE", {
   expect_identical(img$height, unit(100, "pt"))
 
   rb <- bl_make_raster_box(logo, width = 50, height = 80,
-                                      width_policy = "expand", height_policy = "relative",
-                                      respect_aspect = FALSE)
+                           width_policy = "expand", height_policy = "relative",
+                           respect_aspect = FALSE)
   bl_calc_layout(rb, 200, 100)
   g <- bl_render(rb, 10, 20)
 
@@ -99,8 +99,8 @@ test_that("size policies, respect_aspect = FALSE", {
   expect_identical(img$height, unit(80, "pt"))
 
   rb <- bl_make_raster_box(logo, width = 50, height = 80,
-                                      width_policy = "fixed", height_policy = "native",
-                                      respect_aspect = FALSE)
+                           width_policy = "fixed", height_policy = "native",
+                           respect_aspect = FALSE)
   bl_calc_layout(rb, 200, 100)
   g <- bl_render(rb, 10, 20)
 
@@ -111,8 +111,8 @@ test_that("size policies, respect_aspect = FALSE", {
   expect_equal(img$height, unit(50*nrow(logo)/ncol(logo), "pt"))
 
   rb <- bl_make_raster_box(logo, width = 50, height = 80,
-                                      width_policy = "native", height_policy = "fixed",
-                                      respect_aspect = FALSE)
+                           width_policy = "native", height_policy = "fixed",
+                           respect_aspect = FALSE)
   bl_calc_layout(rb, 200, 100)
   g <- bl_render(rb, 10, 20)
 
@@ -129,7 +129,7 @@ test_that("size policies, respect_aspect = TRUE", {
   logo <- png::readPNG(logo_file, native = TRUE)
 
   rb <- bl_make_raster_box(logo, width = 50, height = 80,
-                                      width_policy = "fixed", height_policy = "fixed")
+                           width_policy = "fixed", height_policy = "fixed")
   bl_calc_layout(rb, 200, 100)
   g <- bl_render(rb, 10, 20)
 
@@ -145,7 +145,7 @@ test_that("size policies, respect_aspect = TRUE", {
   expect_equal(img$height, unit(img_height, "pt"))
 
   rb <- bl_make_raster_box(logo, width = 80, height = 50,
-                                      width_policy = "fixed", height_policy = "fixed")
+                           width_policy = "fixed", height_policy = "fixed")
   bl_calc_layout(rb, 200, 100)
   g <- bl_render(rb, 10, 20)
 

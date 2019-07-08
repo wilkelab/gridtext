@@ -147,11 +147,9 @@ test_that("size policies", {
   expect_identical(inner$x, unit(100 + 8 + 128, "pt"))
   expect_identical(inner$y, unit(200 + 4 + 64, "pt"))
 
-
   # native size policies with no content
-  np <- bl_make_null_ptr()
   rb <- bl_make_rect_box(
-    np, 400, 600, c(1, 2, 4, 8), c(16, 32, 64, 128), gp = gpar(),
+    NULL, 400, 600, c(1, 2, 4, 8), c(16, 32, 64, 128), gp = gpar(),
     width_policy = "native", height_policy = "native"
   )
   bl_calc_layout(rb, 50, 300)
@@ -165,7 +163,7 @@ test_that("size policies", {
   expect_identical(outer$height, unit(16 + 64, "pt"))
 
   rb <- bl_make_rect_box(
-    np, 400, 600, c(1, 2, 4, 8), c(16, 32, 64, 128), gp = gpar(),
+    NULL, 400, 600, c(1, 2, 4, 8), c(16, 32, 64, 128), gp = gpar(),
     width_policy = "native", height_policy = "fixed"
   )
   bl_calc_layout(rb, 50, 300)
@@ -178,7 +176,7 @@ test_that("size policies", {
   expect_identical(outer$height, unit(600 - 1 - 4, "pt"))
 
   rb <- bl_make_rect_box(
-    np, 400, 600, c(1, 2, 4, 8), c(16, 32, 64, 128), gp = gpar(),
+    NULL, 400, 600, c(1, 2, 4, 8), c(16, 32, 64, 128), gp = gpar(),
     width_policy = "fixed", height_policy = "native"
   )
   bl_calc_layout(rb, 50, 300)
