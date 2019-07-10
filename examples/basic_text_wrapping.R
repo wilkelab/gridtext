@@ -63,3 +63,9 @@ f_R <- function(tokens, gp) {
 
 microbenchmark::microbenchmark(f_cpp(tokens, gp), f_R(tokens, gp))
 
+#Unit: milliseconds
+#expr       min        lq      mean    median        uq     max neval cld
+#f_cpp(tokens, gp)  4.537691  4.808834  6.588091  4.999861  5.457455 95.4704   100  a
+#f_R(tokens, gp) 42.701811 44.540471 49.919256 46.534379 53.106347 92.6019   100   b
+
+

@@ -16,23 +16,30 @@ text_details <- function(label, gp = gpar()) {
   fontfamily <- gp$fontfamily %||% grid::get.gpar("fontfamily")$fontfamily
   fontface <- gp$fontface %||% grid::get.gpar("fontface")$fontface
   fontsize <- gp$fontsize %||% grid::get.gpar("fontsize")$fontsize
-  fontkey <- paste0(fontfamily, fontface, fontsize)
+
+  devname <- names(grDevices::dev.cur())
+  fontkey <- paste0(devname, fontfamily, fontface, fontsize)
+  if (devname == "null device") {
+    cache <- FALSE   # don't cache if no device open
+  } else {
+    cache <- TRUE
+  }
 
   if (length(fontkey) != 1 || length(label) != 1) {
     stop("Function `text_details()` is not vectorized.", call. = FALSE)
   }
 
   # ascent and width depend on label and font
-  l1 <- text_info(label, fontkey, fontfamily, fontface, fontsize)
+  l1 <- text_info(label, fontkey, fontfamily, fontface, fontsize, cache)
   # descent and space width depend only on font
-  l2 <- font_info(fontkey, fontfamily, fontface, fontsize)
+  l2 <- font_info(fontkey, fontfamily, fontface, fontsize, cache)
 
   # concatenate, result is a list with four members, width_pt, ascent_pt, descent_pt, space_pt
   c(l1, l2)
 }
 
 font_info_cache <- new.env(parent = emptyenv())
-font_info <- function(fontkey, fontfamily, fontface, fontsize) {
+font_info <- function(fontkey, fontfamily, fontface, fontsize, cache) {
   info <- font_info_cache[[fontkey]]
 
   if (is.null(info)) {
@@ -57,13 +64,16 @@ font_info <- function(fontkey, fontfamily, fontface, fontsize) {
     )), "pt", valueOnly = TRUE)
 
     info <- list(descent_pt = descent_pt, space_pt = space_pt)
-    font_info_cache[[fontkey]] <- info
+
+    if (cache) {
+      font_info_cache[[fontkey]] <- info
+    }
   }
   info
 }
 
 text_info_cache <- new.env(parent = emptyenv())
-text_info <- function(label, fontkey, fontfamily, fontface, fontsize) {
+text_info <- function(label, fontkey, fontfamily, fontface, fontsize, cache) {
   key <- paste0(label, fontkey)
   info <- text_info_cache[[key]]
 
@@ -89,7 +99,10 @@ text_info <- function(label, fontkey, fontfamily, fontface, fontsize) {
     )), "pt", valueOnly = TRUE)
 
     info <- list(width_pt = width_pt, ascent_pt = ascent_pt)
-    text_info_cache[[key]] <- info
+
+    if (cache) {
+      text_info_cache[[key]] <- info
+    }
   }
   info
 }
