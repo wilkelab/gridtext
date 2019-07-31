@@ -6,6 +6,8 @@ using namespace Rcpp;
 
 #include "grid.h"
 #include "layout.h"
+#include "glue.h"
+#include "penalty.h"
 
 /* The ParBox class takes a list of boxes and lays them out
  * horizontally, breaking lines if necessary. The reference point
@@ -29,11 +31,17 @@ private:
   // calculated left baseline corner of the box after layouting
   Length m_x, m_y;
 
+  vector<Length> m_sum_widths, m_sum_stretch, m_sum_shrink;
+
 public:
   ParBox(const BoxList<Renderer>& nodes, Length vspacing, Length hspacing) :
     m_nodes(nodes), m_vspacing(vspacing), m_hspacing(hspacing),
     m_width(0), m_ascent(0), m_descent(0), m_voff(0),
-    m_x(0), m_y(0) {}
+    m_x(0), m_y(0) {
+    m_sum_widths.resize(nodes.size());
+    m_sum_stretch.resize(nodes.size());
+    m_sum_shrink.resize(nodes.size());
+  }
   ~ParBox() {};
 
   Length width() { return m_width; }
@@ -95,6 +103,85 @@ public:
     for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
       (*i_node)->render(r, xref + m_x, yref + m_voff + m_y + m_multiline_shift);
     }
+  }
+
+  bool is_feasible_breakpoint(size_t i) {
+    // we can break at position i if either i is a penalty less than infinity
+    // or if it is a glue and the previous node is a box
+    auto node = m_nodes[i];
+    if (node->type() == NodeType::penalty) {
+      if (static_cast<Penalty<Renderer>*>(node)->penalty() < Penalty<Renderer>::infinity) {
+        return true;
+      }
+    }
+    else if (i > 0 && node->type() == NodeType::glue) {
+      if (m_nodes[i-1]->type() == NodeType::box) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool is_forced_break(size_t i) {
+    // a penalty of -infinity is a forced break
+    auto node = m_nodes[i];
+    if (node->type() == NodeType::penalty) {
+      if (static_cast<Penalty<Renderer>*>(node)->penalty() <= -1*Penalty<Renderer>::infinity) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Length measure_width(size_t i1, size_t i2) {
+    return m_sum_widths[i2] - m_sum_widths[i1];
+  }
+
+  Length measure_stretch(size_t i1, size_t i2) {
+    return m_sum_stretch[i2] - m_sum_stretch[i1];
+  }
+
+  Length measure_shrink(size_t i1, size_t i2) {
+    return m_sum_shrink[i2] - m_sum_shrink[i1];
+  }
+
+  double compute_adjustment_ratio(size_t i1, size_t i2, size_t line, const vector<Length> &line_lengths) {
+    Length len = measure_width(i1, i2);
+
+    // TODO: Are these two lines correct? They seem strange; needs to be checked.
+    if (m_nodes[i2]->type() == NodeType::penalty) {
+      len = len + m_nodes[i2]->width();
+    }
+
+    // we obtain the available length of the current line
+    // from the vector of line lengths or, if we have used them up,
+    // from the last line length
+    Length len_avail;
+    if (line < line_lengths.size()) {
+      len_avail = line_lengths[line];
+    } else {
+      len_avail = line_lengths.back();
+    }
+
+    double r = 0; // adjustment ratio
+    if (len < len_avail) { // if length is smaller than available length, need to stretch
+      Length stretch =  measure_stretch(i1, i2);
+      if (stretch > 0) {
+        r = (len_avail - len)/stretch;
+      } else {
+        r = Glue<Renderer>::infinity;
+      }
+    } else if (len > len_avail) { // if length is larger than available length, need to shrink
+      Length shrink =  measure_shrink(i1, i2);
+      if (shrink > 0) {
+        r = (len_avail - len)/shrink;
+      } else {
+        r = Glue<Renderer>::infinity; // TODO: Should this be -infinity?
+      }
+    }
+    // r = 0 if len == len_avail
+
+    return r;
   }
 };
 
