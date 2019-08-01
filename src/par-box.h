@@ -4,10 +4,14 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+#include <list>
+using namespace std;
+
 #include "grid.h"
 #include "layout.h"
 #include "glue.h"
 #include "penalty.h"
+
 
 /* The ParBox class takes a list of boxes and lays them out
  * horizontally, breaking lines if necessary. The reference point
@@ -32,6 +36,47 @@ private:
   Length m_x, m_y;
 
   vector<Length> m_sum_widths, m_sum_stretch, m_sum_shrink;
+
+  // internal class representing an active breakpoint
+  struct Breakpoint {
+    size_t position, line;
+    int fitness_class;
+    Length totalwidth, totalstretch, totalshrink;
+    int demerits;
+    Breakpoint* previous;
+
+    Breakpoint(size_t _position, size_t _line, int _fitness_class,
+               Length _totalwidth, Length _totalstretch, Length _totalshrink,
+               int _demerits, Breakpoint* _previous = nullptr) :
+      position(_position), line(_line), fitness_class(_fitness_class),
+      totalwidth(_totalwidth), totalstretch(_totalstretch),
+      totalshrink(_totalshrink), demerits(_demerits), previous(_previous)
+    {};
+  };
+
+  using BreakpointList = list<Breakpoint>;
+
+  // convenience function
+  void add_active_node(BreakpointList &active_nodes, const Breakpoint &node) {
+    // find the first position at which the line number of the new node
+    // exceeds the line number of the node in the list
+    auto i_node = active_nodes.begin();
+    while (i_node != active_nodes.end() && i_node->line < node.line) {
+      i_node++;
+    }
+    auto i_node_insert = i_node; // store insertion point
+
+    // now check if there's another node with the same line number,
+    // position, and fitness; if yes, drop the new node
+    while (i_node != active_nodes.end() && i_node->line == node.line) {
+      if (i_node->fitness_class == node.fitness_class && i_node->position == node.position) {
+        return;
+      }
+      i_node++;
+    }
+
+    active_nodes.insert(i_node_insert, node);
+  }
 
 public:
   ParBox(const BoxList<Renderer>& nodes, Length vspacing, Length hspacing) :
@@ -92,6 +137,7 @@ public:
     m_descent = descent;
     m_width = width_hint;
   }
+
 
   void place(Length x, Length y) {
     m_x = x;
@@ -183,6 +229,7 @@ public:
 
     return r;
   }
+
 };
 
 #endif
