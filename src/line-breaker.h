@@ -22,12 +22,16 @@ template <class Renderer>
 class LineBreaker {
 private:
   const BoxList<Renderer> &m_nodes;
-  size_t m; // number of nodes
+  const vector<Length> &m_line_lengths;
+  double m_tolerance;
+  double m_fitness_demerit, m_flagged_demerit;
+
+  size_t m_m; // number of nodes
 
   // vectors w, y, z, p, f as in the paper
-  vector<Length> w, y, z;
-  vector<double> p;
-  vector<bool> f;
+  vector<Length> m_w, m_y, m_z;
+  vector<double> m_p;
+  vector<bool> m_f;
 
   // sums of widths, stretch, and shrink
   vector<Length> m_sum_widths, m_sum_stretch, m_sum_shrink;
@@ -114,7 +118,7 @@ private:
     return m_sum_shrink[i2] - m_sum_shrink[i1];
   }
 
-  double compute_adjustment_ratio(size_t i1, size_t i2, size_t line, const vector<Length> &line_lengths) {
+  double compute_adjustment_ratio(size_t i1, size_t i2, size_t line) {
     Length len = measure_width(i1, i2);
 
     // if we're breaking at a penalty and it has a width, need to account for it
@@ -127,10 +131,10 @@ private:
     // from the vector of line lengths or, if we have used them up,
     // from the last line length
     Length len_avail;
-    if (line < line_lengths.size()) {
-      len_avail = line_lengths[line];
+    if (line < m_line_lengths.size()) {
+      len_avail = m_line_lengths[line];
     } else {
-      len_avail = line_lengths.back();
+      len_avail = m_line_lengths.back();
     }
 
     double r = 0; // adjustment ratio
@@ -165,7 +169,7 @@ private:
     return fitness_class;
   }
 
-  double compute_demerits(double p, double r, bool forced_break, bool f_i, bool f_a, int fitness_class, int fitness_class_active, double flagged_demerit, double fitness_demerit) {
+  double compute_demerits(double p, double r, bool forced_break, bool f_i, bool f_a, int fitness_class, int fitness_class_active) {
     double demerits;
 
     if (p >= 0) {
@@ -177,11 +181,11 @@ private:
     }
 
     // adjust demeteris for flagged items
-    demerits = demerits + (flagged_demerit * f_i * f_a);
+    demerits = demerits + (m_flagged_demerit * f_i * f_a);
 
     // add demerits for changes in fitness class
     if (abs(fitness_class - fitness_class_active) > 1) {
-      demerits = demerits + fitness_demerit;
+      demerits = demerits + m_fitness_demerit;
     }
 
     return demerits;
@@ -189,66 +193,66 @@ private:
 
 
 public:
-  LineBreaker(const BoxList<Renderer>& nodes) :
-    m_nodes(nodes) {
-    size_t m = m_nodes.size();
+  LineBreaker(const BoxList<Renderer>& nodes, const vector<Length> &line_lengths, double tolerance = 1,
+              double fitness_demerit = 100, double flagged_demerit = 100) :
+    m_nodes(nodes), m_line_lengths(line_lengths), m_tolerance(tolerance), m_fitness_demerit(fitness_demerit),
+    m_flagged_demerit(flagged_demerit) {
+    m_m = nodes.size();
 
     // set up vectors with the five possible values (w, y, z, p, f)
     // for each node
-    w.reserve(m);
-    y.reserve(m);
-    z.reserve(m);
-    p.reserve(m);
-    f.reserve(m);
+    m_w.reserve(m_m);
+    m_y.reserve(m_m);
+    m_z.reserve(m_m);
+    m_p.reserve(m_m);
+    m_f.reserve(m_m);
 
     for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
-      w.push_back(i_node->width());
+      m_w.push_back(i_node->width());
       if (i_node->type() == NodeType::glue) {
-        y.push_back(static_cast<Glue<Renderer>*>(i_node)->stretch());
-        z.push_back(static_cast<Glue<Renderer>*>(i_node)->shrink());
-        p.push_back(0);
-        f.push_back(false);
+        m_y.push_back(static_cast<Glue<Renderer>*>(i_node)->stretch());
+        m_z.push_back(static_cast<Glue<Renderer>*>(i_node)->shrink());
+        m_p.push_back(0);
+        m_f.push_back(false);
       } else if (i_node->type() == NodeType::penalty) {
-        y.push_back(0);
-        z.push_back(0);
-        p.push_back(static_cast<Penalty<Renderer>*>(i_node)->penalty());
-        f.push_back(static_cast<Penalty<Renderer>*>(i_node)->flagged());
+        m_y.push_back(0);
+        m_z.push_back(0);
+        m_p.push_back(static_cast<Penalty<Renderer>*>(i_node)->penalty());
+        m_f.push_back(static_cast<Penalty<Renderer>*>(i_node)->flagged());
       } else {
-        y.push_back(0);
-        z.push_back(0);
-        p.push_back(0);
-        f.push_back(false);
+        m_y.push_back(0);
+        m_z.push_back(0);
+        m_p.push_back(0);
+        m_f.push_back(false);
       }
     }
 
     // pre-compute sums
-    m_sum_widths.resize(m);
-    m_sum_stretch.resize(m);
-    m_sum_shrink.resize(m);
+    m_sum_widths.resize(m_m);
+    m_sum_stretch.resize(m_m);
+    m_sum_shrink.resize(m_m);
     Length widths_sum = 0;
     Length stretch_sum = 0;
     Length shrink_sum = 0;
-    for (size_t i = 0; i < m; i++) {
+    for (size_t i = 0; i < m_m; i++) {
       m_sum_widths[i] = widths_sum;
       m_sum_stretch[i] = stretch_sum;
       m_sum_shrink[i] = shrink_sum;
 
-      widths_sum = widths_sum + w[i];
-      stretch_sum = stretch_sum + y[i];
-      shrink_sum  = shrink_sum + z[i];
+      widths_sum = widths_sum + m_w[i];
+      stretch_sum = stretch_sum + m_y[i];
+      shrink_sum  = shrink_sum + m_z[i];
     }
   }
 
 
-
   // TODO: Do we really want to return a vector? Probably not.
-  BreaksList compute_breaks(const vector<Length> &line_lengths, double tolerance = 1,
-                            double fitness_demerit = 100, double flagged_demerit = 100) {
+  BreaksList compute_breaks() {
     // tolerance is \rho in the paper
     // fitness_demerit is \gamma in the paper
 
     // if there are no nodes we have no breaks
-    if (m == 0) {
+    if (m_m == 0) {
       return BreaksList();
     }
 
@@ -257,7 +261,7 @@ public:
     BreakpointList active_nodes;
     active_nodes.emplace_back(0, 0, 1, 0, 0, 0, 0);
 
-    for (size_t i = 0; i < m; i++) {
+    for (size_t i = 0; i < m_m; i++) {
       // we can only break at feasible breakpoints
       if (is_feasible_breakpoint(i)) {
         BreaksList breaks; // list of new possible breakpoints
@@ -268,7 +272,7 @@ public:
         // need to use a while loop because we modify the list as we iterate
         auto i_active = active_nodes.begin();
         while (i_active != active_nodes.end()) {
-          double r = compute_adjustment_ratio(i_active->position, i, i_active->line, line_lengths);
+          double r = compute_adjustment_ratio(i_active->position, i, i_active->line);
 
           // remove active nodes when forced break or overfull line
           if (r < -1 || is_forced_break(i)) {
@@ -277,11 +281,11 @@ public:
             continue;
           }
 
-          if (-1 <= r <= tolerance) {
+          if (-1 <= r <= m_tolerance) {
             int fitness_class = compute_fitness_class(r);
             double demerits = compute_demerits(
-              p[i], r, is_forced_break(i), f[i], f[i_active->position],
-              fitness_class, i_active->fitness_class, flagged_demerit, fitness_demerit
+              m_p[i], r, is_forced_break(i), m_f[i], m_f[i_active->position],
+              fitness_class, i_active->fitness_class
             );
 
             // record feasible break from A to i
