@@ -5,6 +5,8 @@
 using namespace Rcpp;
 
 #include <list>
+#include <cmath>
+#include <algorithm>
 using namespace std;
 
 #include "grid.h"
@@ -55,6 +57,7 @@ private:
   };
 
   using BreakpointList = list<Breakpoint>;
+  using BreaksList = vector<size_t>;
 
   // convenience function
   void add_active_node(BreakpointList &active_nodes, const Breakpoint &node) {
@@ -83,9 +86,6 @@ public:
     m_nodes(nodes), m_vspacing(vspacing), m_hspacing(hspacing),
     m_width(0), m_ascent(0), m_descent(0), m_voff(0),
     m_x(0), m_y(0) {
-    m_sum_widths.resize(nodes.size());
-    m_sum_stretch.resize(nodes.size());
-    m_sum_shrink.resize(nodes.size());
   }
   ~ParBox() {};
 
@@ -230,6 +230,164 @@ public:
     return r;
   }
 
+  // TODO: Do we really want to return a vector? Probably not.
+  vector<size_t> compute_breaks(const vector<Length> &line_lengths, double tolerance = 1,
+                                double fitness_demerit = 100, double flagged_demerit = 100) {
+    size_t m = m_nodes.size();
+
+    // if there are no nodes we have no breaks
+    if (m == 0) {
+      return BreaksList();
+    }
+
+    // set up vectors with the five possible values (w, y, z, p, f)
+    // for each node
+    vector<Length> w, y, z;
+    vector<double> p;
+    vector<bool> f;
+    w.reserve(m);
+    y.reserve(m);
+    z.reserve(m);
+    p.reserve(m);
+    f.reserve(m);
+
+    for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
+      w.push_back(i_node->width());
+      if (i_node->type() == NodeType::glue) {
+        y.push_back(static_cast<Glue<Renderer>*>(i_node)->stretch());
+        z.push_back(static_cast<Glue<Renderer>*>(i_node)->shrink());
+        p.push_back(0);
+        f.push_back(false);
+      } else if (i_node->type() == NodeType::penalty) {
+        y.push_back(0);
+        z.push_back(0);
+        p.push_back(static_cast<Penalty<Renderer>*>(i_node)->penalty());
+        f.push_back(static_cast<Penalty<Renderer>*>(i_node)->flagged());
+      } else {
+        y.push_back(0);
+        z.push_back(0);
+        p.push_back(0);
+        f.push_back(false);
+      }
+    }
+
+    // pre-compute sums
+    m_sum_widths.resize(m);
+    m_sum_stretch.resize(m);
+    m_sum_shrink.resize(m);
+    Length widths_sum = 0;
+    Length stretch_sum = 0;
+    Length shrink_sum = 0;
+    for (size_t i = 0; i < m; i++) {
+      m_sum_widths[i] = widths_sum;
+      m_sum_stretch[i] = stretch_sum;
+      m_sum_shrink[i] = shrink_sum;
+
+      widths_sum = widths_sum + w[i];
+      stretch_sum = stretch_sum + y[i];
+      shrink_sum  = shrink_sum + z[i];
+    }
+
+    // set up list of active nodes, initialize with
+    // break at beginning of text
+    BreakpointList active_nodes;
+    active_nodes.emplace_back(0, 0, 1, 0, 0, 0, 0);
+
+    for (size_t i = 0; i < m; i++) {
+      // we can only break at feasible breakpoints
+      if (is_feasible_breakpoint(i)) {
+        BreaksList breaks; // list of new possible breakpoints
+
+        // iterate over all currently active nodes and evaluate breaking
+        // between there and i
+
+        // need to use a while loop because we modify the list as we iterate
+        auto i_active = active_nodes.begin();
+        while (i_active != active_nodes.end()) {
+          double r = compute_adjustment_ratio(i_active->position, i, i_active->line, line_lengths);
+
+          // remove active nodes when forced break
+          // TODO: Do we have to prevent removal of the first node?
+          // And what happens to the forced break node? How is it added?
+          if (r < -1 || is_forced_break(i)) {
+            i_active = active_nodes.erase(i_active); // this advances the iterator
+            continue;
+          }
+
+          if (-1 <= r <= tolerance) {
+            double demerits;
+
+            // compute demeterits
+            if (p[i] >= 0) {
+              demerits = pow(1 + 100 * pow(abs(r), 3) + p[i], 3);
+            } else if (is_forced_break(i)) {
+              demerits = pow(1 + 100 * pow(abs(r), 3), 2) - pow(p[i], 2);
+            } else {
+              demerits = pow(1 + 100 * pow(abs(r), 3), 2);
+            }
+
+            // adjust demeteris for flagged items
+            demerits = demerits + (flagged_demerit * f[i] * f[i_active->position]);
+
+            // next, determine the fitness class of the line (very tight, tight, loose, etc)
+            int fitness_class;
+            if  (r < -.5) fitness_class = 0;
+            else if (r <= .5) fitness_class = 1;
+            else if (r <= 1) fitness_class = 2;
+            else fitness_class = 3;
+
+            // add demerits for changes in fitness class
+            if (abs(fitness_class - i_active->fitness_class) > 1) {
+              demerits = demerits + fitness_demerit;
+            }
+
+            // recrod feasible break from A to i
+            breaks.emplace_back(
+              i, i_active->line + 1, fitness_class,
+              m_sum_widths[i], m_sum_stretch[i], m_sum_shrink[i],
+              demerits
+            );
+          }
+          i_active++;
+        }
+        // add all the new breaks to the list of active nodes
+        for (auto i_brk = breaks.begin(); i_brk != breaks.end(); i_brk++) {
+          add_active_node(active_nodes, *i_brk);
+        }
+      }
+
+      // find the active node with the lowest number of demerits
+      // TODO: handle empty list correctly
+      // This relates to the removal of nodes for forced breaks above
+      auto i_active = active_nodes.begin();
+      double min_demerits = i_active->demerits;
+      auto i_min = i_active;
+      while (true) {
+        // this assumes there is at least one node in the list
+        i_active++;
+        if (i_active == active_nodes.end()) {
+          break;
+        }
+        if (i_active->demerits < min_demerits) {
+          min_demerits = i_active->demerits;
+          i_min = i_active;
+        }
+      }
+
+      // now build a list of break points going backwards from minimum
+      // demerits node to beginning
+      vector<size_t> final_breaks;
+      Breakpoint *p_node = i_min;
+      while (p_node != nullptr) {
+        final_breaks.push_back(p_node->position);
+        p_node = p_node->previous;
+      }
+      reverse(final_breaks.begin(), final_breaks.end());
+
+      // TODO: Need to return the final result. Also, where do we keep track of the
+      // final r for each line? Currently it looks like we're throwing it away.
+    }
+  }
 };
 
 #endif
