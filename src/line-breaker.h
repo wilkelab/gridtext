@@ -4,35 +4,57 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#include <list>
-#include <cmath>
-#include <algorithm>
-#include <memory>
-using namespace std;
-
 #include "layout.h"
 #include "glue.h"
 #include "penalty.h"
 
 
-/* The LineBreaker class implements the Knuth-Plass algorithm, as described in
- * Knuth & Plass 1981
- */
+// naive line breaker
+
+template <class Renderer>
+class LineBreaker {
+private:
+  const BoxList<Renderer> &m_nodes;
+  const vector<Length> &m_line_lengths;
+
+  // to write unit tests that have access to private members
+  friend class TestLineBreaker;
+
+public:
+  LineBreaker(const BoxList<Renderer>& nodes, const vector<Length> &line_lengths) :
+    m_nodes(nodes), m_line_lengths(line_lengths) {
+  }
+};
+
+/***************************************************************
+ This code was never fully implemented and is currently disabled.
+
+#include <cmath>
+#include <algorithm>
+#include <memory>
+#include <list>
+#include <array>
+using namespace std;
+
+// The LineBreaker class implements the Knuth-Plass algorithm, as described in
+// Knuth & Plass 1981
+
 
 // support class representing an active breakpoint
 struct Breakpoint {
   size_t position, line;
   int fitness_class;
-  Length totalwidth, totalstretch, totalshrink;
+  // these are in the original paper but are not needed
+  //Length totalwidth, totalstretch, totalshrink;
   int demerits;
   Breakpoint* previous;
 
   Breakpoint(size_t _position, size_t _line, int _fitness_class,
-             Length _totalwidth, Length _totalstretch, Length _totalshrink,
+             //Length _totalwidth, Length _totalstretch, Length _totalshrink,
              int _demerits, Breakpoint* _previous = nullptr) :
     position(_position), line(_line), fitness_class(_fitness_class),
-    totalwidth(_totalwidth), totalstretch(_totalstretch),
-    totalshrink(_totalshrink), demerits(_demerits), previous(_previous)
+    //totalwidth(_totalwidth), totalstretch(_totalstretch), totalshrink(_totalshrink),
+    demerits(_demerits), previous(_previous)
   {};
 };
 
@@ -44,8 +66,6 @@ private:
   const vector<Length> &m_line_lengths;
   double m_tolerance;
   double m_fitness_demerit, m_flagged_demerit;
-
-  size_t m_m; // number of nodes
 
   // vectors w, y, z, p, f as in the paper
   vector<Length> m_w, m_y, m_z;
@@ -207,15 +227,15 @@ public:
     // tolerance is \rho in the paper
     // fitness_demerit is \gamma in the paper
 
-    m_m = nodes.size();
+    size_t m = nodes.size();
 
     // set up vectors with the five possible values (w, y, z, p, f)
     // for each node
-    m_w.reserve(m_m);
-    m_y.reserve(m_m);
-    m_z.reserve(m_m);
-    m_p.reserve(m_m);
-    m_f.reserve(m_m);
+    m_w.reserve(m);
+    m_y.reserve(m);
+    m_z.reserve(m);
+    m_p.reserve(m);
+    m_f.reserve(m);
 
     for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
       m_w.push_back((*i_node)->width());
@@ -238,13 +258,13 @@ public:
     }
 
     // pre-compute sums
-    m_sum_widths.resize(m_m);
-    m_sum_stretch.resize(m_m);
-    m_sum_shrink.resize(m_m);
+    m_sum_widths.resize(m);
+    m_sum_stretch.resize(m);
+    m_sum_shrink.resize(m);
     Length widths_sum = 0;
     Length stretch_sum = 0;
     Length shrink_sum = 0;
-    for (size_t i = 0; i < m_m; i++) {
+    for (size_t i = 0; i < m; i++) {
       m_sum_widths[i] = widths_sum;
       m_sum_stretch[i] = stretch_sum;
       m_sum_shrink[i] = shrink_sum;
@@ -255,15 +275,15 @@ public:
     }
   }
 
-
-  // TODO: Do we really want to return a vector? Probably not.
   void compute_breaks(vector<size_t> &final_breaks) {
     // we return the final breaks via this argument;
     // clear this vector to make sure we're starting from a clean slate
     final_breaks.clear();
 
+    size_t m = m_nodes.size();
+
     // if there are no nodes we have no breaks
-    if (m_m == 0) {
+    if (m == 0) {
       return;
     }
 
@@ -271,62 +291,71 @@ public:
     // break at beginning of text
     m_active_nodes.clear();
     m_passive_nodes.clear();
-    auto ptr = unique_ptr<Breakpoint>(new Breakpoint(0, 0, 1, 0, 0, 0, 0));
+    auto ptr = unique_ptr<Breakpoint>(new Breakpoint(0, 0, 1, 0));
     m_active_nodes.push_back(ptr);
 
-    for (size_t i = 0; i < m_m; i++) {
+    for (size_t b = 0; b < m; b++) {
       // we can only break at feasible breakpoints
-      if (is_feasible_breakpoint(i)) {
-        vector<unique_ptr<Breakpoint>> breaks; // list of new possible breakpoints
-
-        // iterate over all currently active nodes and evaluate breaking
-        // between there and i
-
-        // need to use a while loop because we modify the list as we iterate
+      if (is_feasible_breakpoint(b)) {
+        // main loop, p. 1159
         auto i_active = m_active_nodes.begin();
-        while (i_active != m_active_nodes.end()) {
-          double r = compute_adjustment_ratio((*i_active)->position, i, (*i_active)->line);
+        do {
+          array<double, 4> Dc = {Penalty<Renderer>::infinity, Penalty<Renderer>::infinity,
+                                 Penalty<Renderer>::infinity, Penalty<Renderer>::infinity};
+          double D = Penalty<Renderer>::infinity;
+          array<Breakpoint*, 4> Ac = {nullptr, nullptr, nullptr, nullptr};
 
-          // remove active nodes when forced break or overfull line
-          if (r < -1 || is_forced_break(i)) {
-            m_passive_nodes.push_back(*i_active);
-            i_active = m_active_nodes.erase(i_active); // this advances the iterator
-            continue;
+          // iterate over all currently active nodes and evaluate breaking
+          // between there and b; we need to pay attention because we modify
+          // the list as we iterate
+          while (i_active != m_active_nodes.end()) {
+            double r = compute_adjustment_ratio((*i_active)->position, b, (*i_active)->line);
+
+            // remove active nodes when overfull line or forced break
+            if (r < -1 || is_forced_break(b)) {
+              m_passive_nodes.push_back(*i_active);
+              i_active = m_active_nodes.erase(i_active); // this advances the iterator
+              continue; // to avoid incrementing i_active twice
+            }
+            if (-1 <= r <= m_tolerance) {
+              int fitness_class = compute_fitness_class(r);
+              double d = compute_demerits(b, (*i_active)->position, r, fitness_class, (*i_active)->fitness_class);
+
+              if (d < Dc[fitness_class]) {
+                Dc[fitness_class] = d;
+                Ac[fitness_class] = (i_active);
+                if (d < D) D = d; // keep track of overall minimum demerits
+              }
+            }
+            i_active++;
+            // the paper lists a shortcut that we skip for now:
+            //   if line(a) >= j and j < j_0 then exit loop
+            // should this be j > j_0?
           }
-
-          if (-1 <= r <= m_tolerance) {
-            int fitness_class = compute_fitness_class(r);
-            double demerits = compute_demerits(i, (*i_active)->position, r, fitness_class, (*i_active)->fitness_class);
-
-            // record feasible break from A to i
-            auto ptr = unique_ptr<Breakpoint>(
-              new Breakpoint(
-                i, (*i_active)->line + 1, fitness_class,
-                m_sum_widths[i], m_sum_stretch[i], m_sum_shrink[i],
-                demerits
-              )
-            );
-            breaks.push_back(ptr);
-
+          if (D < Penalty<Renderer>::infinity) {
+            // insert new active nodes for breaks from A_c to b
+            for (int c = 0; c < 4; c++) {
+              if (Dc[c] < D + m_fitness_demerit) {
+                auto ptr = unique_ptr<Breakpoint>(
+                  new Breakpoint(b, Ac[c]->line + 1, c, Dc[c], Ac[c])
+                );
+                m_active_nodes.insert(i_active, ptr);
+              }
+            }
           }
-          i_active++;
-        }
-        // add all the new breaks to the list of active nodes
-        for (auto i_brk = breaks.begin(); i_brk != breaks.end(); i_brk++) {
-          add_active_node(*i_brk);
-        }
-        breaks.clear();
+        } while (i_active != m_active_nodes.end());
+      }
+
+      if (m_active_nodes.size() == 0) {
+        // TODO
+        // do something drastic since there is no feasible solution
       }
 
       // find the active node with the lowest number of demerits
-      // TODO: handle empty list correctly
-      // If the list is empty, we restore the last removed node and a node at the current
-      // breakpoint
       auto i_active = m_active_nodes.begin();
       double min_demerits = (*i_active)->demerits;
       auto i_min = i_active;
       while (true) {
-        // this assumes there is at least one node in the list
         i_active++;
         if (i_active == m_active_nodes.end()) {
           break;
@@ -349,4 +378,6 @@ public:
   }
 };
 
+
+*/
 #endif
