@@ -301,7 +301,7 @@ public:
             // record feasible break from A to i
             auto ptr = unique_ptr<Breakpoint>(
               new Breakpoint(
-                i, i_active->line + 1, fitness_class,
+                i, (*i_active)->line + 1, fitness_class,
                 m_sum_widths[i], m_sum_stretch[i], m_sum_shrink[i],
                 demerits
               )
@@ -323,7 +323,7 @@ public:
       // If the list is empty, we restore the last removed node and a node at the current
       // breakpoint
       auto i_active = m_active_nodes.begin();
-      double min_demerits = i_active->demerits;
+      double min_demerits = (*i_active)->demerits;
       auto i_min = i_active;
       while (true) {
         // this assumes there is at least one node in the list
