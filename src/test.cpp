@@ -5,6 +5,7 @@
 #include "par-box.h"
 #include "rect-box.h"
 #include "text-box.h"
+#include "glue.h"
 #include "grid-renderer.h"
 
 // [[Rcpp::export]]
@@ -12,10 +13,18 @@ RObject test_par_box(CharacterVector tokens, double box_width, double x, double 
   // build list of grob boxes
   BoxList<GridRenderer> nodes;
 
-  int i_width = 0;
+  int i = 0;
   for (auto i_token = tokens.begin(); i_token != tokens.end(); i_token++) {
     nodes.push_back(BoxPtr<GridRenderer>(new TextBox<GridRenderer>(*i_token, gp, 0)));
-    i_width++;
+    nodes.push_back(BoxPtr<GridRenderer>(new RegularSpaceGlue<GridRenderer>(gp)));
+    i++;
+    if (i == 15) {
+      nodes.push_back(BoxPtr<GridRenderer>(new ForcedBreakPenalty<GridRenderer>()));
+    }
+    if (i == 30) {
+      nodes.push_back(BoxPtr<GridRenderer>(new ForcedBreakPenalty<GridRenderer>()));
+      nodes.push_back(BoxPtr<GridRenderer>(new ForcedBreakPenalty<GridRenderer>()));
+    }
   }
 
   TextDetails td = GridRenderer::text_details("abc", gp);

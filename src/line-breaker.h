@@ -4,6 +4,8 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+#include <iostream>
+
 #include "layout.h"
 #include "glue.h"
 #include "penalty.h"
@@ -18,6 +20,7 @@ public:
 
   LineBreakInfo(size_t _start, size_t _end, double _r) :
     start(_start), end(_end), r(_r) {}
+
 };
 
 
@@ -74,7 +77,7 @@ private:
     // or if it is a glue and the previous node is a box
     auto node = m_nodes[i];
     if (node->type() == NodeType::penalty) {
-      if (static_cast<Penalty<Renderer>*>(node)->penalty() < Penalty<Renderer>::infinity) {
+      if (static_cast<Penalty<Renderer>*>(node.get())->penalty() < Penalty<Renderer>::infinity) {
         return true;
       }
     }
@@ -96,7 +99,7 @@ private:
     // a penalty of -infinity is a forced break
     auto node = m_nodes[i];
     if (node->type() == NodeType::penalty) {
-      if (static_cast<Penalty<Renderer>*>(node)->penalty() <= -1*Penalty<Renderer>::infinity) {
+      if (static_cast<Penalty<Renderer>*>(node.get())->penalty() <= -1*Penalty<Renderer>::infinity) {
         return true;
       }
     }
@@ -113,7 +116,7 @@ private:
     auto type = node->type();
     if (type == NodeType::penalty) {
       // we cannot remove a forced break
-      if (static_cast<Penalty<Renderer>*>(node)->penalty() <= -1*Penalty<Renderer>::infinity) {
+      if (static_cast<Penalty<Renderer>*>(node.get())->penalty() <= -1*Penalty<Renderer>::infinity) {
         return false;
       } else {
         return true;
@@ -160,21 +163,24 @@ public:
   }
 
 
-  void compute_line_breaks(vector<LineBreakInfo> line_breaks) {
+  void compute_line_breaks(vector<LineBreakInfo> &line_breaks) {
     line_breaks.clear(); // this is how we return the results; hence, clear first
 
     size_t a = 0; // starting point of the current line
-    size_t line = 0; // current line we are proessing
+    size_t line = 0; // current line we are processing
     while (a < m_nodes.size()) {
+      //cout << "start" << " " << a << " " << m_nodes.size() << endl;
       a = find_next_startpoint(a); // skip whitespace at beginning of line
-      size_t b = find_next_feasible_breakpoint(b);
+      size_t b = find_next_feasible_breakpoint(a);
       Length width = measure_width(a, b); // calculate width from a to b, excluding b
       Length linelen = line_length(line);
 
       // at a minimum, the current line contains material from a to b; however, if
       // b is not a forced break and the next piece fits, we can add it
       while (b < m_nodes.size() && !is_forced_break(b)) {
-        size_t b_new = find_next_feasible_breakpoint(b);
+        //cout << "end" << " " << b << " " << m_nodes.size() << endl;
+
+        size_t b_new = find_next_feasible_breakpoint(b + 1);
         Length width_delta = measure_width(b, b_new);
 
         // does the next piece fit?
@@ -183,14 +189,26 @@ public:
           width += width_delta;
           b = b_new;
         } else {
-          // no, break
+          // no, exit inner loop
           break;
         }
       }
       // now we have a line from a to b
-      line_breaks.emplace_back(a, b, 0);
-      line++;
-      a = b;
+      // but place only if we're not past the end of the nodes list
+      if (a < m_nodes.size()) {
+        line_breaks.emplace_back(a, b, 0);
+        //cout << line << " " << a << " " << b << endl;
+        line++;
+
+        // if b is a forced break, we need to advance by 1 to make sure
+        // the break penalty gets skipped in the next line
+        if (is_forced_break(b)) {
+          b++;
+        }
+        a = b;
+      } else {
+        break; // exit outer loop, we're done
+      }
     }
   }
 };
