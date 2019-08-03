@@ -24,22 +24,21 @@ private:
 public:
   TextBox(String label, const typename Renderer::GraphicsContext &gp, Length voff = 0) :
     m_label(label), m_gp(gp), m_width(0), m_ascent(0), m_descent(0), m_voff(voff),
-    m_x(0), m_y(0) {
-    TextDetails td = Renderer::text_details(label, gp);
-    m_width = td.width;
-    m_ascent = td.ascent;
-    m_descent = td.descent;
-  }
-  ~TextBox() {};
-
+    m_x(0), m_y(0) {}
+  ~TextBox() {}
 
   Length width() { return m_width; }
   Length ascent() { return m_ascent; }
   Length descent() { return m_descent; }
   Length voff() { return m_voff; }
 
-  // nothing to be done for a text box
-  void calc_layout(Length, Length) {;}
+  // width and height are only defined once `calc_layout()` has been called
+  void calc_layout(Length, Length) {
+    TextDetails td = Renderer::text_details(m_label, m_gp);
+    m_width = td.width;
+    m_ascent = td.ascent;
+    m_descent = td.descent;
+  }
 
   // place box in internal coordinates used in enclosing box
   void place(Length x, Length y) {

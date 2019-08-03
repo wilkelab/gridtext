@@ -25,6 +25,18 @@ bl_make_vbox <- function(node_list, width_pt = 0, hjust = 0, vjust = 1, width_po
     .Call(`_gridtext_bl_make_vbox`, node_list, width_pt, hjust, vjust, width_policy)
 }
 
+bl_make_regular_space_glue <- function(gp, stretch_ratio = 0.5, shrink_ratio = 0.333333) {
+    .Call(`_gridtext_bl_make_regular_space_glue`, gp, stretch_ratio, shrink_ratio)
+}
+
+bl_make_forced_break_penalty <- function() {
+    .Call(`_gridtext_bl_make_forced_break_penalty`)
+}
+
+bl_make_never_break_penalty <- function() {
+    .Call(`_gridtext_bl_make_never_break_penalty`)
+}
+
 bl_box_width <- function(node) {
     .Call(`_gridtext_bl_box_width`, node)
 }

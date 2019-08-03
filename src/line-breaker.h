@@ -9,6 +9,18 @@ using namespace Rcpp;
 #include "penalty.h"
 
 
+// helper class to record start and end points of lines to render
+class LineBreakInfo {
+public:
+  size_t start; // first node in the line
+  size_t end;   // one past the last node in the line
+  double r;     // adjustment ratio
+
+  LineBreakInfo(size_t _start, size_t _end, double _r) :
+    start(_start), end(_end), r(_r) {}
+};
+
+
 // naive line breaker
 
 template <class Renderer>
@@ -16,6 +28,119 @@ class LineBreaker {
 private:
   const BoxList<Renderer> &m_nodes;
   const vector<Length> &m_line_lengths;
+  vector<Length> m_sum_widths;
+
+  // get width of node i
+  Length get_width(size_t i) {
+    if (i >= m_nodes.size()) {
+      return 0;
+    }
+
+    auto node = m_nodes[i];
+    auto type = node->type();
+
+    if (type == NodeType::box) {
+      return node->width();
+    } else if (type == NodeType::glue) {
+      return static_cast<Glue<Renderer>*>(node.get())->default_width();
+    } else {
+      // penalties have width 0 unless they get rendered
+      return 0;
+    }
+  }
+
+  // measure width from point a to point b, excluding b
+  Length measure_width(size_t a, size_t b) {
+    return m_sum_widths[b] - m_sum_widths[a];
+  }
+
+  // calculate the length of the current line
+  Length line_length(size_t line) {
+    if (line < m_line_lengths.size()) {
+      return m_line_lengths[line];
+    } else {
+      return m_line_lengths.back();
+    }
+  }
+
+  // determine whether we can break at position i
+  bool is_feasible_breakpoint(size_t i) {
+    // if we have run out of nodes we definitely want to break
+    if (i >= m_nodes.size()) {
+      return true;
+    }
+
+    // we can break at position i if either i is a penalty less than infinity
+    // or if it is a glue and the previous node is a box
+    auto node = m_nodes[i];
+    if (node->type() == NodeType::penalty) {
+      if (static_cast<Penalty<Renderer>*>(node)->penalty() < Penalty<Renderer>::infinity) {
+        return true;
+      }
+    }
+    else if (i > 0 && node->type() == NodeType::glue) {
+      if (m_nodes[i-1]->type() == NodeType::box) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // determine whether we must break at position i
+  bool is_forced_break(size_t i) {
+    // if we have run out of nodes we definitely want to break
+    if (i >= m_nodes.size()) {
+      return true;
+    }
+
+    // a penalty of -infinity is a forced break
+    auto node = m_nodes[i];
+    if (node->type() == NodeType::penalty) {
+      if (static_cast<Penalty<Renderer>*>(node)->penalty() <= -1*Penalty<Renderer>::infinity) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // determine whether we remove this node at the beginning of a line
+  bool is_removable_whitespace(size_t i) {
+    if (i >= m_nodes.size()) {
+      return false;
+    }
+
+    auto node = m_nodes[i];
+    auto type = node->type();
+    if (type == NodeType::penalty) {
+      // we cannot remove a forced break
+      if (static_cast<Penalty<Renderer>*>(node)->penalty() <= -1*Penalty<Renderer>::infinity) {
+        return false;
+      } else {
+        return true;
+      }
+    } else if (type == NodeType::glue) {
+      return true;
+    }
+    return false;
+  }
+
+  // advances i until the next possible point to start a line; used to
+  // skip penalties and glue at beginning of a line
+  size_t find_next_startpoint(size_t i) {
+    while (i < m_nodes.size() && is_removable_whitespace(i)) {
+      i++;
+    }
+    return i;
+  }
+
+  // advances i until the next feasible breakpoint
+  size_t find_next_feasible_breakpoint(size_t i) {
+    while (i < m_nodes.size() && !is_feasible_breakpoint(i)) {
+      i++;
+    }
+    return i;
+  }
+
 
   // to write unit tests that have access to private members
   friend class TestLineBreaker;
@@ -23,6 +148,50 @@ private:
 public:
   LineBreaker(const BoxList<Renderer>& nodes, const vector<Length> &line_lengths) :
     m_nodes(nodes), m_line_lengths(line_lengths) {
+
+    // calculate sums of widths
+    size_t m = m_nodes.size();
+    m_sum_widths.resize(m + 1);
+    Length running_sum_w = 0;
+    for (size_t i = 0; i < m + 1; i++) {
+      m_sum_widths[i] = running_sum_w;
+      running_sum_w += get_width(i);
+    }
+  }
+
+
+  void compute_line_breaks(vector<LineBreakInfo> line_breaks) {
+    line_breaks.clear(); // this is how we return the results; hence, clear first
+
+    size_t a = 0; // starting point of the current line
+    size_t line = 0; // current line we are proessing
+    while (a < m_nodes.size()) {
+      a = find_next_startpoint(a); // skip whitespace at beginning of line
+      size_t b = find_next_feasible_breakpoint(b);
+      Length width = measure_width(a, b); // calculate width from a to b, excluding b
+      Length linelen = line_length(line);
+
+      // at a minimum, the current line contains material from a to b; however, if
+      // b is not a forced break and the next piece fits, we can add it
+      while (b < m_nodes.size() && !is_forced_break(b)) {
+        size_t b_new = find_next_feasible_breakpoint(b);
+        Length width_delta = measure_width(b, b_new);
+
+        // does the next piece fit?
+        if (width + width_delta < linelen) {
+          // yes, continue
+          width += width_delta;
+          b = b_new;
+        } else {
+          // no, break
+          break;
+        }
+      }
+      // now we have a line from a to b
+      line_breaks.emplace_back(a, b, 0);
+      line++;
+      a = b;
+    }
   }
 };
 

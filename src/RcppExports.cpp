@@ -99,6 +99,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// bl_make_regular_space_glue
+BoxPtr<GridRenderer> bl_make_regular_space_glue(List gp, double stretch_ratio, double shrink_ratio);
+RcppExport SEXP _gridtext_bl_make_regular_space_glue(SEXP gpSEXP, SEXP stretch_ratioSEXP, SEXP shrink_ratioSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
+    Rcpp::traits::input_parameter< double >::type stretch_ratio(stretch_ratioSEXP);
+    Rcpp::traits::input_parameter< double >::type shrink_ratio(shrink_ratioSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_regular_space_glue(gp, stretch_ratio, shrink_ratio));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_make_forced_break_penalty
+BoxPtr<GridRenderer> bl_make_forced_break_penalty();
+RcppExport SEXP _gridtext_bl_make_forced_break_penalty() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(bl_make_forced_break_penalty());
+    return rcpp_result_gen;
+END_RCPP
+}
+// bl_make_never_break_penalty
+BoxPtr<GridRenderer> bl_make_never_break_penalty();
+RcppExport SEXP _gridtext_bl_make_never_break_penalty() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(bl_make_never_break_penalty());
+    return rcpp_result_gen;
+END_RCPP
+}
 // bl_box_width
 double bl_box_width(BoxPtr<GridRenderer> node);
 RcppExport SEXP _gridtext_bl_box_width(SEXP nodeSEXP) {
@@ -395,6 +428,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
     {"_gridtext_bl_make_raster_box", (DL_FUNC) &_gridtext_bl_make_raster_box, 9},
     {"_gridtext_bl_make_vbox", (DL_FUNC) &_gridtext_bl_make_vbox, 5},
+    {"_gridtext_bl_make_regular_space_glue", (DL_FUNC) &_gridtext_bl_make_regular_space_glue, 3},
+    {"_gridtext_bl_make_forced_break_penalty", (DL_FUNC) &_gridtext_bl_make_forced_break_penalty, 0},
+    {"_gridtext_bl_make_never_break_penalty", (DL_FUNC) &_gridtext_bl_make_never_break_penalty, 0},
     {"_gridtext_bl_box_width", (DL_FUNC) &_gridtext_bl_box_width, 1},
     {"_gridtext_bl_box_height", (DL_FUNC) &_gridtext_bl_box_height, 1},
     {"_gridtext_bl_box_ascent", (DL_FUNC) &_gridtext_bl_box_ascent, 1},

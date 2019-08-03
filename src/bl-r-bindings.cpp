@@ -52,6 +52,10 @@ BoxList<GridRenderer> make_node_list(const List &nodes) {
 
 /* Exported R bindings */
 
+/*
+ * Constructors for boxes
+ */
+
 // [[Rcpp::export]]
 BoxPtr<GridRenderer> bl_make_null_box(double width_pt = 0, double height_pt = 0) {
   BoxPtr<GridRenderer> p(new NullBox<GridRenderer>(width_pt, height_pt));
@@ -154,10 +158,53 @@ BoxPtr<GridRenderer> bl_make_vbox(const List &node_list, double width_pt = 0,
   return p;
 }
 
+/*
+ * Constructors for glue
+ */
+
+// [[Rcpp::export]]
+BoxPtr<GridRenderer> bl_make_regular_space_glue(List gp, double stretch_ratio = 0.5, double shrink_ratio = 0.333333) {
+  BoxPtr<GridRenderer> p(new RegularSpaceGlue<GridRenderer>(gp, stretch_ratio, shrink_ratio));
+
+  StringVector cl = {"bl_regular_space_glue", "bl_glue", "bl_node"};
+  p.attr("class") = cl;
+
+  return p;
+}
+
+
+/*
+ * Constructors for penalties
+ */
+
+// [[Rcpp::export]]
+BoxPtr<GridRenderer> bl_make_forced_break_penalty() {
+  BoxPtr<GridRenderer> p(new ForcedBreakPenalty<GridRenderer>());
+
+  StringVector cl = {"bl_forced_break_penalty", "bl_penalty", "bl_node"};
+  p.attr("class") = cl;
+
+  return p;
+}
+
+// [[Rcpp::export]]
+BoxPtr<GridRenderer> bl_make_never_break_penalty() {
+  BoxPtr<GridRenderer> p(new NeverBreakPenalty<GridRenderer>());
+
+  StringVector cl = {"bl_never_break_penalty", "bl_penalty", "bl_node"};
+  p.attr("class") = cl;
+
+  return p;
+}
+
+/*
+ * Call member functions
+ */
+
 // [[Rcpp::export]]
 double bl_box_width(BoxPtr<GridRenderer> node) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
+  if (!node.inherits("bl_node")) {
+    stop("Node must be of type 'bl_node'.");
   }
 
   return node->width();
@@ -165,8 +212,8 @@ double bl_box_width(BoxPtr<GridRenderer> node) {
 
 // [[Rcpp::export]]
 double bl_box_height(BoxPtr<GridRenderer> node) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
+  if (!node.inherits("bl_node")) {
+    stop("Node must be of type 'bl_node'.");
   }
 
   return node->height();
@@ -174,8 +221,8 @@ double bl_box_height(BoxPtr<GridRenderer> node) {
 
 // [[Rcpp::export]]
 double bl_box_ascent(BoxPtr<GridRenderer> node) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
+  if (!node.inherits("bl_node")) {
+    stop("Node must be of type 'bl_node'.");
   }
 
   return node->ascent();
@@ -183,8 +230,8 @@ double bl_box_ascent(BoxPtr<GridRenderer> node) {
 
 // [[Rcpp::export]]
 double bl_box_descent(BoxPtr<GridRenderer> node) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
+  if (!node.inherits("bl_node")) {
+    stop("Node must be of type 'bl_node'.");
   }
 
   return node->descent();
@@ -192,8 +239,8 @@ double bl_box_descent(BoxPtr<GridRenderer> node) {
 
 // [[Rcpp::export]]
 double bl_box_voff(BoxPtr<GridRenderer> node) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
+  if (!node.inherits("bl_node")) {
+    stop("Node must be of type 'bl_node'.");
   }
 
   return node->voff();
@@ -201,8 +248,8 @@ double bl_box_voff(BoxPtr<GridRenderer> node) {
 
 // [[Rcpp::export]]
 void bl_calc_layout(BoxPtr<GridRenderer> node, double width_pt, double height_pt = 0) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
+  if (!node.inherits("bl_node")) {
+    stop("Node must be of type 'bl_node'.");
   }
 
   node->calc_layout(width_pt, height_pt);
@@ -210,8 +257,8 @@ void bl_calc_layout(BoxPtr<GridRenderer> node, double width_pt, double height_pt
 
 // [[Rcpp::export]]
 void bl_place(BoxPtr<GridRenderer> node, double x_pt, double y_pt) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
+  if (!node.inherits("bl_node")) {
+    stop("Node must be of type 'bl_node'.");
   }
 
   node->place(x_pt, y_pt);
@@ -220,8 +267,8 @@ void bl_place(BoxPtr<GridRenderer> node, double x_pt, double y_pt) {
 
 // [[Rcpp::export]]
 RObject bl_render(BoxPtr<GridRenderer> node, double x_pt, double y_pt) {
-  if (!node.inherits("bl_box")) {
-    stop("Node must be of type 'bl_box'.");
+  if (!node.inherits("bl_node")) {
+    stop("Node must be of type 'bl_node'.");
   }
 
   GridRenderer gr;

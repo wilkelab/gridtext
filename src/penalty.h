@@ -7,16 +7,16 @@ using namespace Rcpp;
 #include "layout.h"
 
 template <class Renderer> class Penalty : public BoxNode<Renderer> {
-  Length m_width;
+private:
   int m_penalty;
+  Length m_width;
   bool m_flagged;
-
 
 public:
   static constexpr int infinity = 10000; // maximum penalty
 
-  Penalty(Length width = 0, int penalty = 0, bool flagged = false) :
-    m_width(width), m_penalty(penalty), m_flagged(flagged) {}
+  Penalty(int penalty = 0, Length width = 0, bool flagged = false) :
+    m_penalty(penalty), m_width(width), m_flagged(flagged) {}
   virtual ~Penalty() {}
   NodeType type() {return NodeType::penalty;}
 
@@ -36,5 +36,18 @@ public:
   int penalty() {return m_penalty;}
   bool flagged() {return m_flagged;}
 };
+
+// Penalty that causes a forced break
+template <class Renderer> class ForcedBreakPenalty : public Penalty<Renderer> {
+public:
+  ForcedBreakPenalty() : Penalty<Renderer>(-1*Penalty<Renderer>::infinity) {}
+};
+
+// Penalty that prevents a break at this position
+template <class Renderer> class NeverBreakPenalty : public Penalty<Renderer> {
+public:
+  NeverBreakPenalty() : Penalty<Renderer>(Penalty<Renderer>::infinity) {}
+};
+
 
 #endif
