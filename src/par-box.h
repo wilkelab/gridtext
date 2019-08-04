@@ -23,7 +23,6 @@ class ParBox : public Box<Renderer> {
 private:
   BoxList<Renderer> m_nodes;
   Length m_vspacing;
-  Length m_hspacing;
   Length m_width;
   Length m_ascent;
   Length m_descent;
@@ -36,8 +35,8 @@ private:
   Length m_x, m_y;
 
 public:
-  ParBox(const BoxList<Renderer>& nodes, Length vspacing, Length hspacing) :
-    m_nodes(nodes), m_vspacing(vspacing), m_hspacing(hspacing),
+  ParBox(const BoxList<Renderer>& nodes, Length vspacing) :
+    m_nodes(nodes), m_vspacing(vspacing),
     m_width(0), m_ascent(0), m_descent(0), m_voff(0),
     m_x(0), m_y(0) {
   }
@@ -47,52 +46,6 @@ public:
   Length ascent() { return m_ascent; }
   Length descent() { return m_descent; }
   Length voff() { return m_voff; }
-
-  /*
-  void calc_layout_old(Length width_hint, Length height_hint) {
-    // x and y offset as we layout
-    Length x_off = 0, y_off = 0;
-
-    int lines = 0;
-    Length ascent = 0;
-    Length descent = 0;
-
-    for (auto i_node = m_nodes.begin(); i_node != m_nodes.end(); i_node++) {
-      NodeType nt = (*i_node)->type();
-
-      if (nt == NodeType::box) {
-        // we propagate width and height hints to all child nodes,
-        // in case they are useful there
-        (*i_node)->calc_layout(width_hint, height_hint);
-        if (x_off + (*i_node)->width() > width_hint) { // simple wrapping, no fancy logic
-          x_off = 0;
-          y_off = y_off - m_vspacing;
-          lines += 1;
-          descent = 0; // reset descent when starting new line
-          // we don't reset ascent because we only record it for the first line
-        }
-        (*i_node)->place(x_off, y_off);
-        x_off += (*i_node)->width();
-        // add space, this needs to be replaced by glue
-        x_off += m_hspacing;
-
-        // record ascent and descent
-        if ((*i_node)->descent() > descent) {
-          descent = (*i_node)->descent();
-        }
-        if (lines == 0 && (*i_node)->ascent() > ascent) {
-          ascent = (*i_node)->ascent();
-        }
-      } else if (nt == NodeType::glue) {
-        // not implemented
-      }
-    }
-    m_multiline_shift = lines*m_vspacing; // multi-line boxes need to be shifted upwards
-    m_ascent = ascent + m_multiline_shift;
-    m_descent = descent;
-    m_width = width_hint;
-  }
-  */
 
   void calc_layout(Length width_hint, Length height_hint) {
     // first make sure all child nodes are in a defined state
@@ -116,7 +69,7 @@ public:
     Length x_off = 0, y_off = 0; // x and y offset as we layout
 
     int lines = 0;
-    Length ascent = 0;
+    Length first_ascent = 0; // ascent of the first line
     Length descent = 0;
 
     for (auto i_line = line_breaks.begin(); i_line != line_breaks.end(); i_line++) {
@@ -124,33 +77,48 @@ public:
       x_off = 0;
       descent = 0;
 
-      // loop over all boxes in each line and place
+      // we first get the ascent of each box in the line, to make sure there is
+      // vertical space if some boxes are very tall
+      Length ascent = 0;
+      for (size_t i = i_line->start; i != i_line->end; i++) {
+        auto node = m_nodes[i];
+        Length ascent_new = node->ascent();
+        if (ascent_new > ascent) {
+          ascent = ascent_new;
+        }
+      }
+      if (lines == 0) { // are we rendering the first line?
+        // yes, record ascent for first line
+        first_ascent = ascent;
+      } else {
+        // no, adjust y_offset as needed
+        if (ascent + descent > m_vspacing) {
+          y_off = y_off - (ascent + descent);
+        } else {
+          y_off = y_off - m_vspacing;
+        }
+      }
+
+      // now loop over all boxes in each line and place
       for (size_t i = i_line->start; i != i_line->end; i++) {
         auto node = m_nodes[i];
         node->place(x_off, y_off);
         x_off += node->width();
 
-        // record ascent and descent
+        // record descent
         Length descent_new = node->descent();
         if (descent_new > descent) {
           descent = descent_new;
-        }
-        if (lines == 0) {
-          Length ascent_new = node->ascent();
-          if (ascent_new > ascent) {
-            ascent = ascent_new;
-          }
         }
       }
 
       // advance line
       lines += 1;
-      y_off = y_off - m_vspacing;
     }
 
     if (lines > 0) { // at least one line?
-      m_multiline_shift = (lines-1)*m_vspacing; // multi-line boxes need to be shifted upwards
-      m_ascent = ascent + m_multiline_shift;
+      m_multiline_shift = -1 * y_off; // multi-line boxes need to be shifted upwards
+      m_ascent = first_ascent - y_off;
       m_descent = descent;
       m_width = width_hint;
     } else {

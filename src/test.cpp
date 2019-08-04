@@ -10,6 +10,10 @@
 
 // [[Rcpp::export]]
 RObject test_par_box(CharacterVector tokens, double box_width, double x, double y, List gp) {
+  List gp2 = List::create(_["fontsize"] = 40.);
+  StringVector cl = {"gpar"};
+  gp2.attr("class") = cl;
+
   // build list of grob boxes
   BoxList<GridRenderer> nodes;
 
@@ -20,6 +24,8 @@ RObject test_par_box(CharacterVector tokens, double box_width, double x, double 
     i++;
     if (i == 15) {
       nodes.push_back(BoxPtr<GridRenderer>(new ForcedBreakPenalty<GridRenderer>()));
+      nodes.push_back(BoxPtr<GridRenderer>(new TextBox<GridRenderer>("abc", gp2, 0)));
+      nodes.push_back(BoxPtr<GridRenderer>(new RegularSpaceGlue<GridRenderer>(gp)));
     }
     if (i == 30) {
       nodes.push_back(BoxPtr<GridRenderer>(new ForcedBreakPenalty<GridRenderer>()));
@@ -28,10 +34,9 @@ RObject test_par_box(CharacterVector tokens, double box_width, double x, double 
   }
 
   TextDetails td = GridRenderer::text_details("abc", gp);
-  Length hspacing = td.space;
   Length vspacing = 1.2*(td.ascent + td.descent);
 
-  BoxPtr<GridRenderer> pb(new ParBox<GridRenderer>(nodes, vspacing, hspacing));
+  BoxPtr<GridRenderer> pb(new ParBox<GridRenderer>(nodes, vspacing));
 
   RectBox<GridRenderer> rb(pb, box_width, 200, Margin(0, 0, 0, 0), Margin(10, 10, 10, 10), gp,
                            0, 0.5, SizePolicy::fixed, SizePolicy::native);

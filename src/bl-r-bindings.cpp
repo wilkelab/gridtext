@@ -67,9 +67,9 @@ BoxPtr<GridRenderer> bl_make_null_box(double width_pt = 0, double height_pt = 0)
 }
 
 // [[Rcpp::export]]
-BoxPtr<GridRenderer> bl_make_par_box(const List &node_list, double vspacing_pt, double hspacing_pt) {
+BoxPtr<GridRenderer> bl_make_par_box(const List &node_list, double vspacing_pt) {
   BoxList<GridRenderer> nodes(make_node_list(node_list));
-  BoxPtr<GridRenderer> p(new ParBox<GridRenderer>(nodes, vspacing_pt, hspacing_pt));
+  BoxPtr<GridRenderer> p(new ParBox<GridRenderer>(nodes, vspacing_pt));
 
   StringVector cl = {"bl_par_box", "bl_box", "bl_node"};
   p.attr("class") = cl;
