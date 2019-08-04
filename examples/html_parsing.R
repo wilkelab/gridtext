@@ -1,18 +1,28 @@
 process_text <- function(node, drawing_context) {
   tokens <- stringr::str_split(stringr::str_squish(node), "[[:space:]]+")[[1]]
 
-  unlist(
-    lapply(
-      tokens,
-      function(token) {
-        list(
-          gridtext:::bl_make_text_box(token, drawing_context$gp),
-          gridtext:::bl_make_regular_space_glue(drawing_context$gp)
-        )
-      }
-    ),
-    recursive = FALSE
+  # make interior boxes
+  boxes <- lapply(tokens,
+    function(token) {
+      list(
+        gridtext:::bl_make_text_box(token, drawing_context$gp),
+        gridtext:::bl_make_regular_space_glue(drawing_context$gp)
+      )
+    }
   )
+
+  # if node starts with space, add glue at beginning
+  if (isTRUE(grepl("^[[:space:]]", node))) {
+    boxes <- c(list(gridtext:::bl_make_regular_space_glue(drawing_context$gp)), boxes)
+  }
+
+  boxes <- unlist(boxes, recursive = FALSE)
+
+  # if node doesn't end with space, remove glue at end
+  if (!isTRUE(grepl("[[:space:]]$", node))) {
+    boxes[[length(boxes)]] <- NULL
+  }
+  boxes
 }
 
 process_tag_br <- function(node, drawing_context) {
@@ -21,6 +31,23 @@ process_tag_br <- function(node, drawing_context) {
     gridtext:::bl_make_forced_break_penalty()
   )
 }
+
+process_tag_b <- function(node, drawing_context) {
+  # temporarily disabled
+  #attr <- attributes(node)
+  #drawing_context <- set_style(drawing_context, attr$style)
+
+  process_tags(node, gridtext:::set_context_fontface(drawing_context, "bold"))
+}
+
+process_tag_i <- function(node, drawing_context) {
+  # temporarily disabled
+  #attr <- attributes(node)
+  #drawing_context <- set_style(drawing_context, attr$style)
+
+  process_tags(node, gridtext:::set_context_fontface(drawing_context, "italic"))
+}
+
 
 process_tag_p <- function(node, drawing_context) {
   # temporarily disabled
@@ -43,11 +70,11 @@ dispatch_tag <- function(node, tag, drawing_context) {
   } else {
     switch(
       tag,
-#      "b"    = process_tag_b(node, drawing_context),
-#      "strong" = process_tag_b(node, drawing_context),
+      "b"    = process_tag_b(node, drawing_context),
+      "strong" = process_tag_b(node, drawing_context),
       "br"   = process_tag_br(node, drawing_context),
-#      "i"    = process_tag_i(node, drawing_context),
-#      "em"   = process_tag_i(node, drawing_context),
+      "i"    = process_tag_i(node, drawing_context),
+      "em"   = process_tag_i(node, drawing_context),
       "p"    = process_tag_p(node, drawing_context),
 #      "span" = process_tag_span(node, drawing_context),
 #      "sup"  = process_tag_sup(node, drawing_context),
@@ -86,5 +113,5 @@ draw_rich_text <- function(contents, x_pt = 50, y_pt = 100, width_pt = 300, newp
 library(xml2)
 library(gridtext)
 #text <- "Some <span style='color:red'>red</span> text <b>in bold.</b><br>And <i>more</i> text.<br>And some <span style='font-size:18'>large</span> text."
-text <- "<html>The quick brown fox jumps<br><br> over the lazy dog.</html>"
-draw_rich_text(text, width_pt = 80)
+text <- "<html>The quick brown <b>fox</b><br> jumps <i>over</i> the lazy dog.</html>"
+draw_rich_text(text, width_pt = 150)
