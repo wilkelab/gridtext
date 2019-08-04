@@ -82,7 +82,7 @@ public:
       Length ascent = 0;
       for (size_t i = i_line->start; i != i_line->end; i++) {
         auto node = m_nodes[i];
-        Length ascent_new = node->ascent();
+        Length ascent_new = node->ascent() + node->voff();
         if (ascent_new > ascent) {
           ascent = ascent_new;
         }
@@ -106,7 +106,7 @@ public:
         x_off += node->width();
 
         // record descent
-        Length descent_new = node->descent();
+        Length descent_new = node->descent() - node->voff();
         if (descent_new > descent) {
           descent = descent_new;
         }

@@ -24,7 +24,7 @@ RObject test_par_box(CharacterVector tokens, double box_width, double x, double 
     i++;
     if (i == 15) {
       nodes.push_back(BoxPtr<GridRenderer>(new ForcedBreakPenalty<GridRenderer>()));
-      nodes.push_back(BoxPtr<GridRenderer>(new TextBox<GridRenderer>("abc", gp2, 0)));
+      nodes.push_back(BoxPtr<GridRenderer>(new TextBox<GridRenderer>("abc", gp2, 5)));
       nodes.push_back(BoxPtr<GridRenderer>(new RegularSpaceGlue<GridRenderer>(gp)));
     }
     if (i == 30) {

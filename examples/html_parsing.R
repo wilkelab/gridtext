@@ -5,7 +5,7 @@ process_text <- function(node, drawing_context) {
   boxes <- lapply(tokens,
     function(token) {
       list(
-        gridtext:::bl_make_text_box(token, drawing_context$gp),
+        gridtext:::bl_make_text_box(token, drawing_context$gp, drawing_context$yoff_pt),
         gridtext:::bl_make_regular_space_glue(drawing_context$gp)
       )
     }
@@ -64,6 +64,18 @@ process_tag_p <- function(node, drawing_context) {
   gridtext:::bl_make_par_box(boxes, drawing_context$linespacing_pt)
 }
 
+process_tag_sub <- function(node, drawing_context) {
+  # modify fontsize before processing style, to allow for manual overriding
+  drawing_context <- gridtext:::set_context_gp(drawing_context, gpar(fontsize = 0.8*drawing_context$gp$fontsize))
+  # temporarily disabled
+  #attr <- attributes(node)
+  #drawing_context <- set_style(drawing_context, attr$style)
+
+  # move drawing half a character below baseline
+  drawing_context$yoff_pt <- drawing_context$yoff_pt - drawing_context$height_pt / 2
+  process_tags(node, drawing_context)
+}
+
 dispatch_tag <- function(node, tag, drawing_context) {
   if (is.null(tag) || tag == "") {
     process_text(node, drawing_context)
@@ -78,7 +90,7 @@ dispatch_tag <- function(node, tag, drawing_context) {
       "p"    = process_tag_p(node, drawing_context),
 #      "span" = process_tag_span(node, drawing_context),
 #      "sup"  = process_tag_sup(node, drawing_context),
-#      "sub"  = process_tag_sub(node, drawing_context),
+      "sub"  = process_tag_sub(node, drawing_context),
       stop("unknown tag: ", tag)
     )
   }
@@ -113,5 +125,6 @@ draw_rich_text <- function(contents, x_pt = 50, y_pt = 100, width_pt = 300, newp
 library(xml2)
 library(gridtext)
 #text <- "Some <span style='color:red'>red</span> text <b>in bold.</b><br>And <i>more</i> text.<br>And some <span style='font-size:18'>large</span> text."
-text <- "<html>The quick brown <b>fox</b><br> jumps <i>over</i> the lazy dog.</html>"
-draw_rich_text(text, width_pt = 150)
+text <- "<html>The quick<sub>j</sub> brown <b>fox</b><br> jumps <i>over</i> the lazy dog. The quick brown <b>fox</b><br> jumps <i>over</i> the lazy dog.</html>"
+draw_rich_text(text, width_pt = 170)
+
