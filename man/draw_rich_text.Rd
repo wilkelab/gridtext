@@ -4,17 +4,19 @@
 \alias{draw_rich_text}
 \title{Draw rich text}
 \usage{
-draw_rich_text(contents, hjust = 0.5, x_pt = 50, y_pt = 100,
-  newpage = TRUE)
+draw_rich_text(contents, x_pt = 50, y_pt = 100, width_pt = 300,
+  gp = NULL, newpage = TRUE)
 }
 \arguments{
 \item{contents}{character vector containing html string to draw}
 
-\item{hjust}{horizontal justification}
-
 \item{x_pt}{x location, in points}
 
 \item{y_pt}{y location, in points}
+
+\item{width_pt}{width, in points}
+
+\item{gp}{Other graphical parameters for drawing}
 
 \item{newpage}{Bool indicating whether \code{grid.newpage()} should be called first}
 }

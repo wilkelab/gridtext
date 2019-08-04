@@ -1,5 +1,28 @@
 process_text <- function(node, drawing_context) {
-  make_text_grobs(node, drawing_context)
+  tokens <- stringr::str_split(stringr::str_squish(node), "[[:space:]]+")[[1]]
+
+  # make interior boxes
+  boxes <- lapply(tokens,
+    function(token) {
+      list(
+        bl_make_text_box(token, drawing_context$gp, drawing_context$yoff_pt),
+        bl_make_regular_space_glue(drawing_context$gp)
+      )
+    }
+  )
+
+  # if node starts with space, add glue at beginning
+  if (isTRUE(grepl("^[[:space:]]", node))) {
+    boxes <- c(list(bl_make_regular_space_glue(drawing_context$gp)), boxes)
+  }
+
+  boxes <- unlist(boxes, recursive = FALSE)
+
+  # if node doesn't end with space, remove glue at end
+  if (!isTRUE(grepl("[[:space:]]$", node))) {
+    boxes[[length(boxes)]] <- NULL
+  }
+  boxes
 }
 
 process_tag_b <- function(node, drawing_context) {
@@ -10,7 +33,10 @@ process_tag_b <- function(node, drawing_context) {
 }
 
 process_tag_br <- function(node, drawing_context) {
-  make_line_break(drawing_context)
+  list(
+    bl_make_text_box("", drawing_context$gp),
+    bl_make_forced_break_penalty()
+  )
 }
 
 process_tag_i <- function(node, drawing_context) {
@@ -24,10 +50,14 @@ process_tag_p <- function(node, drawing_context) {
   attr <- attributes(node)
   drawing_context <- set_style(drawing_context, attr$style)
 
-  rbind(
-    process_tags(node, drawing_context),
-    make_line_break(drawing_context)
+  boxes <- unlist(
+    list(
+      process_tags(node, drawing_context),
+      process_tag_br(NULL, drawing_context)
+    ),
+    recursive = FALSE
   )
+  bl_make_par_box(boxes, drawing_context$linespacing_pt)
 }
 
 process_tag_span <- function(node, drawing_context) {
@@ -82,10 +112,10 @@ dispatch_tag <- function(node, tag, drawing_context) {
 
 process_tags <- function(node, drawing_context) {
   tags <- names(node)
-  grobs <- tibble()
+  boxes <- list()
   for (i in seq_along(node)) {
-    grobs <- rbind(grobs, dispatch_tag(node[[i]], tags[i], drawing_context))
+    boxes[[i]] <- dispatch_tag(node[[i]], tags[i], drawing_context)
   }
-  grobs
+  unlist(boxes, recursive = FALSE)
 }
 

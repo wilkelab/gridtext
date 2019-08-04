@@ -5,7 +5,7 @@
 \alias{markdown_grob}
 \title{Rich-text grob}
 \usage{
-rich_text_grob(contents, ..., hjust_int = 0, gp = NULL)
+rich_text_grob(contents, ..., width_pt = 300, gp = NULL)
 
 markdown_grob(contents, ...)
 }
@@ -14,7 +14,7 @@ markdown_grob(contents, ...)
 
 \item{...}{Other arguments handed off to \code{\link[=box_grob]{box_grob()}}}
 
-\item{hjust_int}{Internal horizontal justification (0 = left, 0.5 = center, 1 = right)}
+\item{width_pt}{width, in points}
 
 \item{gp}{Other graphical parameters for drawing}
 }
@@ -22,7 +22,7 @@ markdown_grob(contents, ...)
 Rich-text grob
 }
 \examples{
-library(grid)
-grid.newpage()
-grid.draw(rich_text_grob("Some text <b>in bold.</b>"))
+#library(grid)
+#grid.newpage()
+#grid.draw(rich_text_grob("Some text <b>in bold.</b>"))
 }

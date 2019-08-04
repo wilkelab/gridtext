@@ -73,9 +73,8 @@ public:
     Length descent = 0;
 
     for (auto i_line = line_breaks.begin(); i_line != line_breaks.end(); i_line++) {
-      // reset variables for new line
+      // reset x_off for new line
       x_off = 0;
-      descent = 0;
 
       // we first get the ascent of each box in the line, to make sure there is
       // vertical space if some boxes are very tall
@@ -99,13 +98,16 @@ public:
         }
       }
 
+      // reset descent for new line
+      descent = 0;
+
       // now loop over all boxes in each line and place
       for (size_t i = i_line->start; i != i_line->end; i++) {
         auto node = m_nodes[i];
         node->place(x_off, y_off);
         x_off += node->width();
 
-        // record descent
+        // record new descent
         Length descent_new = node->descent() - node->voff();
         if (descent_new > descent) {
           descent = descent_new;
