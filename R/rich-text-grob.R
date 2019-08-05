@@ -13,7 +13,7 @@
 #' grid.newpage()
 #' grid.draw(rich_text_grob("Some text **in bold.**"))
 #' @export
-rich_text_grob <- function(text, width = unit(0.5, "npc"), height = NULL,
+rich_text_grob <- function(text, width = NULL, height = NULL,
                            x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                            hjust = 0.5, vjust = 0.5, gp = gpar(), use_markdown = TRUE) {
   if (use_markdown) {
@@ -23,7 +23,11 @@ rich_text_grob <- function(text, width = unit(0.5, "npc"), height = NULL,
 
   drawing_context <- setup_context(gp = gp)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
-  vbox <- bl_make_vbox(boxlist, width = 100, hjust = hjust, vjust = vjust, width_policy = "relative")
+  if (is.null(width)) {
+    vbox <- bl_make_vbox(boxlist, width_pt = 0, hjust = hjust, vjust = vjust, width_policy = "native")
+  } else {
+    vbox <- bl_make_vbox(boxlist, width_pt = 100, hjust = hjust, vjust = vjust, width_policy = "relative")
+  }
 
   gTree(
     width = width,
@@ -43,7 +47,12 @@ makeContent.rich_text_grob <- function(x) {
   # get absolute coordinates of the grob
   x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
   y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
-  width_pt <- convertWidth(x$width, "pt", valueOnly = TRUE)
+
+  if (!is.null(x$width)) {
+    width_pt <- convertWidth(x$width, "pt", valueOnly = TRUE)
+  } else {
+    width_pt <- 0
+  }
 
   bl_calc_layout(x$vbox, width_pt, 0)
 

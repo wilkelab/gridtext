@@ -17,9 +17,10 @@ public:
   size_t start; // first node in the line
   size_t end;   // one past the last node in the line
   double r;     // adjustment ratio
+  Length width; // width of the line
 
-  LineBreakInfo(size_t _start, size_t _end, double _r) :
-    start(_start), end(_end), r(_r) {}
+  LineBreakInfo(size_t _start, size_t _end, double _r, Length _width) :
+    start(_start), end(_end), r(_r), width(_width) {}
 
 };
 
@@ -31,6 +32,7 @@ class LineBreaker {
 private:
   const BoxList<Renderer> &m_nodes;
   const vector<Length> &m_line_lengths;
+  bool m_word_wrap; // do we break at any feasible position or only at forced positions?
   vector<Length> m_sum_widths;
 
   // get width of node i
@@ -68,6 +70,11 @@ private:
 
   // determine whether we can break at position i
   bool is_feasible_breakpoint(size_t i) {
+    // if word wrap is off, only forced breaks are feasible breaks
+    if (!m_word_wrap) {
+      return is_forced_break(i);
+    }
+
     // if we have run out of nodes we definitely want to break
     if (i >= m_nodes.size()) {
       return true;
@@ -149,8 +156,9 @@ private:
   friend class TestLineBreaker;
 
 public:
-  LineBreaker(const BoxList<Renderer>& nodes, const vector<Length> &line_lengths) :
-    m_nodes(nodes), m_line_lengths(line_lengths) {
+  LineBreaker(const BoxList<Renderer>& nodes, const vector<Length> &line_lengths,
+              bool word_wrap = true) :
+    m_nodes(nodes), m_line_lengths(line_lengths), m_word_wrap(word_wrap) {
 
     // calculate sums of widths
     size_t m = m_nodes.size();
@@ -196,7 +204,7 @@ public:
       // now we have a line from a to b
       // but place only if we're not past the end of the nodes list
       if (a < m_nodes.size()) {
-        line_breaks.emplace_back(a, b, 0);
+        line_breaks.emplace_back(a, b, 0, width);
         //cout << line << " " << a << " " << b << endl;
         line++;
 

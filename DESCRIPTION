@@ -23,6 +23,7 @@ Imports:
     purrr,
     rlang,
     Rcpp,
+    stringr,
     tibble,
     xml2
 Suggests:

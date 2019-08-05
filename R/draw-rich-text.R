@@ -24,7 +24,7 @@ draw_rich_text <- function(contents, x_pt = 50, y_pt = 100, width_pt = 300, gp =
   drawing_context <- setup_context(gp = gp)
 
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
-  vbox <- bl_make_vbox(boxlist, width = width_pt, hjust = 0, vjust = 0, width_policy = "fixed")
+  vbox <- bl_make_vbox(boxlist, width_pt = width_pt, hjust = 0, vjust = 0, width_policy = "fixed")
 
   bl_calc_layout(vbox, width_pt, 0)
   grob <- bl_render(vbox, x_pt, y_pt)

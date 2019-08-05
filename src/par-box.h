@@ -27,6 +27,7 @@ private:
   Length m_ascent;
   Length m_descent;
   Length m_voff;
+  SizePolicy m_width_policy;
   // vertical shift if paragraph contains more than one line; is used to make sure the
   // bottom line in the box is used as the box baseline (all lines above are folded
   // into the ascent)
@@ -35,10 +36,11 @@ private:
   Length m_x, m_y;
 
 public:
-  ParBox(const BoxList<Renderer>& nodes, Length vspacing) :
+  ParBox(const BoxList<Renderer>& nodes, Length vspacing, SizePolicy width_policy = SizePolicy::native) :
     m_nodes(nodes), m_vspacing(vspacing),
     m_width(0), m_ascent(0), m_descent(0), m_voff(0),
-    m_x(0), m_y(0) {
+    m_width_policy(width_policy),
+    m_multiline_shift(0), m_x(0), m_y(0) {
   }
   ~ParBox() {};
 
@@ -55,15 +57,30 @@ public:
       (*i_node)->calc_layout(width_hint, height_hint);
     }
 
+    // choose breaking parameters based on size policy
+    bool word_wrap = true;
+    if (m_width_policy == SizePolicy::native) {
+      // for native policy, we don't wrap words and we allow lines to be arbitrarily long
+      word_wrap = false;
+      width_hint = Glue<Renderer>::infinity;
+    }
+
     // calculate line breaks
     vector<Length> line_lengths = {width_hint};
-    LineBreaker<Renderer> lb(m_nodes, line_lengths);
+    LineBreaker<Renderer> lb(m_nodes, line_lengths, word_wrap);
     vector<LineBreakInfo> line_breaks;
     lb.compute_line_breaks(line_breaks);
 
-    //for (size_t i = 0; i < line_breaks.size(); i++) {
-    //  cout << i << " " << line_breaks[i].start << " " << line_breaks[i].end << endl;
-    //}
+    // now get the true line length for native size policy,
+    // by finding the longest line
+    if (m_width_policy == SizePolicy::native) {
+      width_hint = 0;
+      for (auto i_line = line_breaks.begin(); i_line != line_breaks.end(); i_line++) {
+        if (width_hint < i_line->width) {
+          width_hint = i_line->width;
+        }
+      }
+    }
 
     // now place all nodes according to line breaks
     Length x_off = 0, y_off = 0; // x and y offset as we layout

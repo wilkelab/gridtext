@@ -4,9 +4,9 @@
 \alias{rich_text_grob}
 \title{Rich-text grob}
 \usage{
-rich_text_grob(text, width = unit(0.5, "npc"), height = NULL,
-  x = unit(0.5, "npc"), y = unit(0.5, "npc"), hjust = 0.5,
-  vjust = 0.5, gp = gpar(), use_markdown = TRUE)
+rich_text_grob(text, width = NULL, height = NULL, x = unit(0.5,
+  "npc"), y = unit(0.5, "npc"), hjust = 0.5, vjust = 0.5,
+  gp = gpar(), use_markdown = TRUE)
 }
 \arguments{
 \item{text}{Character vector containing markdown/html string to draw.}
