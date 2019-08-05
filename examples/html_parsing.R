@@ -16,6 +16,7 @@ doctree <- read_html(text3)
 node <- xml2::as_list(doctree)$html$body
 names(node)
 
-
-html <- markdown::markdownToHTML(text = text1, fragment.only = TRUE)
-html
+img_src <- system.file("extdata", "Rlogo.png", package = "gridtext")
+text <- glue::glue("This is an image. ![]({img_src}) And some more text.")
+html <- markdown::markdownToHTML(text = text, options = c("use_xhtml", "fragment_only"))
+draw_rich_text(html, width_pt = 200)

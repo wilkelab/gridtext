@@ -48,9 +48,9 @@ set_context_fontface <- function(drawing_context, fontface = "plain", overwrite 
 
   # combine bold and italic if needed
   if (!isTRUE(overwrite)) {
-    if (fontface == "italic" && fontface_old == "bold") {
+    if (isTRUE(fontface == "italic") && isTRUE(fontface_old == "bold")) {
       fontface <- "bold.italic"
-    } else if (fontface == "bold" && fontface_old == "italic") {
+    } else if (isTRUE(fontface == "bold") && isTRUE(fontface_old == "italic")) {
       fontface <- "bold.italic"
     }
   }

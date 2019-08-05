@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 /* The VBox class takes a list of boxes and lays them out
  * horizontally, breaking lines if necessary. The reference point
- * is the left end point of the baseline of the last line.
+ * is the lower left corner of the box.
  */
 
 template <class Renderer>

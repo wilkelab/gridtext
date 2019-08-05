@@ -42,24 +42,22 @@ render_lines <- function(lines, hjust = 0, x_pt = 0, y_pt = 0, vp = NULL) {
   )
 }
 
-#' @export
-heightDetails.rich_text_grob <- function(x) {
-  unit(x$height_pt, "pt")
-}
+# @export
+#heightDetails.rich_text_grob <- function(x) {
+#  unit(x$height_pt, "pt")
+#}
 
-#' @export
-widthDetails.rich_text_grob <- function(x) {
-  unit(x$width_pt, "pt")
-}
+# @export
+#widthDetails.rich_text_grob <- function(x) {
+#  unit(x$width_pt, "pt")
+#}
 
-#' @export
-ascentDetails.rich_text_grob <- function(x) {
-  heightDetails(x)
-}
+# @export
+#ascentDetails.rich_text_grob <- function(x) {
+#  heightDetails(x)
+#}
 
-#' @export
-descentDetails.rich_text_grob <- function(x) {
-  unit(0, "pt")
-}
-
-
+# @export
+#descentDetails.rich_text_grob <- function(x) {
+#  unit(0, "pt")
+#}

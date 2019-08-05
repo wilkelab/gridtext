@@ -33,39 +33,3 @@ draw_rich_text <- function(contents, x_pt = 50, y_pt = 100, width_pt = 300, gp =
   grid.draw(grob)
 }
 
-
-#' Rich-text grob
-#'
-#' @param contents character vector containing html string
-#' @param width_pt width, in points
-#' @param gp Other graphical parameters for drawing
-#' @param ... Other arguments handed off to [`box_grob()`]
-#' @examples
-#' #library(grid)
-#' #grid.newpage()
-#' #grid.draw(rich_text_grob("Some text <b>in bold.</b>"))
-#' @export
-rich_text_grob <- function(contents, ..., width_pt = 300, gp = NULL) {
-  doctree <- read_html(contents)
-
-  drawing_context <- setup_context(gp = gp)
-
-  boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
-  vbox <- bl_make_vbox(boxlist, width = width_pt, hjust = 0, vjust = 0, width_policy = "fixed")
-
-  bl_calc_layout(vbox, width_pt, 0)
-  grob <- bl_render(vbox, 0, 0)
-
-  box_grob(
-    grob,
-    ...
-  )
-}
-
-#' @rdname rich_text_grob
-#' @export
-markdown_grob <- function(contents, ...) {
-  html <- markdown::markdownToHTML(text = contents, fragment.only = TRUE)
-  rich_text_grob(html, ...)
-}
-

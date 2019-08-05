@@ -46,6 +46,18 @@ process_tag_i <- function(node, drawing_context) {
   process_tags(node, set_context_fontface(drawing_context, "italic"))
 }
 
+process_tag_img <- function(node, drawing_context) {
+  attr <- attributes(node)
+
+  # read image, only png works for now
+  img <- png::readPNG(attr$src, native = TRUE)
+
+  # dpi = 72.27 turns lengths in pixels to lengths in pt
+  rb <- bl_make_raster_box(img, dpi = 72.27)
+
+  list(rb)
+}
+
 process_tag_p <- function(node, drawing_context) {
   attr <- attributes(node)
   drawing_context <- set_style(drawing_context, attr$style)
@@ -99,6 +111,7 @@ dispatch_tag <- function(node, tag, drawing_context) {
       "strong" = process_tag_b(node, drawing_context),
       "br"   = process_tag_br(node, drawing_context),
       "i"    = process_tag_i(node, drawing_context),
+      "img"  = process_tag_img(node, drawing_context),
       "em"   = process_tag_i(node, drawing_context),
       "p"    = process_tag_p(node, drawing_context),
       "span" = process_tag_span(node, drawing_context),
