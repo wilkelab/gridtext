@@ -4,15 +4,12 @@
 \alias{rich_text_grob}
 \title{Rich-text grob}
 \usage{
-rich_text_grob(text, width = NULL, height = NULL, x = unit(0.5,
-  "npc"), y = unit(0.5, "npc"), hjust = 0.5, vjust = 0.5,
-  gp = gpar(), use_markdown = TRUE)
+rich_text_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+  hjust = 0.5, vjust = 0.5, rot = 0, default.units = "npc",
+  name = NULL, gp = gpar(), vp = NULL, use_markdown = TRUE)
 }
 \arguments{
 \item{text}{Character vector containing markdown/html string to draw.}
-
-\item{width, height}{Unit objects specifying width and height of the
-grob; height is currently ignored.}
 
 \item{x, y}{Unit objects specifying the location of the reference point.}
 
@@ -22,12 +19,28 @@ relative to the reference point.}
 \item{gp}{Other graphical parameters for drawing}
 
 \item{use_markdown}{Should the \code{text} input be treated as markdown?}
+
+\item{width, height}{Unit objects specifying width and height of the
+grob; height is currently ignored.}
 }
 \description{
 Rich-text grob
 }
 \examples{
 library(grid)
+
+text <- c(
+  "Some text **in bold.**", "Linebreaks<br>Linebreaks<br>Linebreaks",
+  "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub>",
+  "Mixing **it** all *up,<br> for good measure.*"
+)
+
+x <- c(.2, .6, .2, .5)
+y <- c(.8, .8, .2, .4)
+rot <- c(0, 0, 45, -45)
+
 grid.newpage()
-grid.draw(rich_text_grob("Some text **in bold.**"))
+g <- rich_text_grob(text, x, y, rot = rot)
+grid.draw(g)
+grid.points(x, y, default.units = "npc")
 }
