@@ -70,18 +70,13 @@ rich_text_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   )
 }
 
-make_rich_text_grob <- function(text, x, y, hjust, vjust, rot, use_markdown, gp_list) {
+make_rich_text_grob <- function(text, x, y, hjust, vjust, rot, use_markdown, gp) {
   if (use_markdown) {
     text <- markdown::markdownToHTML(text = text, options = c("use_xhtml", "fragment_only"))
   }
   doctree <- read_html(text)
 
-  if (length(gp_list) > 0) {
-    # TODO: doesn't work yet, setup_context breaks
-    drawing_context <- setup_context(gp = gp_list[[1]])
-  } else {
-    drawing_context <- setup_context(gp = NULL)
-  }
+  drawing_context <- setup_context(gp = gp)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
   vbox <- bl_make_vbox(boxlist, width_pt = 0, hjust = hjust, vjust = vjust, width_policy = "native")
   bl_calc_layout(vbox, 0, 0)
