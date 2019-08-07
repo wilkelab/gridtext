@@ -16,12 +16,18 @@ rich_text_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
 \item{hjust, vjust}{Numerical values specifying the location of the grob
 relative to the reference point.}
 
-\item{gp}{Other graphical parameters for drawing}
+\item{rot}{Angle of rotation for text, in degrees.}
+
+\item{default.units}{Units of \code{x} and \code{y} if these are provided only as
+numerical values.}
+
+\item{name}{Name of the grob.}
+
+\item{gp}{Other graphical parameters for drawing.}
+
+\item{vp}{Viewport.}
 
 \item{use_markdown}{Should the \code{text} input be treated as markdown?}
-
-\item{width, height}{Unit objects specifying width and height of the
-grob; height is currently ignored.}
 }
 \description{
 Rich-text grob
@@ -35,12 +41,15 @@ text <- c(
   "Mixing **it** all *up,<br> for good measure.*"
 )
 
-x <- c(.2, .6, .2, .5)
-y <- c(.8, .8, .2, .4)
+x <- c(.2, .1, .7, .9)
+y <- c(.8, .4, .2, .6)
 rot <- c(0, 0, 45, -45)
+gp = gpar(col = c("black", "red"), fontfamily = c("Palatino", "Courier", "Times", "Helvetica"))
+hjust <- c(0.5, 0, 0, 1)
+vjust <- c(0.5, 1, 0, 0.5)
 
 grid.newpage()
-g <- rich_text_grob(text, x, y, rot = rot)
+g <- rich_text_grob(text, x, y, hjust = hjust, vjust = vjust, rot = rot, gp = gp)
 grid.draw(g)
 grid.points(x, y, default.units = "npc")
 }
