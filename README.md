@@ -38,7 +38,8 @@ library(grid)
 library(gridtext)
 
 text <- c(
-  "Some text **in bold.**", "Linebreaks<br>Linebreaks<br>Linebreaks",
+  "Some text **in bold.**",
+  "Linebreaks<br>Linebreaks<br>Linebreaks",
   "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub>",
   "Some <span style='color:blue'>blue text **in bold.**</span><br>And *italics text.*<br>And some <span style='font-size:18; color:black'>large</span> text."
 )
@@ -69,3 +70,19 @@ grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
 ```
 
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+
+Basic support for images is available as well. As of now, they will
+always be vertically aligned with the baseline of the text.
+
+``` r
+grid.newpage()
+
+img_src <- system.file("extdata", "Rlogo.png", package = "gridtext")
+text <- glue::glue("Image with native aspect ratio: <img src='{img_src}' width='100'/> And some more text.")
+grid.draw(rich_text_grob(text, x = 0.9, y = 0.7, hjust = 1))
+
+text <- glue::glue("Image with forced size: <img src='{img_src}' width='100' height='30'/> And some more text.")
+grid.draw(rich_text_grob(text, x = 0.9, y = 0.3, hjust = 1))
+```
+
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
