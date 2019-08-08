@@ -83,12 +83,15 @@ rich_text_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   }
   gp_list <- recycle_gpar(gp, n)
   box_gp_list <- recycle_gpar(box_gp, n)
+  # need to convert x and y to lists so mapply can handle them properly
+  x_list <- unit_to_list(x)
+  y_list <- unit_to_list(y)
 
   grobs <- mapply(
     make_rich_text_grob,
     text,
-    x,
-    y,
+    x_list,
+    y_list,
     hjust,
     vjust,
     rot,
@@ -173,8 +176,11 @@ heightDetails.rich_text_grob <- function(x) {
     # shortcut for grobs with just one child; unit calcs not needed
     unit(max(grobs[[1]]$yext) - min(grobs[[1]]$yext), "pt")
   } else {
-    # not properly implemented
-    unit(1, "null")
+    # get ymax and ymin values for each child grob
+    ymax <- lapply(grobs, function(x) {x$y + unit(max(x$yext), "pt")})
+    ymin <- lapply(grobs, function(x) {x$y + unit(min(x$yext), "pt")})
+    # now return the difference between the overal max and the overall min
+    do.call(max, ymax) - do.call(min, ymin)
   }
 }
 
@@ -185,8 +191,11 @@ widthDetails.rich_text_grob <- function(x) {
     # shortcut for grobs with just one child; unit calcs not needed
     unit(max(grobs[[1]]$xext) - min(grobs[[1]]$xext), "pt")
   } else {
-    # not properly implemented
-    unit(1, "null")
+    # get xmax and xmin values for each child grob
+    xmax <- lapply(grobs, function(x) {x$x + unit(max(x$xext), "pt")})
+    xmin <- lapply(grobs, function(x) {x$x + unit(min(x$xext), "pt")})
+    # now return the difference between the overal max and the overall min
+    do.call(max, xmax) - do.call(min, xmin)
   }
 }
 

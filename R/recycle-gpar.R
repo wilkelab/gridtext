@@ -11,3 +11,9 @@ recycle_gpar <- function(gp = NULL, n = 1) {
   args <- c(list(make_gpar, n = 1:n), gp, list(SIMPLIFY = FALSE))
   do.call(mapply, args)
 }
+
+# converts a unit vector into a list of individual unit objects
+unit_to_list <- function(u)
+{
+  lapply(seq_along(u), function(i) u[i])
+}
