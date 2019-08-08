@@ -1,5 +1,51 @@
 context("rich text grob")
 
+test_that("grobheight and grobwidth work", {
+  # width is the same for textGrob and rich_text_grob
+  g <- textGrob("test")
+  g2 <- rich_text_grob("test")
+  w <- convertWidth(grobWidth(g), "pt", valueOnly = TRUE)
+  w2 <- convertWidth(grobWidth(g2), "pt", valueOnly = TRUE)
+  expect_equal(w, w2)
+
+  # height is slightly larger for rich_text_grob, b/c descent is considered
+  h <- convertHeight(grobHeight(g), "pt", valueOnly = TRUE)
+  h2 <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
+  expect_lt(h, h2)
+
+  # width and height are flipped after rotating 90 degrees
+  g <- textGrob("test", rot = 90)
+  g2 <- rich_text_grob("test", rot = 90)
+  w <- convertWidth(grobWidth(g), "pt", valueOnly = TRUE)
+  w2 <- convertWidth(grobWidth(g2), "pt", valueOnly = TRUE)
+  expect_lt(w, w2)
+
+  # height is slightly larger for rich_text_grob, b/c descent is considered
+  h <- convertHeight(grobHeight(g), "pt", valueOnly = TRUE)
+  h2 <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
+  expect_equal(h, h2)
+
+  # position of multiple labels is taken into account
+  g <- textGrob("test", x = unit(0, "pt"), y = unit(80, "pt"))
+  g2 <- textGrob(c("test", "test"), x = unit(c(0, 50), "pt"), y = unit(c(80, 40), "pt"))
+  w <- convertWidth(grobWidth(g), "pt", valueOnly = TRUE)
+  w2 <- convertWidth(grobWidth(g2), "pt", valueOnly = TRUE)
+  expect_equal(w + 50, w2)
+  h <- convertHeight(grobHeight(g), "pt", valueOnly = TRUE)
+  h2 <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
+  expect_equal(h + 40, h2)
+
+  # multiple labels, w rotation
+  g <- textGrob("test", x = unit(0, "pt"), y = unit(80, "pt"), rot = 45)
+  g2 <- textGrob(c("test", "test"), x = unit(c(0, 50), "pt"), y = unit(c(80, 40), "pt"), rot = 45)
+  w <- convertWidth(grobWidth(g), "pt", valueOnly = TRUE)
+  w2 <- convertWidth(grobWidth(g2), "pt", valueOnly = TRUE)
+  expect_equal(w + 50, w2)
+  h <- convertHeight(grobHeight(g), "pt", valueOnly = TRUE)
+  h2 <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
+  expect_equal(h + 40, h2)
+})
+
 test_that("visual tests", {
   draw_labels <- function() {
     function() {
