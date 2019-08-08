@@ -23,6 +23,7 @@ Imports:
     purrr,
     rlang,
     Rcpp,
+    RCurl,
     png,
     jpeg,
     stringr,

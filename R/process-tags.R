@@ -73,16 +73,8 @@ process_tag_img <- function(node, drawing_context) {
     respect_asp <- TRUE
   }
 
-  # read image, only png and jpg implemented
-  img_src <- attr$src
-  if (isTRUE(grepl("\\.png$", img_src, ignore.case = TRUE))) {
-    img <- png::readPNG(attr$src, native = TRUE)
-  } else if (isTRUE(grepl("(\\.jpg$)|(\\.jpeg)", img_src, ignore.case = TRUE))) {
-    img <- jpeg::readJPEG(attr$src, native = TRUE)
-  } else {
-    warning(paste0("Image type not supported: ", img_src), call. = FALSE)
-    img <- as.raster(matrix(0, 10, 10))
-  }
+  # read image
+  img <- read_image(attr$src)
 
   # dpi = 72.27 turns lengths in pixels to lengths in pt
   rb <- bl_make_raster_box(
