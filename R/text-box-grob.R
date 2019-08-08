@@ -43,7 +43,7 @@ text_box_grob <- function(text, width = NULL, height = NULL,
 }
 
 #' @export
-makeContent.text__box_grob <- function(x) {
+makeContent.text_box_grob <- function(x) {
   # get absolute coordinates of the grob
   x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
   y_pt <- convertY(x$y, "pt", valueOnly = TRUE)

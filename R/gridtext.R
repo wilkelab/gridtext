@@ -6,7 +6,5 @@
 #' @importFrom Rcpp sourceCpp
 #' @import grid
 #' @import rlang
-#' @importFrom purrr map pmap
 #' @importFrom xml2 read_html
-#' @importFrom tibble tibble
 NULL
