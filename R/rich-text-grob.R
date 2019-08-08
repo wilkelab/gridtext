@@ -59,7 +59,7 @@ rich_text_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                            hjust = 0.5, vjust = 0.5, rot = 0, default.units = "npc",
                            margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                            r = unit(0, "pt"),
-                           name = NULL, gp = gpar(), box_gp = gpar(), vp = NULL,
+                           name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
                            use_markdown = TRUE) {
   # make sure x and y are units
   if (!is.unit(x))
@@ -133,8 +133,71 @@ make_rich_text_grob <- function(text, x, y, hjust, vjust, rot, margin_pt, paddin
   bl_calc_layout(vbox_outer)
   grobs <- bl_render(vbox_outer)
 
+  # calculate corner points
+  # (We exclude x, y and keep everything in pt, to avoid unit calculations at this stage)
+  # (lower left, lower right, upper left, upper right before rotation)
+  theta <- rot*2*pi/360
+  width <- bl_box_width(vbox_outer)
+  height <- bl_box_height(vbox_outer)
+  # lower left
+  xll <- hjust*cos(theta)*width + vjust*sin(theta)*height
+  yll <- hjust*sin(theta)*width - vjust*cos(theta)*height
+  # lower right
+  xlr <- xll + width*cos(theta)
+  ylr <- yll + width*sin(theta)
+  # upper left
+  xul <- xll - height*sin(theta)
+  yul <- yll + height*cos(theta)
+  # upper right
+  xur <- xul + width*cos(theta)
+  yur <- yul + width*sin(theta)
+
+  xext <- c(xll, xlr, xul, xur)
+  yext <- c(yll, ylr, yul, yur)
+
   gTree(
+    x = x,
+    y = y,
+    xext = xext,
+    yext = yext,
     children = grobs,
     vp = viewport(x = x, y = y, just = c(0, 0), angle = rot)
   )
 }
+
+
+#' @export
+heightDetails.rich_text_grob <- function(x) {
+  grobs <- x$children
+  if (length(grobs) == 1) {
+    # shortcut for grobs with just one child; unit calcs not needed
+    unit(max(grobs[[1]]$yext) - min(grobs[[1]]$yext), "pt")
+  } else {
+    # not properly implemented
+    unit(1, "null")
+  }
+}
+
+#' @export
+widthDetails.rich_text_grob <- function(x) {
+  grobs <- x$children
+  if (length(grobs) == 1) {
+    # shortcut for grobs with just one child; unit calcs not needed
+    unit(max(grobs[[1]]$xext) - min(grobs[[1]]$xext), "pt")
+  } else {
+    # not properly implemented
+    unit(1, "null")
+  }
+}
+
+#' @export
+ascentDetails.rich_text_grob <- function(x) {
+  heightDetails(x)
+}
+
+#' @export
+descentDetails.rich_text_grob <- function(x) {
+  unit(0, "pt")
+}
+
+

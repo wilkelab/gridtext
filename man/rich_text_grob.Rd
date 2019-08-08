@@ -8,7 +8,7 @@ rich_text_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   hjust = 0.5, vjust = 0.5, rot = 0, default.units = "npc",
   margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0),
   "pt"), r = unit(0, "pt"), name = NULL, gp = gpar(),
-  box_gp = gpar(), vp = NULL, use_markdown = TRUE)
+  box_gp = gpar(col = NA), vp = NULL, use_markdown = TRUE)
 }
 \arguments{
 \item{text}{Character vector containing markdown/html strings to draw.}
