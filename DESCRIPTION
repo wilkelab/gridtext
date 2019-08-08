@@ -23,13 +23,14 @@ Imports:
     purrr,
     rlang,
     Rcpp,
+    png,
+    jpeg,
     stringr,
     tibble,
     xml2
 Suggests:
     covr,
     knitr,
-    png,
     rmarkdown,
     testthat,
     vdiffr

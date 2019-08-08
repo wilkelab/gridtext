@@ -1,22 +1,16 @@
-
 library(xml2)
 library(gridtext)
-text <- "<html>The quick<sub>j</sub> brown <b>fox</b><br> jumps <i>over</i> the lazy dog. The quick brown <b>fox</b><br> jumps <i>over</i> the lazy dog.</html>"
-draw_rich_text(text, width_pt = 200)
-
-
-text1 <- "<span style='font-family:\"Comic Sans MS\"; font-size:20; color:orange'>Comic Sans! Yay!</span>"
-text2 <- "Some <span style='color:red'>red</span> text <b>in bold.</b><br>And <i>more</i> text.<br>And some <span style='font-size:18'>large</span> text."
-text3 <- "5<i>x</i><sup>2</sup><span style='color:blue'> + 7<i>x</i></span> - <i>α<sub>i</sub></i>"
-
-draw_rich_text("<p><span>Comic Sans! Yay!</span></p>", width_pt = 800)
-
-
-doctree <- read_html(text3)
-node <- xml2::as_list(doctree)$html$body
-names(node)
 
 img_src <- system.file("extdata", "Rlogo.png", package = "gridtext")
-text <- glue::glue("This is an image. ![]({img_src}) And some more text.")
-html <- markdown::markdownToHTML(text = text, options = c("use_xhtml", "fragment_only"))
-draw_rich_text(html, width_pt = 200)
+text <- glue::glue("This is an image. <img src='{img_src}' width='100' height='50'/> And some more text.")
+grid.newpage()
+grid.draw(rich_text_grob(text, y = 0.3))
+
+text <- glue::glue("This is an image. <img src='{img_src}' width='100'/> And some more text.")
+grid.draw(rich_text_grob(text, y = 0.7))
+
+
+text <- "An image tag. <img src='smiley.gif' height='42' width='42'>"
+doctree <- read_html(text)
+node <- xml2::as_list(doctree)$html$body
+names(node)

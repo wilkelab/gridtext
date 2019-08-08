@@ -49,11 +49,46 @@ process_tag_i <- function(node, drawing_context) {
 process_tag_img <- function(node, drawing_context) {
   attr <- attributes(node)
 
-  # read image, only png works for now
-  img <- png::readPNG(attr$src, native = TRUE)
+  height <- attr$height
+  if (is.null(height)) {
+    height <- 0
+    height_policy <- "native"
+  } else {
+    height <- as.numeric(height)
+    height_policy <- "fixed"
+  }
+
+  width <- attr$width
+  if (is.null(width)) {
+    width <- 0
+    width_policy <- "native"
+  } else {
+    width <- as.numeric(width)
+    width_policy <- "fixed"
+  }
+
+  if (height_policy == "fixed" && width_policy == "fixed") {
+    respect_asp <- FALSE
+  } else {
+    respect_asp <- TRUE
+  }
+
+  # read image, only png and jpg implemented
+  img_src <- attr$src
+  if (isTRUE(grepl("\\.png$", img_src, ignore.case = TRUE))) {
+    img <- png::readPNG(attr$src, native = TRUE)
+  } else if (isTRUE(grepl("(\\.jpg$)|(\\.jpeg)", img_src, ignore.case = TRUE))) {
+    img <- jpeg::readJPEG(attr$src, native = TRUE)
+  } else {
+    warning(paste0("Image type not supported: ", img_src), call. = FALSE)
+    img <- as.raster(matrix(0, 10, 10))
+  }
 
   # dpi = 72.27 turns lengths in pixels to lengths in pt
-  rb <- bl_make_raster_box(img, dpi = 72.27)
+  rb <- bl_make_raster_box(
+    img, width, height, width_policy, height_policy,
+    respect_aspect = respect_asp, dpi = 72.27
+  )
 
   list(rb)
 }
