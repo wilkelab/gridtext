@@ -6,10 +6,12 @@
 \usage{
 rich_text_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   hjust = 0.5, vjust = 0.5, rot = 0, default.units = "npc",
-  name = NULL, gp = gpar(), vp = NULL, use_markdown = TRUE)
+  margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0),
+  "pt"), r = unit(0, "pt"), name = NULL, gp = gpar(),
+  box_gp = gpar(), vp = NULL, use_markdown = TRUE)
 }
 \arguments{
-\item{text}{Character vector containing markdown/html string to draw.}
+\item{text}{Character vector containing markdown/html strings to draw.}
 
 \item{x, y}{Unit objects specifying the location of the reference point.}
 
@@ -21,16 +23,33 @@ relative to the reference point.}
 \item{default.units}{Units of \code{x} and \code{y} if these are provided only as
 numerical values.}
 
+\item{margin, padding}{Unit vectors of four elements each indicating the
+margin and padding around each text label in the order top, right,
+bottom, left. Margins are drawn outside the enclosing box (if any),
+and padding is drawn inside. To avoid rendering artifacts, it is best
+to specify these values in absolute units (such as points, mm, or inch)
+rather than in relative units (such as npc).}
+
+\item{r}{The radius of the rounded corners. To avoid rendering artifacts,
+it is best to specify this in absolute units (such as points, mm, or inch)
+rather than in relative units (such as npc).}
+
 \item{name}{Name of the grob.}
 
 \item{gp}{Other graphical parameters for drawing.}
+
+\item{box_gp}{Graphical parameters for the enclosing box around each text label.}
 
 \item{vp}{Viewport.}
 
 \item{use_markdown}{Should the \code{text} input be treated as markdown?}
 }
 \description{
-Rich-text grob
+This grob acts mostly as a drop-in replacement for \code{\link[grid:textGrob]{grid::textGrob()}}
+but provides more sophisticated formatting. The grob can handle basic
+markdown and HTML formatting directives, and it can also draw
+boxes around each piece of text. Note that this grob \strong{does not} draw
+\link{plotmath} expressions.
 }
 \examples{
 library(grid)
@@ -38,18 +57,25 @@ library(grid)
 text <- c(
   "Some text **in bold.**", "Linebreaks<br>Linebreaks<br>Linebreaks",
   "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub>",
-  "Mixing **it** all *up,<br> for good measure.*"
+  "Some <span style='color:blue'>blue text **in bold.**</span><br>And *italics text.*<br>
+   And some <span style='font-size:18; color:black'>large</span> text."
 )
 
 x <- c(.2, .1, .7, .9)
-y <- c(.8, .4, .2, .6)
+y <- c(.8, .4, .1, .5)
 rot <- c(0, 0, 45, -45)
 gp = gpar(col = c("black", "red"), fontfamily = c("Palatino", "Courier", "Times", "Helvetica"))
+box_gp = gpar(col = "black", fill = c("cornsilk", NA, "lightblue1", NA), lty = c(0, 1, 1, 1))
 hjust <- c(0.5, 0, 0, 1)
 vjust <- c(0.5, 1, 0, 0.5)
 
 grid.newpage()
-g <- rich_text_grob(text, x, y, hjust = hjust, vjust = vjust, rot = rot, gp = gp)
+g <- rich_text_grob(
+  text, x, y, hjust = hjust, vjust = vjust, rot = rot,
+  padding = unit(c(6, 6, 4, 6), "pt"),
+  r = unit(c(0, 2, 4, 8), "pt"),
+  gp = gp, box_gp = box_gp
+)
 grid.draw(g)
-grid.points(x, y, default.units = "npc")
+grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
 }

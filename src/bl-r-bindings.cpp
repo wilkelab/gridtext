@@ -247,7 +247,7 @@ double bl_box_voff(BoxPtr<GridRenderer> node) {
 }
 
 // [[Rcpp::export]]
-void bl_calc_layout(BoxPtr<GridRenderer> node, double width_pt, double height_pt = 0) {
+void bl_calc_layout(BoxPtr<GridRenderer> node, double width_pt = 0, double height_pt = 0) {
   if (!node.inherits("bl_node")) {
     stop("Node must be of type 'bl_node'.");
   }
@@ -266,7 +266,7 @@ void bl_place(BoxPtr<GridRenderer> node, double x_pt, double y_pt) {
 
 
 // [[Rcpp::export]]
-RObject bl_render(BoxPtr<GridRenderer> node, double x_pt, double y_pt) {
+RObject bl_render(BoxPtr<GridRenderer> node, double x_pt = 0, double y_pt = 0) {
   if (!node.inherits("bl_node")) {
     stop("Node must be of type 'bl_node'.");
   }

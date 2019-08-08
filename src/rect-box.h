@@ -170,9 +170,11 @@ public:
         (m_height - m_margin.top - m_margin.bottom - m_padding.top - m_padding.bottom // available internal space
          - m_content->height()); // actual space needed
 
+      // we place the content relative to the lower left corner of the interior box
+      // (ignoring the outer margins)
       m_content->place(
-          m_margin.left + m_padding.left + x_align,
-          m_margin.bottom + m_padding.bottom + y_align + m_content->descent() - m_content->voff()
+          m_padding.left + x_align,
+          m_padding.bottom + y_align + m_content->descent() - m_content->voff()
       );
     }
   }
@@ -195,7 +197,7 @@ public:
 
     // if we have content we need to render it
     if (m_content) {
-      m_content->render(r, xref, yref);
+      m_content->render(r, x, y);
     }
   }
 };

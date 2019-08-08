@@ -57,7 +57,7 @@ bl_box_voff <- function(node) {
     .Call(`_gridtext_bl_box_voff`, node)
 }
 
-bl_calc_layout <- function(node, width_pt, height_pt = 0) {
+bl_calc_layout <- function(node, width_pt = 0, height_pt = 0) {
     invisible(.Call(`_gridtext_bl_calc_layout`, node, width_pt, height_pt))
 }
 
@@ -65,7 +65,7 @@ bl_place <- function(node, x_pt, y_pt) {
     invisible(.Call(`_gridtext_bl_place`, node, x_pt, y_pt))
 }
 
-bl_render <- function(node, x_pt, y_pt) {
+bl_render <- function(node, x_pt = 0, y_pt = 0) {
     .Call(`_gridtext_bl_render`, node, x_pt, y_pt)
 }
 
