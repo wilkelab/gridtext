@@ -5,7 +5,7 @@ read_image <- function(path) {
     img <- jpeg::readJPEG(get_file(path), native = TRUE)
   } else {
     warning(paste0("Image type not supported: ", path), call. = FALSE)
-    img <- as.raster(matrix(0, 10, 10))
+    img <- grDevices::as.raster(matrix(0, 10, 10))
   }
 }
 

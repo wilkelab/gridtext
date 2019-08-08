@@ -19,15 +19,14 @@ Depends:
     R (>= 3.5)
 Imports:
     grid,
+    grDevices,
     markdown,
-    purrr,
     rlang,
     Rcpp,
     RCurl,
     png,
     jpeg,
     stringr,
-    tibble,
     xml2
 Suggests:
     covr,
