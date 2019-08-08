@@ -125,7 +125,7 @@ element_markdown <- function(family = NULL, face = NULL, colour = NULL, size = N
   )
 }
 
-# rendering of the theme element is handled by `labels_grob()`
+# rendering of the theme element is handled by `rich_text_grob()`
 element_grob.element_markdown <- function(element, label = "", x = NULL, y = NULL,
                                           family = NULL, face = NULL, colour = NULL, size = NULL,
                                           hjust = NULL, vjust = NULL, angle = NULL, lineheight = NULL,
@@ -154,9 +154,9 @@ element_grob.element_markdown <- function(element, label = "", x = NULL, y = NUL
     lineheight = lineheight %||% element$lineheight
   )
 
-  markdown_grob(
-    label, x = x, y = y, hjust = hj, vjust = vj, angle = angle,
-    padding = margin, gp = gp, debug = element$debug
+  rich_text_grob(
+    label, x = x, y = y, hjust = hj, vjust = vj, rot = angle,
+    padding = margin, gp = gp
   )
 }
 
@@ -167,7 +167,7 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
     labels = c("*I. setosa*", "*I. versicolor*", "*I. virginica*")
   ) +
   labs(
-    title = "Sepal **length** and sepal **width** of<br>various *Iris* species",
+    title = "Sepal **length** and sepal **width** of various *Iris* species",
     x = "Sepal **length** (cm)", y = "Sepal **width** (cm)"
   ) +
   geom_smooth(show.legend = FALSE, alpha = 0.15) +
@@ -175,7 +175,7 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
   theme(
     plot.title = element_markdown(
       colour = "#3A4A60",
-      margin = ggplot2::margin(5, 0, 5, 0),
+      margin = ggplot2::margin(5, 0, 5, -35),
       lineheight = 1.2
     ),
     legend.text = element_markdown(),

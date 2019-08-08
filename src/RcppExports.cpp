@@ -19,14 +19,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_par_box
-BoxPtr<GridRenderer> bl_make_par_box(const List& node_list, double vspacing_pt);
-RcppExport SEXP _gridtext_bl_make_par_box(SEXP node_listSEXP, SEXP vspacing_ptSEXP) {
+BoxPtr<GridRenderer> bl_make_par_box(const List& node_list, double vspacing_pt, String width_policy, RObject hjust);
+RcppExport SEXP _gridtext_bl_make_par_box(SEXP node_listSEXP, SEXP vspacing_ptSEXP, SEXP width_policySEXP, SEXP hjustSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const List& >::type node_list(node_listSEXP);
     Rcpp::traits::input_parameter< double >::type vspacing_pt(vspacing_ptSEXP);
-    rcpp_result_gen = Rcpp::wrap(bl_make_par_box(node_list, vspacing_pt));
+    Rcpp::traits::input_parameter< String >::type width_policy(width_policySEXP);
+    Rcpp::traits::input_parameter< RObject >::type hjust(hjustSEXP);
+    rcpp_result_gen = Rcpp::wrap(bl_make_par_box(node_list, vspacing_pt, width_policy, hjust));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -422,7 +424,7 @@ RcppExport SEXP run_testthat_tests();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_null_box", (DL_FUNC) &_gridtext_bl_make_null_box, 2},
-    {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 2},
+    {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 4},
     {"_gridtext_bl_make_rect_box", (DL_FUNC) &_gridtext_bl_make_rect_box, 11},
     {"_gridtext_bl_make_text_box", (DL_FUNC) &_gridtext_bl_make_text_box, 3},
     {"_gridtext_bl_make_raster_box", (DL_FUNC) &_gridtext_bl_make_raster_box, 9},

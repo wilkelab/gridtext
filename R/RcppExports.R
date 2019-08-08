@@ -5,8 +5,8 @@ bl_make_null_box <- function(width_pt = 0, height_pt = 0) {
     .Call(`_gridtext_bl_make_null_box`, width_pt, height_pt)
 }
 
-bl_make_par_box <- function(node_list, vspacing_pt) {
-    .Call(`_gridtext_bl_make_par_box`, node_list, vspacing_pt)
+bl_make_par_box <- function(node_list, vspacing_pt, width_policy = "native", hjust = NULL) {
+    .Call(`_gridtext_bl_make_par_box`, node_list, vspacing_pt, width_policy, hjust)
 }
 
 bl_make_rect_box <- function(content, width_pt, height_pt, margin, padding, gp, content_hjust = 0, content_vjust = 1, width_policy = "fixed", height_policy = "fixed", r = 0) {

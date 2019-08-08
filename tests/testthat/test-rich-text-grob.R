@@ -5,8 +5,8 @@ test_that("visual tests", {
     function() {
       text <- c(
         "**Various text boxes in different stylings**",
-        "Some text **in bold.**", "Linebreaks<br>Linebreaks<br>Linebreaks",
-        "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub>"
+        "Some text **in bold.**<br>(centered)", "Linebreaks<br>Linebreaks<br>Linebreaks",
+        "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub><br>*a* = 5"
       )
 
       x <- c(0, .4, .3, .8)

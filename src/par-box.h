@@ -28,6 +28,8 @@ private:
   Length m_descent;
   Length m_voff;
   SizePolicy m_width_policy;
+  double m_hjust; // horizontal adjustment; can be used to override text adjustment
+  bool m_use_hjust; // should text adjustment be overridden or not?
   // vertical shift if paragraph contains more than one line; is used to make sure the
   // bottom line in the box is used as the box baseline (all lines above are folded
   // into the ascent)
@@ -36,10 +38,12 @@ private:
   Length m_x, m_y;
 
 public:
-  ParBox(const BoxList<Renderer>& nodes, Length vspacing, SizePolicy width_policy = SizePolicy::native) :
+  ParBox(const BoxList<Renderer>& nodes, Length vspacing, SizePolicy width_policy = SizePolicy::native,
+         double hjust = 0, bool use_hjust = false) :
     m_nodes(nodes), m_vspacing(vspacing),
     m_width(0), m_ascent(0), m_descent(0), m_voff(0),
     m_width_policy(width_policy),
+    m_hjust(hjust), m_use_hjust(use_hjust),
     m_multiline_shift(0), m_x(0), m_y(0) {
   }
   ~ParBox() {};
@@ -90,8 +94,12 @@ public:
     Length descent = 0;
 
     for (auto i_line = line_breaks.begin(); i_line != line_breaks.end(); i_line++) {
-      // reset x_off for new line
-      x_off = 0;
+      // reset x_off for new line, potentially overriding alignment
+      if (m_use_hjust) {
+        x_off = m_hjust*(width_hint - i_line->width);
+      } else {
+        x_off = 0;
+      }
 
       // we first get the ascent of each box in the line, to make sure there is
       // vertical space if some boxes are very tall

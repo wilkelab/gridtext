@@ -122,7 +122,7 @@ make_rich_text_grob <- function(text, x, y, hjust, vjust, rot, margin_pt, paddin
   }
   doctree <- read_html(text)
 
-  drawing_context <- setup_context(gp = gp)
+  drawing_context <- setup_context(gp = gp, hjust = hjust)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
   vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_policy = "native")
 

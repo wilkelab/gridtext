@@ -69,7 +69,7 @@ process_tag_p <- function(node, drawing_context) {
     ),
     recursive = FALSE
   )
-  bl_make_par_box(boxes, drawing_context$linespacing_pt)
+  bl_make_par_box(boxes, drawing_context$linespacing_pt, hjust = drawing_context$hjust)
 }
 
 process_tag_span <- function(node, drawing_context) {
@@ -86,7 +86,7 @@ process_tag_sup <- function(node, drawing_context) {
   drawing_context <- set_style(drawing_context, attr$style)
 
   # move drawing half a character above baseline
-  drawing_context$yoff_pt <- drawing_context$yoff_pt + drawing_context$height_pt / 2
+  drawing_context$yoff_pt <- drawing_context$yoff_pt + drawing_context$ascent_pt / 2
   process_tags(node, drawing_context)
 }
 
@@ -97,7 +97,7 @@ process_tag_sub <- function(node, drawing_context) {
   drawing_context <- set_style(drawing_context, attr$style)
 
   # move drawing half a character below baseline
-  drawing_context$yoff_pt <- drawing_context$yoff_pt - drawing_context$height_pt / 2
+  drawing_context$yoff_pt <- drawing_context$yoff_pt - drawing_context$ascent_pt / 2
   process_tags(node, drawing_context)
 }
 
