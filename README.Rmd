@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 Improved text rendering support for grid graphics in R, written by Claus O. Wilke
 
-This is an experiment. The API is not stable. Please do not use this in any context where you need your code to work. No user support will be provided.
+**Disclaimer:** This is a work in progress. The API is not stable. Please do not use this in any context where you need your code to work. No user support will be provided.
 
 
 ## Installation

@@ -10,7 +10,7 @@ Authors@R:
       email = "wilke@austin.utexas.edu",
       comment = c(ORCID = "0000-0002-7470-9261")
     )
-Description: This package provides rich-text rendering capability for the grid
+Description: This package provides rich-text rendering capabilities for the grid
     graphics engine. 
 URL: https://github.com/clauswilke/gridtext
 BugReports: https://github.com/clauswilke/gridtext/issues

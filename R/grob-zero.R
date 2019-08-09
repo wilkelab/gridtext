@@ -1,4 +1,9 @@
-# copied from ggplot2
+# An empty grob of no extent
+#
+# An empty grob of no extent. Useful when a grob is needed but no
+# content is desired.
+# @keywords internal
+# @export
 zeroGrob <- function() .zeroGrob
 
 .zeroGrob <- grid::grob(cl = "zeroGrob", name = "NULL")
