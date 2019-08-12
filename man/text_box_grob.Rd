@@ -4,22 +4,45 @@
 \alias{text_box_grob}
 \title{Text box grob}
 \usage{
-text_box_grob(text, width = NULL, height = NULL, x = unit(0.5,
-  "npc"), y = unit(0.5, "npc"), hjust = 0.5, vjust = 0.5,
-  gp = gpar(), use_markdown = TRUE)
+text_box_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+  width = unit(1, "pnc"), height = NULL, hjust = 0.5, vjust = 0.5,
+  rot = 0, default.units = "npc", margin = unit(c(0, 0, 0, 0), "pt"),
+  padding = unit(c(0, 0, 0, 0), "pt"), r = unit(0, "pt"),
+  name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
+  use_markdown = TRUE)
 }
 \arguments{
 \item{text}{Character vector containing markdown/html string to draw.}
 
+\item{x, y}{Unit objects specifying the location of the reference point.}
+
 \item{width, height}{Unit objects specifying width and height of the
 grob; height is currently ignored.}
-
-\item{x, y}{Unit objects specifying the location of the reference point.}
 
 \item{hjust, vjust}{Numerical values specifying the location of the grob
 relative to the reference point.}
 
-\item{gp}{Other graphical parameters for drawing}
+\item{default.units}{Units of \code{x}, \code{y}, \code{width}, \code{height} if these are
+provided only as numerical values.}
+
+\item{margin, padding}{Unit vectors of four elements each indicating the
+margin and padding around each text label in the order top, right,
+bottom, left. Margins are drawn outside the enclosing box (if any),
+and padding is drawn inside. To avoid rendering artifacts, it is best
+to specify these values in absolute units (such as points, mm, or inch)
+rather than in relative units (such as npc).}
+
+\item{r}{The radius of the rounded corners. To avoid rendering artifacts,
+it is best to specify this in absolute units (such as points, mm, or inch)
+rather than in relative units (such as npc).}
+
+\item{name}{Name of the grob.}
+
+\item{gp}{Other graphical parameters for drawing.}
+
+\item{box_gp}{Graphical parameters for the enclosing box around each text label.}
+
+\item{vp}{Viewport.}
 
 \item{use_markdown}{Should the \code{text} input be treated as markdown?}
 }
@@ -28,6 +51,19 @@ Text box grob
 }
 \examples{
 library(grid)
+g <- text_box_grob(
+  "**The quick brown fox jumps over the lazy dog.**<br><br>
+  The quick brown fox jumps over the lazy dog.
+  The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
+  The quick brown fox jumps over the lazy dog.",
+  width = unit(1, "npc"),
+  x = unit(0, "npc"), y = unit(0.9, "npc"), hjust = 0, vjust = 1,
+  gp = gpar(fontsize = 15),
+  box_gp = gpar(col = "black", fill = "lightcyan1"),
+  r = unit(5, "pt"),
+  padding = unit(c(10, 10, 10, 10), "pt"),
+  margin = unit(c(0, 10, 0, 10), "pt")
+)
 grid.newpage()
-grid.draw(text_box_grob("Some text **in bold.**"))
+grid.draw(g)
 }

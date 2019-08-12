@@ -96,7 +96,17 @@ process_tag_p <- function(node, drawing_context) {
     ),
     recursive = FALSE
   )
-  bl_make_par_box(boxes, drawing_context$linespacing_pt, hjust = drawing_context$hjust)
+
+  # we use the existence of hjust in the drawing context to determine
+  # whether we're word wrapping (width_policy = "relative") or not.
+  if (is.null(drawing_context$hjust)) {
+    bl_make_par_box(boxes, drawing_context$linespacing_pt, width_policy = "relative")
+  } else {
+    bl_make_par_box(
+      boxes, drawing_context$linespacing_pt, width_policy = "native",
+      hjust = drawing_context$hjust
+    )
+  }
 }
 
 process_tag_span <- function(node, drawing_context) {

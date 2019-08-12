@@ -1,6 +1,6 @@
 # create drawing context with defined state
 setup_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", color = "black",
-                          lineheight = 1.2, hjust = 0, gp = NULL) {
+                          lineheight = 1.2, hjust = NULL, gp = NULL) {
   if (is.null(gp)) {
     gp <- gpar(
       fontsize = fontsize, fontfamily = fontfamily, fontface = fontface,
