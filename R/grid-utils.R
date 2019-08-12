@@ -1,4 +1,5 @@
 # various functions to help with grid functionality
+# code taken from ggforce with permission (https://twitter.com/thomasp85/status/1160989815657119747)
 
 # from: https://github.com/thomasp85/ggforce/blob/cba71550606d18b4f4b245cb097aee5eeeec52a8/R/textbox.R#L290-L295
 with_unit <- function(x, default) {

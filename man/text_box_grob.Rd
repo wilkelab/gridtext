@@ -5,7 +5,7 @@
 \title{Text box grob}
 \usage{
 text_box_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-  width = unit(1, "pnc"), height = NULL, hjust = 0.5, vjust = 0.5,
+  width = NULL, height = NULL, hjust = 0.5, vjust = 0.5,
   default.units = "npc", margin = unit(c(0, 0, 0, 0), "pt"),
   padding = unit(c(0, 0, 0, 0), "pt"), r = unit(0, "pt"),
   name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
@@ -17,7 +17,8 @@ text_box_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
 \item{x, y}{Unit objects specifying the location of the reference point.}
 
 \item{width, height}{Unit objects specifying width and height of the
-grob; height is currently ignored.}
+grob; a value of \code{NULL} means take up all available space.
+The \code{height} setting is currently ignored.}
 
 \item{hjust, vjust}{Numerical values specifying the location of the grob
 relative to the reference point.}
@@ -56,7 +57,6 @@ g <- text_box_grob(
   The quick brown fox jumps over the lazy dog.
   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
   The quick brown fox jumps over the lazy dog.",
-  width = unit(1, "npc"),
   x = unit(0, "npc"), y = unit(0.9, "npc"), hjust = 0, vjust = 1,
   gp = gpar(fontsize = 15),
   box_gp = gpar(col = "black", fill = "lightcyan1"),

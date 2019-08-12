@@ -3,7 +3,8 @@
 #' @param text Character vector containing markdown/html string to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
 #' @param width,height Unit objects specifying width and height of the
-#'   grob; height is currently ignored.
+#'   grob; a value of `NULL` means take up all available space.
+#'   The `height` setting is currently ignored.
 #' @param hjust,vjust Numerical values specifying the location of the grob
 #'   relative to the reference point.
 #' @param default.units Units of `x`, `y`, `width`, `height` if these are
@@ -29,7 +30,6 @@
 #'   The quick brown fox jumps over the lazy dog.
 #'   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
 #'   The quick brown fox jumps over the lazy dog.",
-#'   width = unit(1, "npc"),
 #'   x = unit(0, "npc"), y = unit(0.9, "npc"), hjust = 0, vjust = 1,
 #'   gp = gpar(fontsize = 15),
 #'   box_gp = gpar(col = "black", fill = "lightcyan1"),
@@ -41,23 +41,17 @@
 #' grid.draw(g)
 #' @export
 text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-                          width = unit(1, "pnc"), height = NULL,
+                          width = NULL, height = NULL,
                           hjust = 0.5, vjust = 0.5, default.units = "npc",
                           margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                           r = unit(0, "pt"),
                           name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
                           use_markdown = TRUE) {
-  # make sure x, y, widht are units
-  if (!is.unit(x))
-    x <- unit(x, default.units)
-  if (!is.unit(y))
-    y <- unit(y, default.units)
-  if (!is.unit(width))
-    width <- unit(width, default.units)
-
-  # height is currently ignored
-  if (is.null(height))
-    height <- unit(1, "npc")
+  # make sure x, y, width, height are units
+  x <- with_unit(x, default.units)
+  y <- with_unit(y, default.units)
+  width <- with_unit(width, default.units)
+  height <- with_unit(height, default.units)
 
   # make sure we can handle input text even if provided as factor
   text <- as.character(text)
@@ -71,11 +65,10 @@ text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   padding_pt[c(2, 4)] <- convertWidth(padding[c(2, 4)], "pt", valueOnly = TRUE)
   r_pt <- convertUnit(r, "pt", valueOnly = TRUE)
 
-  # make sure text, x, y, and width have the same length and length is 1
-  n <- unique(length(text), length(x), length(y), length(width), length(height))
-
-  if (length(n) > 1 || n != 1) {
-    stop("Arguments `text`, `x`, `y`, `width`, `height` must have length 1", call. = FALSE)
+  # make sure text, x, y, and width have at most length 1
+  n <- max(length(text), length(x), length(y), length(width), length(height))
+  if (n > 1) {
+    stop("The function text_box_grob() is not vectorized.", call. = FALSE)
   }
 
   # now parse html
@@ -116,7 +109,7 @@ makeContext.text_box_grob <- function(x) {
   x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
   y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
 
-  width_pt <- convertWidth(x$width, "pt", valueOnly = TRUE)
+  width_pt <- current_width_pt(x, x$width)
 
   bl_calc_layout(x$vbox_outer, width_pt)
   width_pt <- bl_box_width(x$vbox_outer)
