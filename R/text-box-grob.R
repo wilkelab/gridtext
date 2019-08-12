@@ -42,7 +42,7 @@
 #' @export
 text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                           width = unit(1, "pnc"), height = NULL,
-                          hjust = 0.5, vjust = 0.5, rot = 0, default.units = "npc",
+                          hjust = 0.5, vjust = 0.5, default.units = "npc",
                           margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                           r = unit(0, "pt"),
                           name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
