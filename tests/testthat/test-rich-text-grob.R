@@ -63,7 +63,6 @@ test_that("visual tests", {
       hjust <- c(0, 0.5, 0, 1)
       vjust <- c(1, 0.5, 1, 0)
 
-      grid.newpage()
       g <- rich_text_grob(
         text, x, y, hjust = hjust, vjust = vjust, rot = rot,
         padding = unit(c(6, 6, 4, 6), "pt"),
