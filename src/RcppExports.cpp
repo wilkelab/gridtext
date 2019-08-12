@@ -54,12 +54,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // bl_make_text_box
-BoxPtr<GridRenderer> bl_make_text_box(const String& label, List gp, double voff_pt);
+BoxPtr<GridRenderer> bl_make_text_box(const CharacterVector& label, List gp, double voff_pt);
 RcppExport SEXP _gridtext_bl_make_text_box(SEXP labelSEXP, SEXP gpSEXP, SEXP voff_ptSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const String& >::type label(labelSEXP);
+    Rcpp::traits::input_parameter< const CharacterVector& >::type label(labelSEXP);
     Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
     Rcpp::traits::input_parameter< double >::type voff_pt(voff_ptSEXP);
     rcpp_result_gen = Rcpp::wrap(bl_make_text_box(label, gp, voff_pt));
@@ -236,12 +236,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // grid_renderer_text
-void grid_renderer_text(XPtr<GridRenderer> gr, String label, Length x, Length y, List gp);
+void grid_renderer_text(XPtr<GridRenderer> gr, const CharacterVector& label, Length x, Length y, List gp);
 RcppExport SEXP _gridtext_grid_renderer_text(SEXP grSEXP, SEXP labelSEXP, SEXP xSEXP, SEXP ySEXP, SEXP gpSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< XPtr<GridRenderer> >::type gr(grSEXP);
-    Rcpp::traits::input_parameter< String >::type label(labelSEXP);
+    Rcpp::traits::input_parameter< const CharacterVector& >::type label(labelSEXP);
     Rcpp::traits::input_parameter< Length >::type x(xSEXP);
     Rcpp::traits::input_parameter< Length >::type y(ySEXP);
     Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
@@ -250,12 +250,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // grid_renderer_text_details
-List grid_renderer_text_details(String label, List gp);
+List grid_renderer_text_details(const CharacterVector& label, List gp);
 RcppExport SEXP _gridtext_grid_renderer_text_details(SEXP labelSEXP, SEXP gpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< String >::type label(labelSEXP);
+    Rcpp::traits::input_parameter< const CharacterVector& >::type label(labelSEXP);
     Rcpp::traits::input_parameter< List >::type gp(gpSEXP);
     rcpp_result_gen = Rcpp::wrap(grid_renderer_text_details(label, gp));
     return rcpp_result_gen;

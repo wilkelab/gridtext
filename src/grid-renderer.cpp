@@ -10,12 +10,12 @@ XPtr<GridRenderer> grid_renderer() {
 }
 
 // [[Rcpp::export]]
-void grid_renderer_text(XPtr<GridRenderer> gr, String label, Length x, Length y, List gp) {
+void grid_renderer_text(XPtr<GridRenderer> gr, const CharacterVector &label, Length x, Length y, List gp) {
   return gr->text(label, x, y, gp);
 }
 
 // [[Rcpp::export]]
-List grid_renderer_text_details(String label, List gp) {
+List grid_renderer_text_details(const CharacterVector &label, List gp) {
   TextDetails td = GridRenderer::text_details(label, gp);
 
   List out = List::create(

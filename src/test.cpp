@@ -17,9 +17,12 @@ RObject test_par_box(CharacterVector tokens, double box_width, double x, double 
   // build list of grob boxes
   BoxList<GridRenderer> nodes;
 
-  int i = 0;
-  for (auto i_token = tokens.begin(); i_token != tokens.end(); i_token++) {
-    nodes.push_back(BoxPtr<GridRenderer>(new TextBox<GridRenderer>(*i_token, gp, 0)));
+  for (size_t i = 0; i < tokens.size(); i++) {
+    // the following code will silently strip string encoding;
+    // it's fine for test code but not for production
+    String s(tokens[i]);
+    CharacterVector label(s);
+    nodes.push_back(BoxPtr<GridRenderer>(new TextBox<GridRenderer>(label, gp, 0)));
     nodes.push_back(BoxPtr<GridRenderer>(new RegularSpaceGlue<GridRenderer>(gp)));
     i++;
     if (i == 15) {

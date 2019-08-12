@@ -30,7 +30,7 @@ public:
   GridRenderer() {
   }
 
-  static TextDetails text_details(String label, GraphicsContext gp) {
+  static TextDetails text_details(const CharacterVector &label, GraphicsContext gp) {
     // call R function to look up text info
     Environment env = Environment::namespace_env("gridtext");
 
@@ -48,8 +48,8 @@ public:
     );
   }
 
-  void text(String label, Length x, Length y, const GraphicsContext &gp) {
-    m_grobs.push_back(text_grob(CharacterVector(label), NumericVector(1, x), NumericVector(1, y), gp));
+  void text(const CharacterVector &label, Length x, Length y, const GraphicsContext &gp) {
+    m_grobs.push_back(text_grob(label, NumericVector(1, x), NumericVector(1, y), gp));
   }
 
   void raster(RObject image, Length x, Length y, Length width, Length height, bool interpolate = true,

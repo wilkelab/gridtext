@@ -10,7 +10,7 @@ using namespace Rcpp;
 template <class Renderer>
 class TextBox : public Box<Renderer> {
 private:
-  String m_label;
+  CharacterVector m_label;
   typename Renderer::GraphicsContext m_gp;
   Length m_width;
   Length m_ascent;
@@ -22,7 +22,7 @@ private:
   Length m_x, m_y;
 
 public:
-  TextBox(String label, const typename Renderer::GraphicsContext &gp, Length voff = 0) :
+  TextBox(const CharacterVector &label, const typename Renderer::GraphicsContext &gp, Length voff = 0) :
     m_label(label), m_gp(gp), m_width(0), m_ascent(0), m_descent(0), m_voff(voff),
     m_x(0), m_y(0) {}
   ~TextBox() {}

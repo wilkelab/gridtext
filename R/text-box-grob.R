@@ -111,7 +111,7 @@ text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
 }
 
 #' @export
-makeContent.text_box_grob <- function(x) {
+makeContext.text_box_grob <- function(x) {
   # get absolute coordinates of the grob
   x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
   y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
@@ -119,39 +119,41 @@ makeContent.text_box_grob <- function(x) {
   width_pt <- convertWidth(x$width, "pt", valueOnly = TRUE)
 
   bl_calc_layout(x$vbox_outer, width_pt)
-  width <- bl_box_width(x$vbox_outer)
-  height <- bl_box_height(x$vbox_outer)
+  width_pt <- bl_box_width(x$vbox_outer)
+  height_pt <- bl_box_height(x$vbox_outer)
 
-  grobs <- bl_render(x$vbox_outer, x_pt - x$hjust*width, y_pt - x$vjust*height)
+  x$width_pt <- width_pt
+  x$height_pt <- height_pt
+  x$x_pt <- x_pt - x$hjust*width_pt
+  x$y_pt <- y_pt - x$vjust*height_pt
+
+  x
+}
+
+#' @export
+makeContent.text_box_grob <- function(x) {
+  grobs <- bl_render(x$vbox_outer, x$x_pt, x$y_pt)
 
   setChildren(x, grobs)
 }
 
 
-# Not properly implemented yet --------------------------------------------
-
-# @export
+#' @export
 heightDetails.text_box_grob <- function(x) {
-  if (is.null(x$grobheight)) {
-    x <- makeContent(x)
-  }
-  x$grobheight
+  unit(x$height_pt, "pt")
 }
 
-# @export
+#' @export
 widthDetails.text_box_grob <- function(x) {
-  if (is.null(x$grobwidth)) {
-    x <- makeContent(x)
-  }
-  x$grobwidth
+  unit(x$width_pt, "pt")
 }
 
-# @export
+#' @export
 ascentDetails.text_box_grob <- function(x) {
-  heightDetails(x)
+  unit(x$height_pt, "pt")
 }
 
-# @export
+#' @export
 descentDetails.text_box_grob <- function(x) {
   unit(0, "pt")
 }

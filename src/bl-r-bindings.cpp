@@ -130,7 +130,11 @@ BoxPtr<GridRenderer> bl_make_rect_box(RObject content, double width_pt, double h
 }
 
 // [[Rcpp::export]]
-BoxPtr<GridRenderer> bl_make_text_box(const String &label, List gp, double voff_pt = 0) {
+BoxPtr<GridRenderer> bl_make_text_box(const CharacterVector &label, List gp, double voff_pt = 0) {
+  if (label.size() != 1) {
+    stop("TextBox requires a label vector of length 1.");
+  }
+
   BoxPtr<GridRenderer> p(new TextBox<GridRenderer>(label, gp, voff_pt));
 
   StringVector cl = {"bl_text_box", "bl_box", "bl_node"};
