@@ -1,4 +1,4 @@
-#' Text box grob
+#' Textbox grob
 #'
 #' @param text Character vector containing markdown/html string to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
@@ -28,7 +28,7 @@
 #' @param use_markdown Should the `text` input be treated as markdown?
 #' @examples
 #' library(grid)
-#' g <- text_box_grob(
+#' g <- textbox_grob(
 #'   "**The quick brown fox jumps over the lazy dog.**<br><br>
 #'   The quick brown fox jumps over the lazy dog.
 #'   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
@@ -43,14 +43,14 @@
 #' grid.newpage()
 #' grid.draw(g)
 #' @export
-text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-                          width = NULL, height = NULL,
-                          hjust = 0.5, vjust = 0.5, default.units = "npc",
-                          margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
-                          r = unit(0, "pt"),
-                          orientation = c("upright", "left-rotated", "right-rotated", "inverted"),
-                          name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
-                          use_markdown = TRUE) {
+textbox_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+                         width = NULL, height = NULL,
+                         hjust = 0.5, vjust = 0.5, default.units = "npc",
+                         margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
+                         r = unit(0, "pt"),
+                         orientation = c("upright", "left-rotated", "right-rotated", "inverted"),
+                         name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
+                         use_markdown = TRUE) {
   # make sure x, y, width, height are units
   x <- with_unit(x, default.units)
   y <- with_unit(y, default.units)
@@ -76,7 +76,7 @@ text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   # make sure text, x, y, and width have at most length 1
   n <- max(length(text), length(x), length(y), length(width), length(height))
   if (n > 1) {
-    stop("The function text_box_grob() is not vectorized.", call. = FALSE)
+    stop("The function textbox_grob() is not vectorized.", call. = FALSE)
   }
 
   # now parse html
@@ -107,12 +107,12 @@ text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     vbox_outer = vbox_outer,
     gp = gp,
     box_gp = box_gp,
-    cl = "text_box_grob"
+    cl = "textbox_grob"
   )
 }
 
 #' @export
-makeContext.text_box_grob <- function(x) {
+makeContext.textbox_grob <- function(x) {
   # get absolute coordinates of the grob
   x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
   y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
@@ -132,7 +132,7 @@ makeContext.text_box_grob <- function(x) {
 }
 
 #' @export
-makeContent.text_box_grob <- function(x) {
+makeContent.textbox_grob <- function(x) {
   grobs <- bl_render(x$vbox_outer, x$x_pt, x$y_pt)
 
   setChildren(x, grobs)
@@ -140,21 +140,21 @@ makeContent.text_box_grob <- function(x) {
 
 
 #' @export
-heightDetails.text_box_grob <- function(x) {
+heightDetails.textbox_grob <- function(x) {
   unit(x$height_pt, "pt")
 }
 
 #' @export
-widthDetails.text_box_grob <- function(x) {
+widthDetails.textbox_grob <- function(x) {
   unit(x$width_pt, "pt")
 }
 
 #' @export
-ascentDetails.text_box_grob <- function(x) {
+ascentDetails.textbox_grob <- function(x) {
   unit(x$height_pt, "pt")
 }
 
 #' @export
-descentDetails.text_box_grob <- function(x) {
+descentDetails.textbox_grob <- function(x) {
   unit(0, "pt")
 }

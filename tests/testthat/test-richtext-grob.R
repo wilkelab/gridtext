@@ -1,26 +1,26 @@
-context("rich text grob")
+context("richtext grob")
 
 test_that("grobheight and grobwidth work", {
-  # width is the same for textGrob and rich_text_grob
+  # width is the same for textGrob and richtext_grob
   g <- textGrob("test")
-  g2 <- rich_text_grob("test")
+  g2 <- richtext_grob("test")
   w <- convertWidth(grobWidth(g), "pt", valueOnly = TRUE)
   w2 <- convertWidth(grobWidth(g2), "pt", valueOnly = TRUE)
   expect_equal(w, w2)
 
-  # height is slightly larger for rich_text_grob, b/c descent is considered
+  # height is slightly larger for richtext_grob, b/c descent is considered
   h <- convertHeight(grobHeight(g), "pt", valueOnly = TRUE)
   h2 <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
   expect_lt(h, h2)
 
   # width and height are flipped after rotating 90 degrees
   g <- textGrob("test", rot = 90)
-  g2 <- rich_text_grob("test", rot = 90)
+  g2 <- richtext_grob("test", rot = 90)
   w <- convertWidth(grobWidth(g), "pt", valueOnly = TRUE)
   w2 <- convertWidth(grobWidth(g2), "pt", valueOnly = TRUE)
   expect_lt(w, w2)
 
-  # height is slightly larger for rich_text_grob, b/c descent is considered
+  # height is slightly larger for richtext_grob, b/c descent is considered
   h <- convertHeight(grobHeight(g), "pt", valueOnly = TRUE)
   h2 <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
   expect_equal(h, h2)
@@ -63,7 +63,7 @@ test_that("visual tests", {
       hjust <- c(0, 0.5, 0, 1)
       vjust <- c(1, 0.5, 1, 0)
 
-      g <- rich_text_grob(
+      g <- richtext_grob(
         text, x, y, hjust = hjust, vjust = vjust, rot = rot,
         padding = unit(c(6, 6, 4, 6), "pt"),
         r = unit(c(0, 0, 4, 8), "pt"),
@@ -92,7 +92,7 @@ test_that("visual tests", {
       box_hjust <- c(0.5, 0, 1)
       box_vjust <- c(0.5, 1, 0)
 
-      g <- rich_text_grob(
+      g <- richtext_grob(
         text, x, y, hjust = 0.5, vjust = 0.5,
         box_hjust = box_hjust, box_vjust = box_vjust, rot = rot,
         align_heights = TRUE,
@@ -124,7 +124,7 @@ test_that("visual tests", {
       box_hjust <- c(0.5, 0, 1)
       box_vjust <- c(0.5, 1, 0)
 
-      g <- rich_text_grob(
+      g <- richtext_grob(
         text, x, y, hjust = 0.5, vjust = 0.5,
         box_hjust = box_hjust, box_vjust = box_vjust, rot = rot,
         align_widths = TRUE,

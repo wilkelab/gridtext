@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    line, polyline, polygon, path, rect, circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<rect x='232.05' y='97.68' width='111.91' height='35.04' style='stroke-width: 0.75; fill: #FFF8DC;' />
+<text x='238.02' y='111.91' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='31.34px' lengthAdjust='spacingAndGlyphs'>Some</text>
+<text x='272.70' y='111.91' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='19.33px' lengthAdjust='spacingAndGlyphs'>text</text>
+<text x='295.35' y='111.91' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='10.66px' lengthAdjust='spacingAndGlyphs'>in</text>
+<text x='309.34' y='111.91' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='28.64px' lengthAdjust='spacingAndGlyphs'>bold.</text>
+<text x='260.66' y='126.25' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='54.69px' lengthAdjust='spacingAndGlyphs'>(centered)</text>
+<polyline points='183.89,325.74 257.39,399.24 257.28,399.12 257.75,399.56 258.28,399.91 258.87,400.17 259.49,400.34 260.13,400.40 260.77,400.36 261.39,400.22 261.99,399.98 262.54,399.65 263.03,399.24 263.03,399.24 292.31,369.95 292.31,369.95 292.73,369.46 293.06,368.91 293.30,368.32 293.44,367.69 293.48,367.05 293.42,366.41 293.25,365.79 292.99,365.21 292.63,364.67 292.31,364.31 218.82,290.82 219.14,291.18 218.70,290.71 218.20,290.31 217.64,290.00 217.03,289.79 216.40,289.67 215.76,289.66 215.12,289.75 214.51,289.94 213.94,290.23 213.42,290.60 213.18,290.82 183.89,320.11 184.13,319.89 183.68,320.34 183.30,320.86 183.02,321.44 182.82,322.05 182.73,322.68 182.75,323.32 182.86,323.96 183.08,324.56 183.39,325.12 183.78,325.63 183.89,325.74 ' style='stroke-width: 0.75;' />
+<text transform='translate(224.75,316.87) rotate(45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='58.70px' lengthAdjust='spacingAndGlyphs'>Linebreaks</text>
+<text transform='translate(214.61,327.02) rotate(45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='58.70px' lengthAdjust='spacingAndGlyphs'>Linebreaks</text>
+<text transform='translate(204.46,337.16) rotate(45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='58.70px' lengthAdjust='spacingAndGlyphs'>Linebreaks</text>
+<polygon points='502.50,476.70 570.36,408.84 570.13,409.06 571.00,408.12 571.71,407.05 572.24,405.88 572.57,404.64 572.70,403.36 572.62,402.08 572.34,400.83 571.86,399.64 571.20,398.54 570.36,397.56 570.36,397.56 555.70,382.90 555.70,382.90 554.72,382.07 553.62,381.40 552.43,380.92 551.18,380.64 549.90,380.56 548.62,380.69 547.39,381.02 546.22,381.55 545.15,382.26 544.42,382.90 476.57,450.76 477.29,450.12 476.34,450.99 475.55,452.00 474.93,453.12 474.50,454.33 474.27,455.59 474.25,456.87 474.43,458.14 474.81,459.37 475.38,460.51 476.13,461.56 476.57,462.03 491.23,476.70 490.80,476.22 491.70,477.13 492.75,477.88 493.89,478.45 495.12,478.84 496.39,479.02 497.67,478.99 498.93,478.76 500.14,478.33 501.26,477.71 502.27,476.92 ' style='stroke-width: 0.75; fill: #BFEFFF;' />
+<text transform='translate(499.75,450.02) rotate(-45)' style='font-size: 12.00px; font-style: italic; font-family: Liberation Sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>x</text>
+<text transform='translate(501.66,443.44) rotate(-45)' style='font-size: 9.60px; font-family: Liberation Sans;' textLength='5.33px' lengthAdjust='spacingAndGlyphs'>2</text>
+<text transform='translate(510.11,439.65) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='7.02px' lengthAdjust='spacingAndGlyphs'>+</text>
+<text transform='translate(517.42,432.34) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>5</text>
+<text transform='translate(522.14,427.62) rotate(-45)' style='font-size: 12.00px; font-style: italic; font-family: Liberation Sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>x</text>
+<text transform='translate(528.74,421.03) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='7.02px' lengthAdjust='spacingAndGlyphs'>+</text>
+<text transform='translate(536.05,413.71) rotate(-45)' style='font-size: 12.00px; font-style: italic; font-family: Liberation Sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
+<text transform='translate(544.51,409.91) rotate(-45)' style='font-size: 9.60px; font-family: Liberation Sans;' textLength='2.12px' lengthAdjust='spacingAndGlyphs'>i</text>
+<text transform='translate(522.31,447.74) rotate(-45)' style='font-size: 12.00px; font-style: italic; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>a</text>
+<text transform='translate(529.38,440.67) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='7.02px' lengthAdjust='spacingAndGlyphs'>=</text>
+<text transform='translate(536.69,433.36) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>5</text>
+<text x='14.40' y='9.90' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='212.62px' lengthAdjust='spacingAndGlyphs'>Box widths aligned, content centered</text>
+<circle cx='288.00' cy='115.20' r='1.87pt' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='216.00' cy='288.00' r='1.87pt' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='576.00' cy='403.20' r='1.87pt' style='stroke-width: 0.75; fill: #000000;' />
+</svg>

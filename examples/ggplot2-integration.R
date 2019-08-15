@@ -20,7 +20,7 @@ element_markdown <- function(family = NULL, face = NULL, colour = NULL, size = N
   )
 }
 
-# rendering of the theme element is handled by `rich_text_grob()`
+# rendering of the theme element is handled by `richtext_grob()`
 element_grob.element_markdown <- function(element, label = "", x = NULL, y = NULL,
                                           family = NULL, face = NULL, colour = NULL, size = NULL,
                                           hjust = NULL, vjust = NULL, angle = NULL, lineheight = NULL,
@@ -49,7 +49,7 @@ element_grob.element_markdown <- function(element, label = "", x = NULL, y = NUL
     lineheight = lineheight %||% element$lineheight
   )
 
-  rich_text_grob(
+  richtext_grob(
     label, x = x, y = y, hjust = hj, vjust = vj, rot = angle,
     padding = margin, gp = gp
   )

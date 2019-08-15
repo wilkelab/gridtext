@@ -52,7 +52,7 @@
 #' vjust <- c(0.5, 1, 0, 0.5)
 #'
 #' grid.newpage()
-#' g <- rich_text_grob(
+#' g <- richtext_grob(
 #'   text, x, y, hjust = hjust, vjust = vjust, rot = rot,
 #'   padding = unit(c(6, 6, 4, 6), "pt"),
 #'   r = unit(c(0, 2, 4, 8), "pt"),
@@ -61,13 +61,13 @@
 #' grid.draw(g)
 #' grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
 #' @export
-rich_text_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-                           hjust = 0.5, vjust = 0.5, box_hjust = hjust, box_vjust = vjust,
-                           rot = 0, default.units = "npc",
-                           margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
-                           r = unit(0, "pt"), align_widths = FALSE, align_heights = FALSE,
-                           name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
-                           use_markdown = TRUE) {
+richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+                          hjust = 0.5, vjust = 0.5, box_hjust = hjust, box_vjust = vjust,
+                          rot = 0, default.units = "npc",
+                          margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
+                          r = unit(0, "pt"), align_widths = FALSE, align_heights = FALSE,
+                          name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
+                          use_markdown = TRUE) {
   # make sure x and y are units
   if (!is.unit(x))
     x <- unit(x, default.units)
@@ -152,7 +152,7 @@ rich_text_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     vp = vp,
     name = name,
     children = children,
-    cl = "rich_text_grob"
+    cl = "richtext_grob"
   )
 }
 
@@ -234,7 +234,7 @@ make_outer_box <- function(vbox_inner, width, height, x, y, hjust, vjust,
 
 
 #' @export
-heightDetails.rich_text_grob <- function(x) {
+heightDetails.richtext_grob <- function(x) {
   grobs <- x$children
   if (length(grobs) == 1) {
     # shortcut for grobs with just one child; unit calcs not needed
@@ -249,7 +249,7 @@ heightDetails.rich_text_grob <- function(x) {
 }
 
 #' @export
-widthDetails.rich_text_grob <- function(x) {
+widthDetails.richtext_grob <- function(x) {
   grobs <- x$children
   if (length(grobs) == 1) {
     # shortcut for grobs with just one child; unit calcs not needed
@@ -264,12 +264,12 @@ widthDetails.rich_text_grob <- function(x) {
 }
 
 #' @export
-ascentDetails.rich_text_grob <- function(x) {
+ascentDetails.richtext_grob <- function(x) {
   heightDetails(x)
 }
 
 #' @export
-descentDetails.rich_text_grob <- function(x) {
+descentDetails.richtext_grob <- function(x) {
   unit(0, "pt")
 }
 

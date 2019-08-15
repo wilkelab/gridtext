@@ -1,9 +1,9 @@
-context("text box grob")
+context("textbox grob")
 
 test_that("visual tests", {
   draw_box <- function() {
     function() {
-      g <- text_box_grob(
+      g <- textbox_grob(
         "**The quick brown fox jumps over the lazy dog.**<br><br>
   The quick brown fox jumps over the lazy dog.
   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
