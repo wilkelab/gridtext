@@ -5,18 +5,24 @@
 \title{Rich-text grob}
 \usage{
 rich_text_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-  hjust = 0.5, vjust = 0.5, rot = 0, default.units = "npc",
-  margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0),
-  "pt"), r = unit(0, "pt"), name = NULL, gp = gpar(),
-  box_gp = gpar(col = NA), vp = NULL, use_markdown = TRUE)
+  hjust = 0.5, vjust = 0.5, box_hjust = hjust, box_vjust = vjust,
+  rot = 0, default.units = "npc", margin = unit(c(0, 0, 0, 0), "pt"),
+  padding = unit(c(0, 0, 0, 0), "pt"), r = unit(0, "pt"),
+  align_widths = FALSE, align_heights = FALSE, name = NULL,
+  gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
+  use_markdown = TRUE)
 }
 \arguments{
 \item{text}{Character vector containing markdown/html strings to draw.}
 
 \item{x, y}{Unit objects specifying the location of the reference point.}
 
-\item{hjust, vjust}{Numerical values specifying the location of the grob
-relative to the reference point.}
+\item{hjust, vjust}{Numerical values specifying the text
+justification.}
+
+\item{box_hjust, box_vjust}{Numerical values specifying the justification
+of the text boxes relative to \code{x} and \code{y}. If not specified, these
+default to \code{hjust} and \code{vjust}.}
 
 \item{rot}{Angle of rotation for text, in degrees.}
 
@@ -34,6 +40,9 @@ rather than in relative units (such as npc).}
 it is best to specify this in absolute units (such as points, mm, or inch)
 rather than in relative units (such as npc).}
 
+\item{align_widths, align_heights}{Should the widths and heights of all
+the text boxes be aligned? Default is no.}
+
 \item{name}{Name of the grob.}
 
 \item{gp}{Other graphical parameters for drawing.}
@@ -42,7 +51,8 @@ rather than in relative units (such as npc).}
 
 \item{vp}{Viewport.}
 
-\item{use_markdown}{Should the \code{text} input be treated as markdown?}
+\item{use_markdown}{Should the \code{text} input be treated as markdown? Default
+is yes.}
 }
 \description{
 This grob acts mostly as a drop-in replacement for \code{\link[grid:textGrob]{grid::textGrob()}}

@@ -8,8 +8,9 @@ text_box_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   width = NULL, height = NULL, hjust = 0.5, vjust = 0.5,
   default.units = "npc", margin = unit(c(0, 0, 0, 0), "pt"),
   padding = unit(c(0, 0, 0, 0), "pt"), r = unit(0, "pt"),
-  name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
-  use_markdown = TRUE)
+  orientation = c("upright", "left-rotated", "right-rotated",
+  "inverted"), name = NULL, gp = gpar(), box_gp = gpar(col = NA),
+  vp = NULL, use_markdown = TRUE)
 }
 \arguments{
 \item{text}{Character vector containing markdown/html string to draw.}
@@ -36,6 +37,10 @@ rather than in relative units (such as npc).}
 \item{r}{The radius of the rounded corners. To avoid rendering artifacts,
 it is best to specify this in absolute units (such as points, mm, or inch)
 rather than in relative units (such as npc).}
+
+\item{orientation}{Orientation of the box. Allowed values are \code{"upright"},
+\code{"left-rotated"}, \code{"right-rotated"}, and \code{"inverted"}, corresponding to
+a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.}
 
 \item{name}{Name of the grob.}
 

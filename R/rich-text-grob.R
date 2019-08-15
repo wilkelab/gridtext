@@ -8,8 +8,11 @@
 #'
 #' @param text Character vector containing markdown/html strings to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
-#' @param hjust,vjust Numerical values specifying the location of the grob
-#'   relative to the reference point.
+#' @param hjust,vjust Numerical values specifying the text
+#'   justification.
+#' @param box_hjust,box_vjust Numerical values specifying the justification
+#'   of the text boxes relative to `x` and `y`. If not specified, these
+#'   default to `hjust` and `vjust`.
 #' @param rot Angle of rotation for text, in degrees.
 #' @param default.units Units of `x` and `y` if these are provided only as
 #'   numerical values.
@@ -22,11 +25,14 @@
 #' @param r The radius of the rounded corners. To avoid rendering artifacts,
 #'   it is best to specify this in absolute units (such as points, mm, or inch)
 #'   rather than in relative units (such as npc).
+#' @param align_widths,align_heights Should the widths and heights of all
+#'   the text boxes be aligned? Default is no.
 #' @param name Name of the grob.
 #' @param gp Other graphical parameters for drawing.
 #' @param box_gp Graphical parameters for the enclosing box around each text label.
 #' @param vp Viewport.
-#' @param use_markdown Should the `text` input be treated as markdown?
+#' @param use_markdown Should the `text` input be treated as markdown? Default
+#'   is yes.
 #' @examples
 #' library(grid)
 #'
@@ -56,9 +62,10 @@
 #' grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
 #' @export
 rich_text_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-                           hjust = 0.5, vjust = 0.5, rot = 0, default.units = "npc",
+                           hjust = 0.5, vjust = 0.5, box_hjust = hjust, box_vjust = vjust,
+                           rot = 0, default.units = "npc",
                            margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
-                           r = unit(0, "pt"),
+                           r = unit(0, "pt"), align_widths = FALSE, align_heights = FALSE,
                            name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
                            use_markdown = TRUE) {
   # make sure x and y are units
@@ -90,19 +97,50 @@ rich_text_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   x_list <- unit_to_list(x)
   y_list <- unit_to_list(y)
 
-  grobs <- mapply(
-    make_rich_text_grob,
+  inner_boxes <- mapply(
+    make_inner_box,
     text,
+    hjust,
+    vjust,
+    use_markdown,
+    gp_list,
+    SIMPLIFY = FALSE
+  )
+
+  # do we have to align the contents box sizes?
+  if (isTRUE(align_widths) || isTRUE(align_heights)) {
+    # yes, obtain max width and/or height as needed
+    lapply(inner_boxes, bl_calc_layout)
+    width <- vapply(inner_boxes, bl_box_width, numeric(1))
+    height <-  vapply(inner_boxes, bl_box_height, numeric(1))
+  }
+
+  if (isTRUE(align_widths)) {
+    width <- max(width)
+  } else {
+    width <- list(NULL)
+  }
+  if (isTRUE(align_heights)) {
+    height <- max(height)
+  } else {
+    height <- list(NULL)
+  }
+
+  grobs <- mapply(
+    make_outer_box,
+    inner_boxes,
+    width,
+    height,
     x_list,
     y_list,
     hjust,
     vjust,
+    box_hjust,
+    box_vjust,
     rot,
     list(margin_pt),
     list(padding_pt),
     r_pt,
-    use_markdown,
-    gp_list,
     box_gp_list,
     SIMPLIFY = FALSE
   )
@@ -118,8 +156,8 @@ rich_text_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   )
 }
 
-make_rich_text_grob <- function(text, x, y, hjust, vjust, rot, margin_pt, padding_pt, r_pt,
-                                use_markdown, gp, box_gp) {
+
+make_inner_box <- function(text, hjust, vjust, use_markdown, gp) {
   if (use_markdown) {
     text <- markdown::markdownToHTML(text = text, options = c("use_xhtml", "fragment_only"))
   }
@@ -129,12 +167,34 @@ make_rich_text_grob <- function(text, x, y, hjust, vjust, rot, margin_pt, paddin
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
   vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_policy = "native")
 
+  vbox_inner
+}
+
+make_outer_box <- function(vbox_inner, width, height, x, y, hjust, vjust,
+                           box_hjust, box_vjust, rot,
+                           margin_pt, padding_pt, r_pt, box_gp) {
+  if (is.null(width)) {
+    width <- 0
+    width_policy <- "native"
+  } else {
+    width <- width + margin_pt[2] + margin_pt[4] + padding_pt[2] + padding_pt[4] # make space for margin and padding
+    width_policy <- "fixed"
+  }
+
+  if (is.null(height)) {
+    height <- 0
+    height_policy <- "native"
+  } else {
+    height <- height + margin_pt[1] + margin_pt[3] + padding_pt[1] + padding_pt[3] # make space for margin and padding
+    height_policy <- "fixed"
+  }
+
   rect_box <- bl_make_rect_box(
-    vbox_inner, 0, 0, margin_pt, padding_pt, box_gp,
-    content_hjust = 0, content_vjust = 0,
-    width_policy = "native", height_policy = "native", r = r_pt
+    vbox_inner, width, height, margin_pt, padding_pt, box_gp,
+    content_hjust = hjust, content_vjust = vjust,
+    width_policy = width_policy, height_policy = height_policy, r = r_pt
   )
-  vbox_outer <- bl_make_vbox(list(rect_box), hjust = hjust, vjust = vjust, width_policy = "native")
+  vbox_outer <- bl_make_vbox(list(rect_box), hjust = box_hjust, vjust = box_vjust, width_policy = "native")
 
   bl_calc_layout(vbox_outer)
   grobs <- bl_render(vbox_outer)
@@ -146,8 +206,8 @@ make_rich_text_grob <- function(text, x, y, hjust, vjust, rot, margin_pt, paddin
   width <- bl_box_width(vbox_outer)
   height <- bl_box_height(vbox_outer)
   # lower left
-  xll <- hjust*cos(theta)*width + vjust*sin(theta)*height
-  yll <- hjust*sin(theta)*width - vjust*cos(theta)*height
+  xll <- box_hjust*cos(theta)*width + box_vjust*sin(theta)*height
+  yll <- box_hjust*sin(theta)*width - box_vjust*cos(theta)*height
   # lower right
   xlr <- xll + width*cos(theta)
   ylr <- yll + width*sin(theta)
@@ -170,6 +230,7 @@ make_rich_text_grob <- function(text, x, y, hjust, vjust, rot, margin_pt, paddin
     vp = viewport(x = x, y = y, just = c(0, 0), angle = rot)
   )
 }
+
 
 
 #' @export

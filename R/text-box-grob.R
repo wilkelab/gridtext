@@ -18,6 +18,9 @@
 #' @param r The radius of the rounded corners. To avoid rendering artifacts,
 #'   it is best to specify this in absolute units (such as points, mm, or inch)
 #'   rather than in relative units (such as npc).
+#' @param orientation Orientation of the box. Allowed values are `"upright"`,
+#'   `"left-rotated"`, `"right-rotated"`, and `"inverted"`, corresponding to
+#'   a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.
 #' @param name Name of the grob.
 #' @param gp Other graphical parameters for drawing.
 #' @param box_gp Graphical parameters for the enclosing box around each text label.
@@ -45,6 +48,7 @@ text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                           hjust = 0.5, vjust = 0.5, default.units = "npc",
                           margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                           r = unit(0, "pt"),
+                          orientation = c("upright", "left-rotated", "right-rotated", "inverted"),
                           name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
                           use_markdown = TRUE) {
   # make sure x, y, width, height are units
@@ -55,6 +59,10 @@ text_box_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
 
   # make sure we can handle input text even if provided as factor
   text <- as.character(text)
+
+  # determine orientation and act accordingly
+  orientation <- match.arg(orientation)
+  ## TODO: swap width/height etc., set up rotation angle
 
   # margin, padding, and r need to be in points
   margin_pt <- rep(0, 4)

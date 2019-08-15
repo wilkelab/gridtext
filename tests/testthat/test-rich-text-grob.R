@@ -67,7 +67,8 @@ test_that("visual tests", {
         text, x, y, hjust = hjust, vjust = vjust, rot = rot,
         padding = unit(c(6, 6, 4, 6), "pt"),
         r = unit(c(0, 0, 4, 8), "pt"),
-        gp = gp, box_gp = box_gp)
+        gp = gp, box_gp = box_gp
+      )
       grid.draw(g)
       grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
       invisible()
@@ -75,4 +76,69 @@ test_that("visual tests", {
   }
 
   vdiffr::expect_doppelganger("Various text boxes", draw_labels())
+
+  draw_aligned_heights <- function() {
+    function() {
+      text <- c(
+        "Some text **in bold.**<br>(centered)", "Linebreaks<br>Linebreaks<br>Linebreaks",
+        "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub><br>*a* = 5"
+      )
+
+      x <- c(.4, .3, .8)
+      y <- c(.8, .5, .3)
+      rot <- c(0, -45, 45)
+      gp = gpar()
+      box_gp = gpar(col = "black", fill = c("cornsilk", NA, "lightblue1"))
+      box_hjust <- c(0.5, 0, 1)
+      box_vjust <- c(0.5, 1, 0)
+
+      g <- rich_text_grob(
+        text, x, y, hjust = 0.5, vjust = 0.5,
+        box_hjust = box_hjust, box_vjust = box_vjust, rot = rot,
+        align_heights = TRUE,
+        padding = unit(c(6, 6, 4, 6), "pt"),
+        r = unit(c(0, 4, 8), "pt"),
+        gp = gp, box_gp = box_gp
+      )
+      grid.draw(g)
+      grid.text("Box heights aligned, content centered", gp = gpar(fontface = "bold"), 0.02, 1, hjust = 0, vjust = 1.2)
+      grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
+      invisible()
+    }
+  }
+
+  vdiffr::expect_doppelganger("Aligned heights", draw_aligned_heights())
+
+  draw_aligned_widths <- function() {
+    function() {
+      text <- c(
+        "Some text **in bold.**<br>(centered)", "Linebreaks<br>Linebreaks<br>Linebreaks",
+        "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub><br>*a* = 5"
+      )
+
+      x <- c(.4, .3, .8)
+      y <- c(.8, .5, .3)
+      rot <- c(0, -45, 45)
+      gp = gpar()
+      box_gp = gpar(col = "black", fill = c("cornsilk", NA, "lightblue1"))
+      box_hjust <- c(0.5, 0, 1)
+      box_vjust <- c(0.5, 1, 0)
+
+      g <- rich_text_grob(
+        text, x, y, hjust = 0.5, vjust = 0.5,
+        box_hjust = box_hjust, box_vjust = box_vjust, rot = rot,
+        align_widths = TRUE,
+        padding = unit(c(6, 6, 4, 6), "pt"),
+        r = unit(c(0, 4, 8), "pt"),
+        gp = gp, box_gp = box_gp
+      )
+      grid.draw(g)
+      grid.text("Box widths aligned, content centered", gp = gpar(fontface = "bold"), 0.02, 1, hjust = 0, vjust = 1.2)
+      grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
+      invisible()
+    }
+  }
+
+  vdiffr::expect_doppelganger("Aligned widths", draw_aligned_widths())
+
 })
