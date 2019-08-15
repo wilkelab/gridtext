@@ -113,10 +113,6 @@ textbox_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
 
 #' @export
 makeContext.textbox_grob <- function(x) {
-  # get absolute coordinates of the grob
-  x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
-  y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
-
   width_pt <- current_width_pt(x, x$width)
 
   bl_calc_layout(x$vbox_outer, width_pt)
@@ -125,14 +121,19 @@ makeContext.textbox_grob <- function(x) {
 
   x$width_pt <- width_pt
   x$height_pt <- height_pt
-  x$x_pt <- x_pt - x$hjust*width_pt
-  x$y_pt <- y_pt - x$vjust*height_pt
 
   x
 }
 
 #' @export
 makeContent.textbox_grob <- function(x) {
+  # get absolute coordinates of the grob
+  x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
+  y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
+
+  x$x_pt <- x_pt - x$hjust*x$width_pt
+  x$y_pt <- y_pt - x$vjust*x$height_pt
+
   grobs <- bl_render(x$vbox_outer, x$x_pt, x$y_pt)
 
   setChildren(x, grobs)
