@@ -9,22 +9,24 @@ with_unit <- function(x, default) {
   x
 }
 
-# inspired by: https://github.com/thomasp85/ggforce/blob/cba71550606d18b4f4b245cb097aee5eeeec52a8/R/textbox.R#L193-L207
 # calculate the current width of a grob, in pt
 current_width_pt <- function(grob = NULL, width = NULL) {
   if (is.null(width)) {
-    if (is.null(grob) || is.null(grob$vp)) {
-      convertWidth(unit(1, 'npc'), 'pt', TRUE)
-    } else {
-      if (is.null(grob$vp$layout.pos.col)) {
-        convertWidth(grob$vp$width, 'pt', TRUE)
-      } else {
-        cur_vp <- current.viewport()
-        span <- do.call(seq, as.list(range(grob$vp$layout.pos.col)))
-        convertWidth(unit(1, 'npc'), 'pt', TRUE) - sum(convertWidth(cur_vp$layout$widths[-span], 'pt', TRUE))
-      }
-    }
-  } else {
-    convertWidth(width, 'pt', TRUE)
+    width <- unit(1, 'npc')
   }
+
+  if (is.null(grob$vp)) {
+    width_pt <- convertWidth(width, 'pt', TRUE)
+  } else {
+    # If the grob has its own viewport then we need to push it and
+    # afterwards pop it. For this to work in the general case
+    # (stacked viewports, etc), we need to keep track of the depth
+    # of the current viewport stack and pop appropriately.
+    n <- current.vpPath()$n %||% 0
+    pushViewport(grob$vp)
+    width_pt <- convertWidth(width, 'pt', TRUE)
+    popViewport(current.vpPath()$n - n)
+  }
+
+  width_pt
 }
