@@ -1,8 +1,9 @@
 TODO
 ================
-- rethink alignment. all boxes need to be able to indicate how they should be aligned,
-  which needs to be handled by the parent box. Add halign()/valign() member functions?
+- complete textbox_grob(): alignment for rotated orientations doesn't work, height setting is not yet possible
 
 - implement some very basic handling of units in CSS
 
-- complete textbox_grob()
+- rethink alignment? all boxes need to be able to indicate how they should be aligned,
+  which needs to be handled by the parent box. Add halign()/valign() member functions?
+
