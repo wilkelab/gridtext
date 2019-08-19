@@ -120,13 +120,13 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
   vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_pt = 100, width_policy = "relative")
 
-  rect_box <- bl_make_rect_box(
-    vbox_inner, 100, 0, margin_pt, padding_pt, box_gp,
-    content_hjust = 0, content_vjust = 0,
-    width_policy = "relative", height_policy = "native", r = r_pt
-  )
-
-  vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = 0, vjust = 0, width_policy = "relative")
+  #rect_box <- bl_make_rect_box(
+  #  vbox_inner, 100, 0, margin_pt, padding_pt, box_gp,
+  #  content_hjust = 0, content_vjust = 0,
+  #  width_policy = "relative", height_policy = "native", r = r_pt
+  #)
+  #
+  #vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = 0, vjust = 0, width_policy = "relative")
 
   gTree(
     width = width,
@@ -141,7 +141,10 @@ textbox_grob <- function(text, x = NULL, y = NULL,
     maxheight = maxheight,
     angle = angle,
     flip = flip,
-    vbox_outer = vbox_outer,
+    vbox_inner = vbox_inner,
+    margin_pt = margin_pt,
+    padding_pt = padding_pt,
+    r_pt = r_pt,
     gp = gp,
     box_gp = box_gp,
     vp = vp,
@@ -158,13 +161,62 @@ makeContext.textbox_grob <- function(x) {
   if (!is.null(minwidth_pt) && width_pt < minwidth_pt) {
     width_pt <- minwidth_pt
   }
-  if (!is.null(maxwidth_pt && width_pt > maxwidth_pt)) {
+  if (!is.null(maxwidth_pt) && width_pt > maxwidth_pt) {
     width_pt <- maxwidth_pt
   }
 
-  bl_calc_layout(x$vbox_outer, width_pt)
-  width_pt <- bl_box_width(x$vbox_outer)
-  height_pt <- bl_box_height(x$vbox_outer)
+  height_pt <- current_height_pt(x, x$height, x$flip, convert_null = FALSE)
+  minheight_pt <- current_height_pt(x, x$minheight, x$flip, convert_null = FALSE)
+  maxheight_pt <- current_height_pt(x, x$maxheight, x$flip, convert_null = FALSE)
+
+  if (is.null(height_pt)) {
+    # if height is not set it is taken from the layout
+    #rect_box <- bl_make_rect_box(
+    #  x$vbox_inner, 100, 0, x$margin_pt, x$padding_pt, x$box_gp,
+    #  content_hjust = x$hjust, content_vjust = x$vjust,
+    #  width_policy = "relative", height_policy = "native", r = x$r_pt
+    #)
+    rect_box <- bl_make_rect_box(
+      x$vbox_inner, 100, 0, x$margin_pt, x$padding_pt, x$box_gp,
+      content_hjust = x$hjust, content_vjust = x$vjust,
+      width_policy = "relative", height_policy = "native", r = x$r_pt
+    )
+  } else {
+    # otherwise, set explicit height
+    rect_box <- bl_make_rect_box(
+      x$vbox_inner, 100, height_pt, x$margin_pt, x$padding_pt, x$box_gp,
+      content_hjust = x$hjust, content_vjust = x$vjust,
+      width_policy = "relative", height_policy = "fixed", r = x$r_pt
+    )
+  }
+  vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = 0, vjust = 0, width_policy = "relative")
+  bl_calc_layout(vbox_outer, width_pt)
+  width_pt <- bl_box_width(vbox_outer)
+  height_pt <- bl_box_height(vbox_outer)
+
+  # check if height needs to be adjusted, and relayout if necessary
+  relayout <- FALSE
+  if (!is.null(minheight_pt) && height_pt < minheight_pt) {
+    height_pt <- minheight_pt
+    relayout <- TRUE
+  }
+  if (!is.null(maxheight_pt) && height_pt > maxheight_pt) {
+    height_pt <- maxheight_pt
+    relayout <- TRUE
+  }
+  if (relayout) {
+    rect_box <- bl_make_rect_box(
+      x$vbox_inner, 100, height_pt, x$margin_pt, x$padding_pt, x$box_gp,
+      content_hjust = x$hjust, content_vjust = x$vjust,
+      width_policy = "relative", height_policy = "fixed", r = x$r_pt
+    )
+    vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = 0, vjust = 0, width_policy = "relative")
+    bl_calc_layout(vbox_outer, width_pt)
+    width_pt <- bl_box_width(vbox_outer)
+    height_pt <- bl_box_height(vbox_outer)
+  }
+
+  x$vbox_outer <- vbox_outer
 
   if (isTRUE(x$flip)) {
     x$width_pt <- height_pt
