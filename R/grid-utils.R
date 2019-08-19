@@ -30,3 +30,25 @@ current_width_pt <- function(grob = NULL, width = NULL) {
 
   width_pt
 }
+
+# calculate the current height of a grob, in pt
+current_height_pt <- function(grob = NULL, height = NULL) {
+  if (is.null(height)) {
+    height <- unit(1, 'npc')
+  }
+
+  if (is.null(grob$vp)) {
+    height_pt <- convertHeight(height, 'pt', TRUE)
+  } else {
+    # If the grob has its own viewport then we need to push it and
+    # afterwards pop it. For this to work in the general case
+    # (stacked viewports, etc), we need to keep track of the depth
+    # of the current viewport stack and pop appropriately.
+    n <- current.vpPath()$n %||% 0
+    pushViewport(grob$vp)
+    height_pt <- convertHeight(height, 'pt', TRUE)
+    popViewport(current.vpPath()$n - n)
+  }
+
+  height_pt
+}

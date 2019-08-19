@@ -4,8 +4,9 @@
 \alias{textbox_grob}
 \title{Textbox grob}
 \usage{
-textbox_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-  width = NULL, height = NULL, hjust = 0.5, vjust = 0.5,
+textbox_grob(text, x = NULL, y = NULL, width = NULL, height = NULL,
+  minwidth = NULL, maxwidth = NULL, minheight = NULL,
+  maxheight = NULL, hjust = 0.5, vjust = 0.5,
   default.units = "npc", margin = unit(c(0, 0, 0, 0), "pt"),
   padding = unit(c(0, 0, 0, 0), "pt"), r = unit(0, "pt"),
   orientation = c("upright", "left-rotated", "right-rotated",
@@ -15,17 +16,24 @@ textbox_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
 \arguments{
 \item{text}{Character vector containing markdown/html string to draw.}
 
-\item{x, y}{Unit objects specifying the location of the reference point.}
+\item{x, y}{Unit objects specifying the location of the reference point.
+If set to \code{NULL} (the default), these values are chosen based on the
+values of \code{hjust} and \code{vjust}.}
 
 \item{width, height}{Unit objects specifying width and height of the
-grob; a value of \code{NULL} means take up all available space.
-The \code{height} setting is currently ignored.}
+grob; a value of \code{NULL} means take up all available space. Height is
+currently ignored.}
+
+\item{minwidth, minheight, maxwidth, maxheight}{Min and max values for
+width and height. Set to \code{NULL} to impose neither a minimum nor
+a maximum.}
 
 \item{hjust, vjust}{Numerical values specifying the location of the grob
 relative to the reference point.}
 
-\item{default.units}{Units of \code{x}, \code{y}, \code{width}, \code{height} if these are
-provided only as numerical values.}
+\item{default.units}{Units of \code{x}, \code{y}, \code{width}, \code{height}, \code{minwidth},
+\code{minheight}, \code{maxwidth}, \code{maxheight} if these are provided only as
+numerical values.}
 
 \item{margin, padding}{Unit vectors of four elements each indicating the
 margin and padding around each text label in the order top, right,

@@ -2,13 +2,19 @@
 #'
 #' @param text Character vector containing markdown/html string to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
+#'   If set to `NULL` (the default), these values are chosen based on the
+#'   values of `hjust` and `vjust`.
 #' @param width,height Unit objects specifying width and height of the
-#'   grob; a value of `NULL` means take up all available space.
-#'   The `height` setting is currently ignored.
+#'   grob; a value of `NULL` means take up all available space. Height is
+#'   currently ignored.
+#' @param minwidth,minheight,maxwidth,maxheight Min and max values for
+#'   width and height. Set to `NULL` to impose neither a minimum nor
+#'   a maximum.
 #' @param hjust,vjust Numerical values specifying the location of the grob
 #'   relative to the reference point.
-#' @param default.units Units of `x`, `y`, `width`, `height` if these are
-#'   provided only as numerical values.
+#' @param default.units Units of `x`, `y`, `width`, `height`, `minwidth`,
+#'   `minheight`, `maxwidth`, `maxheight` if these are provided only as
+#'   numerical values.
 #' @param margin,padding Unit vectors of four elements each indicating the
 #'   margin and padding around each text label in the order top, right,
 #'   bottom, left. Margins are drawn outside the enclosing box (if any),
@@ -43,8 +49,10 @@
 #' grid.newpage()
 #' grid.draw(g)
 #' @export
-textbox_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+textbox_grob <- function(text, x = NULL, y = NULL,
                          width = NULL, height = NULL,
+                         minwidth = NULL, maxwidth = NULL,
+                         minheight = NULL, maxheight = NULL,
                          hjust = 0.5, vjust = 0.5, default.units = "npc",
                          margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                          r = unit(0, "pt"),
@@ -56,13 +64,36 @@ textbox_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   y <- with_unit(y, default.units)
   width <- with_unit(width, default.units)
   height <- with_unit(height, default.units)
+  minwidth <- with_unit(minwidth, default.units)
+  minheight <- with_unit(minheight, default.units)
+  maxwidth <- with_unit(maxwidth, default.units)
+  maxheight <- with_unit(maxheight, default.units)
+
+  if (is.null(x)) {
+    x <- unit(hjust, "npc")
+  }
+  if (is.null(y)) {
+    y <- unit(vjust, "npc")
+  }
 
   # make sure we can handle input text even if provided as factor
   text <- as.character(text)
 
-  # determine orientation and act accordingly
+  # determine orientation and adjust accordingly
   orientation <- match.arg(orientation)
-  ## TODO: swap width/height etc., set up rotation angle
+  if (orientation == "upright") {
+    angle <- 0
+    flip <- FALSE
+  } else if (orientation == "left-rotated") {
+    angle <- 90
+    flip <- TRUE
+  } else if (orientation == "right-rotated") {
+    angle <- -90
+    flip <- TRUE
+  } else if (orientation == "inverted") {
+    angle <- 180
+    flip <- FALSE
+  }
 
   # margin, padding, and r need to be in points
   margin_pt <- rep(0, 4)
@@ -104,24 +135,72 @@ textbox_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     y = y,
     hjust = hjust,
     vjust = vjust,
+    minwidth = minwidth,
+    minheight = minheight,
+    maxwidth = maxwidth,
+    maxheight = maxheight,
+    angle = angle,
+    flip = flip,
     vbox_outer = vbox_outer,
     gp = gp,
     box_gp = box_gp,
+    vp = vp,
     cl = "textbox_grob"
   )
 }
 
 #' @export
 makeContext.textbox_grob <- function(x) {
-  width_pt <- current_width_pt(x, x$width)
+  if (isTRUE(x$flip)) { # box rotated +/- 90 degrees
+    width_pt <- current_height_pt(x, x$width)
+    if (!is.null(x$minwidth)) {
+      minwidth_pt <- current_height_pt(x, x$minwidth)
+      if (width_pt < minwidth_pt) {
+        width_pt <- minwidth_pt
+      }
+    }
+    if (!is.null(x$maxwidth)) {
+      maxwidth_pt <- current_height_pt(x, x$maxwidth)
+      if (width_pt > maxwidth_pt) {
+        width_pt <- maxwidth_pt
+      }
+    }
+  } else { # box upright or inverted
+    width_pt <- current_width_pt(x, x$width)
+    if (!is.null(x$minwidth)) {
+      minwidth_pt <- current_width_pt(x, x$minwidth)
+      if (width_pt < minwidth_pt) {
+        width_pt <- minwidth_pt
+      }
+    }
+    if (!is.null(x$maxwidth)) {
+      maxwidth_pt <- current_width_pt(x, x$maxwidth)
+      if (width_pt > maxwidth_pt) {
+        width_pt <- maxwidth_pt
+      }
+    }
+  }
 
   bl_calc_layout(x$vbox_outer, width_pt)
   width_pt <- bl_box_width(x$vbox_outer)
   height_pt <- bl_box_height(x$vbox_outer)
 
-  x$width_pt <- width_pt
-  x$height_pt <- height_pt
+  if (isTRUE(x$flip)) {
+    x$width_pt <- height_pt
+    x$height_pt <- width_pt
+  } else {
+    x$width_pt <- width_pt
+    x$height_pt <- height_pt
+  }
 
+  if (x$angle != 0) {
+    vp <- viewport(angle = x$angle)
+    if (is.null(x$vp)) {
+      x$vp <- vp
+    } else {
+      x$vp <- vpStack(x$vp, vp)
+    }
+  }
   x
 }
 
@@ -131,8 +210,13 @@ makeContent.textbox_grob <- function(x) {
   x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
   y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
 
-  x$x_pt <- x_pt - x$hjust*x$width_pt
-  x$y_pt <- y_pt - x$vjust*x$height_pt
+  if (isTRUE(x$flip)) {
+    x$x_pt <- x_pt - x$hjust*x$height_pt
+    x$y_pt <- y_pt - x$vjust*x$width_pt
+  } else {
+    x$x_pt <- x_pt - x$hjust*x$width_pt
+    x$y_pt <- y_pt - x$vjust*x$height_pt
+  }
 
   grobs <- bl_render(x$vbox_outer, x$x_pt, x$y_pt)
 
