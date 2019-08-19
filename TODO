@@ -1,6 +1,6 @@
 TODO
 ================
-- complete textbox_grob(): alignment for rotated orientations doesn't work, height setting is not yet possible
+- complete textbox_grob(): alignment for rotated orientations doesn't work; height setting is not yet possible; we need halign and valign for internal content also
 
 - implement some very basic handling of units in CSS
 

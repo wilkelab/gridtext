@@ -151,34 +151,15 @@ textbox_grob <- function(text, x = NULL, y = NULL,
 
 #' @export
 makeContext.textbox_grob <- function(x) {
-  if (isTRUE(x$flip)) { # box rotated +/- 90 degrees
-    width_pt <- current_height_pt(x, x$width)
-    if (!is.null(x$minwidth)) {
-      minwidth_pt <- current_height_pt(x, x$minwidth)
-      if (width_pt < minwidth_pt) {
-        width_pt <- minwidth_pt
-      }
-    }
-    if (!is.null(x$maxwidth)) {
-      maxwidth_pt <- current_height_pt(x, x$maxwidth)
-      if (width_pt > maxwidth_pt) {
-        width_pt <- maxwidth_pt
-      }
-    }
-  } else { # box upright or inverted
-    width_pt <- current_width_pt(x, x$width)
-    if (!is.null(x$minwidth)) {
-      minwidth_pt <- current_width_pt(x, x$minwidth)
-      if (width_pt < minwidth_pt) {
-        width_pt <- minwidth_pt
-      }
-    }
-    if (!is.null(x$maxwidth)) {
-      maxwidth_pt <- current_width_pt(x, x$maxwidth)
-      if (width_pt > maxwidth_pt) {
-        width_pt <- maxwidth_pt
-      }
-    }
+  width_pt <- current_width_pt(x, x$width, x$flip)
+  minwidth_pt <- current_width_pt(x, x$minwidth, x$flip, convert_null = FALSE)
+  maxwidth_pt <- current_width_pt(x, x$maxwidth, x$flip, convert_null = FALSE)
+
+  if (!is.null(minwidth_pt) && width_pt < minwidth_pt) {
+    width_pt <- minwidth_pt
+  }
+  if (!is.null(maxwidth_pt && width_pt > maxwidth_pt)) {
+    width_pt <- maxwidth_pt
   }
 
   bl_calc_layout(x$vbox_outer, width_pt)
