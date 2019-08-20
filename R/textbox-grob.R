@@ -241,8 +241,8 @@ makeContext.textbox_grob <- function(x) {
 #' @export
 makeContent.textbox_grob <- function(x) {
   # get absolute coordinates of the grob
-  x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
-  y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
+  x_pt <- convertX(unit(x$hjust, "npc"), "pt", valueOnly = TRUE)
+  y_pt <- convertY(unit(x$vjust, "npc"), "pt", valueOnly = TRUE)
 
   grobs <- bl_render(x$vbox_outer, x_pt, y_pt)
 
