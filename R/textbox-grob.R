@@ -5,8 +5,7 @@
 #'   If set to `NULL` (the default), these values are chosen based on the
 #'   values of `hjust` and `vjust`.
 #' @param width,height Unit objects specifying width and height of the
-#'   grob; a value of `NULL` means take up all available space. Height is
-#'   currently ignored.
+#'   grob; a value of `NULL` means take up all available space.
 #' @param minwidth,minheight,maxwidth,maxheight Min and max values for
 #'   width and height. Set to `NULL` to impose neither a minimum nor
 #'   a maximum.
@@ -69,13 +68,6 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   maxwidth <- with_unit(maxwidth, default.units)
   maxheight <- with_unit(maxheight, default.units)
 
-  if (is.null(x)) {
-    x <- unit(hjust, "npc")
-  }
-  if (is.null(y)) {
-    y <- unit(vjust, "npc")
-  }
-
   # make sure we can handle input text even if provided as factor
   text <- as.character(text)
 
@@ -83,15 +75,39 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   orientation <- match.arg(orientation)
   if (orientation == "upright") {
     angle <- 0
+    if (is.null(x)) {
+      x <- unit(hjust, "npc")
+    }
+    if (is.null(y)) {
+      y <- unit(vjust, "npc")
+    }
     flip <- FALSE
   } else if (orientation == "left-rotated") {
     angle <- 90
+    if (is.null(x)) {
+      x <- unit(1-vjust, "npc")
+    }
+    if (is.null(y)) {
+      y <- unit(hjust, "npc")
+    }
     flip <- TRUE
   } else if (orientation == "right-rotated") {
     angle <- -90
+    if (is.null(x)) {
+      x <- unit(vjust, "npc")
+    }
+    if (is.null(y)) {
+      y <- unit(1-hjust, "npc")
+    }
     flip <- TRUE
   } else if (orientation == "inverted") {
     angle <- 180
+    if (is.null(x)) {
+      x <- unit(1-hjust, "npc")
+    }
+    if (is.null(y)) {
+      y <- unit(1-vjust, "npc")
+    }
     flip <- FALSE
   }
 
@@ -119,14 +135,6 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   drawing_context <- setup_context(gp = gp)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
   vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_pt = 100, width_policy = "relative")
-
-  #rect_box <- bl_make_rect_box(
-  #  vbox_inner, 100, 0, margin_pt, padding_pt, box_gp,
-  #  content_hjust = 0, content_vjust = 0,
-  #  width_policy = "relative", height_policy = "native", r = r_pt
-  #)
-  #
-  #vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = 0, vjust = 0, width_policy = "relative")
 
   gTree(
     width = width,
@@ -171,11 +179,6 @@ makeContext.textbox_grob <- function(x) {
 
   if (is.null(height_pt)) {
     # if height is not set it is taken from the layout
-    #rect_box <- bl_make_rect_box(
-    #  x$vbox_inner, 100, 0, x$margin_pt, x$padding_pt, x$box_gp,
-    #  content_hjust = x$hjust, content_vjust = x$vjust,
-    #  width_policy = "relative", height_policy = "native", r = x$r_pt
-    #)
     rect_box <- bl_make_rect_box(
       x$vbox_inner, 100, 0, x$margin_pt, x$padding_pt, x$box_gp,
       content_hjust = x$hjust, content_vjust = x$vjust,
@@ -189,7 +192,7 @@ makeContext.textbox_grob <- function(x) {
       width_policy = "relative", height_policy = "fixed", r = x$r_pt
     )
   }
-  vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = 0, vjust = 0, width_policy = "relative")
+  vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = x$hjust, vjust = x$vjust, width_policy = "relative")
   bl_calc_layout(vbox_outer, width_pt)
   width_pt <- bl_box_width(vbox_outer)
   height_pt <- bl_box_height(vbox_outer)
@@ -210,7 +213,7 @@ makeContext.textbox_grob <- function(x) {
       content_hjust = x$hjust, content_vjust = x$vjust,
       width_policy = "relative", height_policy = "fixed", r = x$r_pt
     )
-    vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = 0, vjust = 0, width_policy = "relative")
+    vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = x$hjust, vjust = x$vjust, width_policy = "relative")
     bl_calc_layout(vbox_outer, width_pt)
     width_pt <- bl_box_width(vbox_outer)
     height_pt <- bl_box_height(vbox_outer)
@@ -226,13 +229,11 @@ makeContext.textbox_grob <- function(x) {
     x$height_pt <- height_pt
   }
 
-  if (x$angle != 0) {
-    vp <- viewport(angle = x$angle)
-    if (is.null(x$vp)) {
-      x$vp <- vp
-    } else {
-      x$vp <- vpStack(x$vp, vp)
-    }
+  vp <- viewport(x$x, x$y, just = c(x$hjust, x$vjust), angle = x$angle)
+  if (is.null(x$vp)) {
+    x$vp <- vp
+  } else {
+    x$vp <- vpStack(x$vp, vp)
   }
   x
 }
@@ -243,15 +244,7 @@ makeContent.textbox_grob <- function(x) {
   x_pt <- convertX(x$x, "pt", valueOnly = TRUE)
   y_pt <- convertY(x$y, "pt", valueOnly = TRUE)
 
-  if (isTRUE(x$flip)) {
-    x$x_pt <- x_pt - x$hjust*x$height_pt
-    x$y_pt <- y_pt - x$vjust*x$width_pt
-  } else {
-    x$x_pt <- x_pt - x$hjust*x$width_pt
-    x$y_pt <- y_pt - x$vjust*x$height_pt
-  }
-
-  grobs <- bl_render(x$vbox_outer, x$x_pt, x$y_pt)
+  grobs <- bl_render(x$vbox_outer, x_pt, y_pt)
 
   setChildren(x, grobs)
 }
