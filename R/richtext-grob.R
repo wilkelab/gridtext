@@ -163,7 +163,7 @@ make_inner_box <- function(text, hjust, vjust, use_markdown, gp) {
   }
   doctree <- read_html(text)
 
-  drawing_context <- setup_context(gp = gp, hjust = hjust)
+  drawing_context <- setup_context(gp = gp, hjust = hjust, word_wrap = FALSE)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
   vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_policy = "native")
 

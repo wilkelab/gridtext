@@ -3,14 +3,17 @@
 #' @param text Character vector containing markdown/html string to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
 #'   If set to `NULL` (the default), these values are chosen based on the
-#'   values of `hjust` and `vjust`.
+#'   values of `box_hjust` and `box_vjust` such that the box is appropriately
+#'   justified in the enclosing viewport.
 #' @param width,height Unit objects specifying width and height of the
 #'   grob; a value of `NULL` means take up all available space.
 #' @param minwidth,minheight,maxwidth,maxheight Min and max values for
 #'   width and height. Set to `NULL` to impose neither a minimum nor
 #'   a maximum.
-#' @param hjust,vjust Numerical values specifying the location of the grob
-#'   relative to the reference point.
+#' @param hjust,vjust Numerical values specifying the location of the text
+#'   inside the text box.
+#' @param box_hjust,box_vjust Numerical values specifying the justification
+#'   of the text box relative to the reference point defined by `x` and `y`.
 #' @param default.units Units of `x`, `y`, `width`, `height`, `minwidth`,
 #'   `minheight`, `maxwidth`, `maxheight` if these are provided only as
 #'   numerical values.
@@ -52,7 +55,8 @@ textbox_grob <- function(text, x = NULL, y = NULL,
                          width = NULL, height = NULL,
                          minwidth = NULL, maxwidth = NULL,
                          minheight = NULL, maxheight = NULL,
-                         hjust = 0.5, vjust = 0.5, default.units = "npc",
+                         hjust = 0, vjust = 1,
+                         box_hjust = 0.5, box_vjust = 0.5, default.units = "npc",
                          margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                          r = unit(0, "pt"),
                          orientation = c("upright", "left-rotated", "right-rotated", "inverted"),
@@ -76,37 +80,37 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   if (orientation == "upright") {
     angle <- 0
     if (is.null(x)) {
-      x <- unit(hjust, "npc")
+      x <- unit(box_hjust, "npc")
     }
     if (is.null(y)) {
-      y <- unit(vjust, "npc")
+      y <- unit(box_vjust, "npc")
     }
     flip <- FALSE
   } else if (orientation == "left-rotated") {
     angle <- 90
     if (is.null(x)) {
-      x <- unit(1-vjust, "npc")
+      x <- unit(1-box_vjust, "npc")
     }
     if (is.null(y)) {
-      y <- unit(hjust, "npc")
+      y <- unit(box_hjust, "npc")
     }
     flip <- TRUE
   } else if (orientation == "right-rotated") {
     angle <- -90
     if (is.null(x)) {
-      x <- unit(vjust, "npc")
+      x <- unit(box_vjust, "npc")
     }
     if (is.null(y)) {
-      y <- unit(1-hjust, "npc")
+      y <- unit(1-box_hjust, "npc")
     }
     flip <- TRUE
   } else if (orientation == "inverted") {
     angle <- 180
     if (is.null(x)) {
-      x <- unit(1-hjust, "npc")
+      x <- unit(1-box_hjust, "npc")
     }
     if (is.null(y)) {
-      y <- unit(1-vjust, "npc")
+      y <- unit(1-box_vjust, "npc")
     }
     flip <- FALSE
   }
@@ -132,7 +136,7 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   }
   doctree <- read_html(text)
 
-  drawing_context <- setup_context(gp = gp)
+  drawing_context <- setup_context(gp = gp, hjust = hjust, word_wrap = TRUE)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
   vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_pt = 100, width_policy = "relative")
 
@@ -143,6 +147,8 @@ textbox_grob <- function(text, x = NULL, y = NULL,
     y = y,
     hjust = hjust,
     vjust = vjust,
+    box_hjust = box_hjust,
+    box_vjust = box_vjust,
     minwidth = minwidth,
     minheight = minheight,
     maxwidth = maxwidth,
@@ -192,7 +198,7 @@ makeContext.textbox_grob <- function(x) {
       width_policy = "relative", height_policy = "fixed", r = x$r_pt
     )
   }
-  vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = x$hjust, vjust = x$vjust, width_policy = "relative")
+  vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = x$box_hjust, vjust = x$box_vjust, width_policy = "relative")
   bl_calc_layout(vbox_outer, width_pt)
   width_pt <- bl_box_width(vbox_outer)
   height_pt <- bl_box_height(vbox_outer)
@@ -213,7 +219,7 @@ makeContext.textbox_grob <- function(x) {
       content_hjust = x$hjust, content_vjust = x$vjust,
       width_policy = "relative", height_policy = "fixed", r = x$r_pt
     )
-    vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = x$hjust, vjust = x$vjust, width_policy = "relative")
+    vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = x$box_hjust, vjust = x$box_vjust, width_policy = "relative")
     bl_calc_layout(vbox_outer, width_pt)
     width_pt <- bl_box_width(vbox_outer)
     height_pt <- bl_box_height(vbox_outer)
@@ -229,7 +235,7 @@ makeContext.textbox_grob <- function(x) {
     x$height_pt <- height_pt
   }
 
-  vp <- viewport(x$x, x$y, just = c(x$hjust, x$vjust), angle = x$angle)
+  vp <- viewport(x$x, x$y, just = c(x$box_hjust, x$box_vjust), angle = x$angle)
   if (is.null(x$vp)) {
     x$vp <- vp
   } else {
@@ -241,8 +247,8 @@ makeContext.textbox_grob <- function(x) {
 #' @export
 makeContent.textbox_grob <- function(x) {
   # get absolute coordinates of the grob
-  x_pt <- convertX(unit(x$hjust, "npc"), "pt", valueOnly = TRUE)
-  y_pt <- convertY(unit(x$vjust, "npc"), "pt", valueOnly = TRUE)
+  x_pt <- convertX(unit(x$box_hjust, "npc"), "pt", valueOnly = TRUE)
+  y_pt <- convertY(unit(x$box_vjust, "npc"), "pt", valueOnly = TRUE)
 
   grobs <- bl_render(x$vbox_outer, x_pt, y_pt)
 

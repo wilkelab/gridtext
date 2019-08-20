@@ -97,10 +97,12 @@ process_tag_p <- function(node, drawing_context) {
     recursive = FALSE
   )
 
-  # we use the existence of hjust in the drawing context to determine
-  # whether we're word wrapping (width_policy = "relative") or not.
-  if (is.null(drawing_context$hjust)) {
-    bl_make_par_box(boxes, drawing_context$linespacing_pt, width_policy = "relative")
+  # word wrapping corresponds to width_policy = "relative".
+  if (isTRUE(drawing_context$word_wrap)) {
+    bl_make_par_box(
+      boxes, drawing_context$linespacing_pt, width_policy = "relative",
+      hjust = drawing_context$hjust
+    )
   } else {
     bl_make_par_box(
       boxes, drawing_context$linespacing_pt, width_policy = "native",
