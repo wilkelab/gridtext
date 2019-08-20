@@ -10,7 +10,7 @@
 #' @param minwidth,minheight,maxwidth,maxheight Min and max values for
 #'   width and height. Set to `NULL` to impose neither a minimum nor
 #'   a maximum.
-#' @param hjust,vjust Numerical values specifying the location of the text
+#' @param hjust,vjust Numerical values specifying the justification of the text
 #'   inside the text box.
 #' @param box_hjust,box_vjust Numerical values specifying the justification
 #'   of the text box relative to the reference point defined by `x` and `y`.

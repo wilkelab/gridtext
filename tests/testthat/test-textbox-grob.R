@@ -22,4 +22,195 @@ test_that("visual tests", {
   }
 
   vdiffr::expect_doppelganger("Box spanning entire viewport, with margins", draw_box())
+
+  draw_align_upright <- function() {
+    function() {
+      g1 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g2 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g3 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g4 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      grid.draw(g1)
+      grid.draw(g2)
+      grid.draw(g3)
+      grid.draw(g4)
+      invisible()
+    }
+  }
+
+  vdiffr::expect_doppelganger("Multiple boxes, internal alignment", draw_align_upright())
+
+
+  draw_align_left_rotated <- function() {
+    function() {
+      g1 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "left-rotated",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g2 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "left-rotated",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g3 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "left-rotated",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g4 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "left-rotated",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      grid.draw(g1)
+      grid.draw(g2)
+      grid.draw(g3)
+      grid.draw(g4)
+      invisible()
+    }
+  }
+
+  vdiffr::expect_doppelganger("Multiple boxes left rotated, internal alignment", draw_align_left_rotated())
+
+
+  draw_align_right_rotated <- function() {
+    function() {
+      g1 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "right-rotated",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g2 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "right-rotated",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g3 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "right-rotated",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g4 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "right-rotated",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      grid.draw(g1)
+      grid.draw(g2)
+      grid.draw(g3)
+      grid.draw(g4)
+      invisible()
+    }
+  }
+
+  vdiffr::expect_doppelganger("Multiple boxes right rotated, internal alignment", draw_align_right_rotated())
+
+
+  draw_align_inverted <- function() {
+    function() {
+      g1 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "inverted",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g2 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "inverted",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g3 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "inverted",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      g4 <- textbox_grob(
+        "The quick brown fox jumps over the lazy dog.",
+        box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+        width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+        orientation = "inverted",
+        box_gp = gpar(col = "black", fill = "cornsilk"),
+        padding = unit(c(2, 2, 2, 2), "pt"),
+        margin = unit(c(5, 5, 5, 5), "pt")
+      )
+      grid.draw(g1)
+      grid.draw(g2)
+      grid.draw(g3)
+      grid.draw(g4)
+      invisible()
+    }
+  }
+  vdiffr::expect_doppelganger("Multiple boxes inverted, internal alignment", draw_align_inverted())
+
 })
