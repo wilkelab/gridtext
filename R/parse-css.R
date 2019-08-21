@@ -31,4 +31,36 @@ parse_css_line <- function(line) {
   else list2(!!key := value)
 }
 
+parse_css_unit <- function(x) {
+  pattern <- "^((-?\\d+\\.?\\d+)(%|[a-zA-Z]+)|(0))$"
+  m <- attributes(regexpr(pattern, x, perl = TRUE))
+  if (m$capture.start[4] > 0) {
+    # matched null value
+    return(list(value = 0, unit = "pt"))
+  } else {
+    if (m$capture.start[2] > 0) {
+      value <- as.numeric(
+        substr(x, m$capture.start[2], m$capture.start[2] + m$capture.length[2] - 1)
+      )
+      if (m$capture.start[3] > 0) {
+        unit <- substr(x, m$capture.start[3], m$capture.start[3] + m$capture.length[3] - 1)
+        return(list(value = value, unit = unit))
+      }
+    }
+  }
+  stop(paste0("The string '", x, "' does not represent a valid CSS unit."), call. = FALSE)
+}
+
+convert_css_unit_pt <- function(x) {
+  u <- parse_css_unit(x)
+  switch(
+    u$unit,
+    pt = u$value,
+    px = (72/96)*u$value,
+    `in` = 72*u$value,
+    cm = (72/2.54)*u$value,
+    mm = (72/25.4)*u$value,
+    stop(paste0("Cannot convert ", u$value, u$unit, " to pt."), call. = FALSE)
+  )
+}
 

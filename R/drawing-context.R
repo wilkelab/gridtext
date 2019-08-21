@@ -27,7 +27,7 @@ set_style <- function(drawing_context, style = NULL) {
   css <- parse_css(style)
 
   if (!is.null(css$`font-size`)) {
-    font_size = as.numeric(css$`font-size`)
+    font_size = convert_css_unit_pt(css$`font-size`)
   } else {
     font_size = NULL
   }

@@ -1,9 +1,0 @@
-TODO
-================
-- complete textbox_grob(): alignment for rotated orientations doesn't work; height setting is not yet possible; we need halign and valign for internal content also
-
-- implement some very basic handling of units in CSS
-
-- rethink alignment? all boxes need to be able to indicate how they should be aligned,
-  which needs to be handled by the parent box. Add halign()/valign() member functions?
-

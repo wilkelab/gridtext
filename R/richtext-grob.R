@@ -40,7 +40,7 @@
 #'   "Some text **in bold.**", "Linebreaks<br>Linebreaks<br>Linebreaks",
 #'   "*x*<sup>2</sup> + 5*x* + *C*<sub>*i*</sub>",
 #'   "Some <span style='color:blue'>blue text **in bold.**</span><br>And *italics text.*<br>
-#'    And some <span style='font-size:18; color:black'>large</span> text."
+#'    And some <span style='font-size:18pt; color:black'>large</span> text."
 #' )
 #'
 #' x <- c(.2, .1, .7, .9)
