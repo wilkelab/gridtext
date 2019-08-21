@@ -54,7 +54,7 @@ process_tag_img <- function(node, drawing_context) {
     height <- 0
     height_policy <- "native"
   } else {
-    height <- convert_css_unit_pt(height)
+    height <- as.numeric(height)
     height_policy <- "fixed"
   }
 
@@ -63,7 +63,7 @@ process_tag_img <- function(node, drawing_context) {
     width <- 0
     width_policy <- "native"
   } else {
-    width <- convert_css_unit_pt(width)
+    width <- as.numeric(width)
     width_policy <- "fixed"
   }
 
