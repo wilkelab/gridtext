@@ -10,7 +10,7 @@ richtext_grob(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   padding = unit(c(0, 0, 0, 0), "pt"), r = unit(0, "pt"),
   align_widths = FALSE, align_heights = FALSE, name = NULL,
   gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
-  use_markdown = TRUE)
+  use_markdown = TRUE, debug = FALSE)
 }
 \arguments{
 \item{text}{Character vector containing markdown/html strings to draw.}
@@ -53,6 +53,8 @@ the text boxes be aligned? Default is no.}
 
 \item{use_markdown}{Should the \code{text} input be treated as markdown? Default
 is yes.}
+
+\item{debug}{Should debugging info be drawn? Default is no.}
 }
 \description{
 This grob acts mostly as a drop-in replacement for \code{\link[grid:textGrob]{grid::textGrob()}}
