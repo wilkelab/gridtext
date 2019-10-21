@@ -33,6 +33,7 @@
 #' @param vp Viewport.
 #' @param use_markdown Should the `text` input be treated as markdown? Default
 #'   is yes.
+#' @param debug Should debugging info be drawn? Default is no.
 #' @examples
 #' library(grid)
 #'
@@ -67,7 +68,7 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                           margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                           r = unit(0, "pt"), align_widths = FALSE, align_heights = FALSE,
                           name = NULL, gp = gpar(), box_gp = gpar(col = NA), vp = NULL,
-                          use_markdown = TRUE) {
+                          use_markdown = TRUE, debug = FALSE) {
   # make sure x and y are units
   if (!is.unit(x))
     x <- unit(x, default.units)
@@ -144,6 +145,40 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     box_gp_list,
     SIMPLIFY = FALSE
   )
+
+  if (isTRUE(debug)) {
+    # calculate overall enclosing rectangle
+
+    # first get xmax and xmin values for each child grob and overall
+    xmax_pt <- vapply(grobs, function(x) {max(x$xext)}, numeric(1))
+    xmin_pt <- vapply(grobs, function(x) {min(x$xext)}, numeric(1))
+    xmax <- max(x + unit(xmax_pt, "pt"))
+    xmin <- min(x + unit(xmin_pt, "pt"))
+
+    # now similarly for ymax and ymin
+    ymax_pt <- vapply(grobs, function(x) {max(x$yext)}, numeric(1))
+    ymin_pt <- vapply(grobs, function(x) {min(x$yext)}, numeric(1))
+    ymax <- max(y + unit(ymax_pt, "pt"))
+    ymin <- min(y + unit(ymin_pt, "pt"))
+
+    # now generate a polygon grob enclosing the entire area
+    rect <- polygonGrob(
+      x = unit.c(xmin, xmax, xmax, xmin),
+      y = unit.c(ymin, ymin, ymax, ymax),
+      gp = gpar(fill = "cornsilk", col = "black")
+    )
+
+    grobs <- c(
+      list(rect),
+      grobs,
+      list(
+        pointsGrob(
+          x, y, pch = 19, size = unit(5, "pt"),
+          gp = gpar(col = "blue"), default.units = default.units
+        )
+      )
+    )
+  }
 
   children <- do.call(gList, grobs)
 
