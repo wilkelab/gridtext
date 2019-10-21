@@ -147,7 +147,7 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   )
 
   if (isTRUE(debug)) {
-    # calculate overall enclosing rectangle
+    ## calculate overall enclosing rectangle
 
     # first get xmax and xmin values for each child grob and overall
     xmax_pt <- vapply(grobs, function(x) {max(x$xext)}, numeric(1))
@@ -186,6 +186,7 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     gp = gp,
     vp = vp,
     name = name,
+    debug = debug,
     children = children,
     cl = "richtext_grob"
   )
@@ -271,6 +272,12 @@ make_outer_box <- function(vbox_inner, width, height, x, y, hjust, vjust,
 #' @export
 heightDetails.richtext_grob <- function(x) {
   grobs <- x$children
+
+  # in debug mode we have to trim off debug grobs
+  if (isTRUE(x$debug)) {
+    grobs <- grobs[c(-1, -length(grobs))]
+  }
+
   if (length(grobs) == 1) {
     # shortcut for grobs with just one child; unit calcs not needed
     unit(max(grobs[[1]]$yext) - min(grobs[[1]]$yext), "pt")
@@ -286,6 +293,12 @@ heightDetails.richtext_grob <- function(x) {
 #' @export
 widthDetails.richtext_grob <- function(x) {
   grobs <- x$children
+
+  # in debug mode we have to trim off debug grobs
+  if (isTRUE(x$debug)) {
+    grobs <- grobs[c(-1, -length(grobs))]
+  }
+
   if (length(grobs) == 1) {
     # shortcut for grobs with just one child; unit calcs not needed
     unit(max(grobs[[1]]$xext) - min(grobs[[1]]$xext), "pt")

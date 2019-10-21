@@ -44,6 +44,39 @@ test_that("grobheight and grobwidth work", {
   h <- convertHeight(grobHeight(g), "pt", valueOnly = TRUE)
   h2 <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
   expect_equal(h + 40, h2)
+
+  # grob height and width are identical with and without debug info
+  text <- c(
+    "Some text **in bold.**<br>(centered)", "Linebreaks<br>Linebreaks<br>Linebreaks",
+    "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub><br>*a* = 5"
+  )
+  x <- c(.4, .3, .8)
+  y <- c(.8, .5, .3)
+  rot <- c(0, -45, 45)
+  hjust <- c(0.5, 0, 1)
+  vjust <- c(0.5, 1, 0)
+
+  g1 <- richtext_grob(
+    text, x, y, hjust = hjust, vjust = vjust, rot = rot,
+    padding = unit(c(6, 6, 4, 6), "pt"),
+    r = unit(c(0, 4, 8), "pt"),
+    debug = FALSE
+  )
+
+  g2 <- richtext_grob(
+    text, x, y, hjust = hjust, vjust = vjust, rot = rot,
+    padding = unit(c(6, 6, 4, 6), "pt"),
+    r = unit(c(0, 4, 8), "pt"),
+    debug = TRUE
+  )
+
+  w1 <- convertWidth(grobWidth(g1), "pt", valueOnly = TRUE)
+  w2 <- convertWidth(grobWidth(g2), "pt", valueOnly = TRUE)
+  expect_equal(w1, w2)
+
+  h1 <- convertHeight(grobHeight(g1), "pt", valueOnly = TRUE)
+  h2 <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
+  expect_equal(h1, h2)
 })
 
 test_that("visual tests", {
@@ -87,7 +120,7 @@ test_that("visual tests", {
       x <- c(.4, .3, .8)
       y <- c(.8, .5, .3)
       rot <- c(0, -45, 45)
-      gp = gpar(col = c("black", "red"))
+      gp = gpar(col = c("black", "red", "black"))
       box_gp = gpar(col = "black", fill = c("cornsilk", NA, "lightblue1"), lty = c(1, 1, 1))
       hjust <- c(0.5, 0, 1)
       vjust <- c(0.5, 1, 0)
