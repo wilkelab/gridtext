@@ -77,6 +77,36 @@ test_that("visual tests", {
 
   vdiffr::expect_doppelganger("Various text boxes", draw_labels())
 
+  draw_labels_debug <- function() {
+    function() {
+      text <- c(
+        "Some text **in bold.**<br>(centered)", "Linebreaks<br>Linebreaks<br>Linebreaks",
+        "*x*<sup>2</sup> + 5*x* + *C*<sub>i</sub><br>*a* = 5"
+      )
+
+      x <- c(.4, .3, .8)
+      y <- c(.8, .5, .3)
+      rot <- c(0, -45, 45)
+      gp = gpar(col = c("black", "red"))
+      box_gp = gpar(col = "black", fill = c("cornsilk", NA, "lightblue1"), lty = c(1, 1, 1))
+      hjust <- c(0.5, 0, 1)
+      vjust <- c(0.5, 1, 0)
+
+      g <- richtext_grob(
+        text, x, y, hjust = hjust, vjust = vjust, rot = rot,
+        padding = unit(c(6, 6, 4, 6), "pt"),
+        r = unit(c(0, 4, 8), "pt"),
+        gp = gp, box_gp = box_gp,
+        debug = TRUE
+      )
+      grid.draw(g)
+      grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
+      invisible()
+    }
+  }
+
+  vdiffr::expect_doppelganger("Various text boxes w/ debug", draw_labels_debug())
+
   draw_aligned_heights <- function() {
     function() {
       text <- c(

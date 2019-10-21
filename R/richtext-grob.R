@@ -165,7 +165,7 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     rect <- polygonGrob(
       x = unit.c(xmin, xmax, xmax, xmin),
       y = unit.c(ymin, ymin, ymax, ymax),
-      gp = gpar(fill = "cornsilk", col = "black")
+      gp = gpar(fill = "#E1F4FD", col = "#2523C1", lwd = 0.5)
     )
 
     grobs <- c(
@@ -174,7 +174,7 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
       list(
         pointsGrob(
           x, y, pch = 19, size = unit(5, "pt"),
-          gp = gpar(col = "blue"), default.units = default.units
+          gp = gpar(col = "#2523C1"), default.units = default.units
         )
       )
     )
@@ -241,8 +241,8 @@ make_outer_box <- function(vbox_inner, width, height, x, y, hjust, vjust,
   width <- bl_box_width(vbox_outer)
   height <- bl_box_height(vbox_outer)
   # lower left
-  xll <- box_hjust*cos(theta)*width + box_vjust*sin(theta)*height
-  yll <- box_hjust*sin(theta)*width - box_vjust*cos(theta)*height
+  xll <- -box_hjust*cos(theta)*width + box_vjust*sin(theta)*height
+  yll <- -box_hjust*sin(theta)*width - box_vjust*cos(theta)*height
   # lower right
   xlr <- xll + width*cos(theta)
   ylr <- yll + width*sin(theta)
