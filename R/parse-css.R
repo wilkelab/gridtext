@@ -32,7 +32,7 @@ parse_css_line <- function(line) {
 }
 
 parse_css_unit <- function(x) {
-  pattern <- "^((-?\\d+\\.?\\d+)(%|[a-zA-Z]+)|(0))$"
+  pattern <- "^((-?\\d+\\.?\\d*)(%|[a-zA-Z]+)|(0))$"
   m <- attributes(regexpr(pattern, x, perl = TRUE))
   if (m$capture.start[4] > 0) {
     # matched null value
