@@ -4,14 +4,31 @@
 \alias{textbox_grob}
 \title{Textbox grob}
 \usage{
-textbox_grob(text, x = NULL, y = NULL, width = NULL, height = NULL,
-  minwidth = NULL, maxwidth = NULL, minheight = NULL,
-  maxheight = NULL, hjust = 0, vjust = 1, box_hjust = 0.5,
-  box_vjust = 0.5, default.units = "npc", margin = unit(c(0, 0, 0,
-  0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"), r = unit(0, "pt"),
-  orientation = c("upright", "left-rotated", "right-rotated",
-  "inverted"), name = NULL, gp = gpar(), box_gp = gpar(col = NA),
-  vp = NULL, use_markdown = TRUE)
+textbox_grob(
+  text,
+  x = NULL,
+  y = NULL,
+  width = NULL,
+  height = NULL,
+  minwidth = NULL,
+  maxwidth = NULL,
+  minheight = NULL,
+  maxheight = NULL,
+  hjust = 0,
+  vjust = 1,
+  box_hjust = 0.5,
+  box_vjust = 0.5,
+  default.units = "npc",
+  margin = unit(c(0, 0, 0, 0), "pt"),
+  padding = unit(c(0, 0, 0, 0), "pt"),
+  r = unit(0, "pt"),
+  orientation = c("upright", "left-rotated", "right-rotated", "inverted"),
+  name = NULL,
+  gp = gpar(),
+  box_gp = gpar(col = NA),
+  vp = NULL,
+  use_markdown = TRUE
+)
 }
 \arguments{
 \item{text}{Character vector containing markdown/html string to draw.}
@@ -73,7 +90,7 @@ g <- textbox_grob(
   The quick brown fox jumps over the lazy dog.
   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
   The quick brown fox jumps over the lazy dog.",
-  x = unit(0, "npc"), y = unit(0.9, "npc"), hjust = 0, vjust = 1,
+  x = unit(0.5, "npc"), y = unit(0.7, "npc"), hjust = 0, vjust = 1,
   gp = gpar(fontsize = 15),
   box_gp = gpar(col = "black", fill = "lightcyan1"),
   r = unit(5, "pt"),

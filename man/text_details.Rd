@@ -19,7 +19,7 @@ Calculate text details for a given text label
 text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12))
 text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 24))
 text_details(
-  "Hello world\\nwith newline",
+  "Hello world\nwith newline",
   grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12)
 )
 }

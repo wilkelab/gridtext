@@ -3,7 +3,6 @@
 \docType{package}
 \name{gridtext}
 \alias{gridtext}
-\alias{gridtext-package}
 \title{Improved text rendering support for grid graphics}
 \description{
 Improved text rendering support for grid graphics

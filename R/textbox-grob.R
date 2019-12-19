@@ -41,7 +41,7 @@
 #'   The quick brown fox jumps over the lazy dog.
 #'   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
 #'   The quick brown fox jumps over the lazy dog.",
-#'   x = unit(0, "npc"), y = unit(0.9, "npc"), hjust = 0, vjust = 1,
+#'   x = unit(0.5, "npc"), y = unit(0.7, "npc"), hjust = 0, vjust = 1,
 #'   gp = gpar(fontsize = 15),
 #'   box_gp = gpar(col = "black", fill = "lightcyan1"),
 #'   r = unit(5, "pt"),
@@ -114,6 +114,10 @@ textbox_grob <- function(text, x = NULL, y = NULL,
     }
     flip <- FALSE
   }
+
+  # make sure margin and padding are of length 4
+  margin <- rep(margin, length.out = 4)
+  padding <- rep(padding, length.out = 4)
 
   # margin, padding, and r need to be in points
   margin_pt <- rep(0, 4)

@@ -78,6 +78,10 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   # make sure we can handle input text even if provided as factor
   text <- as.character(text)
 
+  # make sure margin and padding are of length 4
+  margin <- rep(margin, length.out = 4)
+  padding <- rep(padding, length.out = 4)
+
   # margin, padding, and r need to be in points
   margin_pt <- rep(0, 4)
   margin_pt[c(1, 3)] <- convertHeight(margin[c(1, 3)], "pt", valueOnly = TRUE)
