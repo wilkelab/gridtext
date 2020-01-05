@@ -121,7 +121,3 @@ set_grob_coords <- function(grob, x, y) {
     .Call(`_gridtext_set_grob_coords`, grob, x, y)
 }
 
-test_par_box <- function(tokens, box_width, x, y, gp) {
-    .Call(`_gridtext_test_par_box`, tokens, box_width, x, y, gp)
-}
-
