@@ -3,9 +3,11 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^\.codecov\.yml$
+^_pkgdown\.yml$
 ^README\.Rmd$
 ^cran-comments.md$
 ^ISSUE_TEMPLATE\.md$
 ^TODO\.Rmd$
-^revdep$
 ^LICENSE\.md$
+^docs$
+^revdep$

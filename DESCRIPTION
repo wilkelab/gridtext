@@ -1,6 +1,6 @@
 Package: gridtext
 Type: Package
-Title: Improved text rendering support for grid graphics
+Title: Improved Text Rendering Support for Grid Graphics
 Version: 0.1.0
 Authors@R: 
     person(
@@ -10,8 +10,9 @@ Authors@R:
       email = "wilke@austin.utexas.edu",
       comment = c(ORCID = "0000-0002-7470-9261")
     )
-Description: This package provides rich-text rendering capabilities for the grid
-    graphics engine. 
+Description: Provides support for rendering of formatted text using 'grid' graphics. Text can be
+    formatted via a minimal subset of Markdown, HTML, and inline CSS directives, and it can be
+    rendered both with and without word wrap.
 URL: https://wilkelab.org/gridtext
 BugReports: https://github.com/wilkelab/gridtext/issues
 License: MIT + file LICENSE
@@ -42,4 +43,4 @@ LazyData: true
 RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 SystemRequirements: C++11
-VignetteBuilder: knitr
+
