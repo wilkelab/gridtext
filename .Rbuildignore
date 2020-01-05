@@ -1,4 +1,3 @@
-^examples$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
