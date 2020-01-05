@@ -53,7 +53,7 @@ when designing web pages.
 The function `richtext_grob()` serves as a replacement for `textGrob()`.
 It is vectorized and can draw multiple text labels with one call. Labels
 can be drawn with padding, margins, and at arbitrary angles. Markdown
-and html parsing is turned on by default.
+and HTML parsing is turned on by default.
 
 ``` r
 library(grid)

@@ -9,7 +9,7 @@
 #' four different orientations are supported, corresponding to a
 #' rotation by 0, 90, 180, and 270 degrees.
 #'
-#' @param text Character vector containing markdown/html string to draw.
+#' @param text Character vector containing Markdown/HTML string to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
 #'   If set to `NULL` (the default), these values are chosen based on the
 #'   values of `box_hjust` and `box_vjust` such that the box is appropriately

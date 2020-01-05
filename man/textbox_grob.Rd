@@ -31,7 +31,7 @@ textbox_grob(
 )
 }
 \arguments{
-\item{text}{Character vector containing markdown/html string to draw.}
+\item{text}{Character vector containing Markdown/HTML string to draw.}
 
 \item{x, y}{Unit objects specifying the location of the reference point.
 If set to \code{NULL} (the default), these values are chosen based on the

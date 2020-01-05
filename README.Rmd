@@ -45,7 +45,7 @@ Note that all text rendering is performed through a custom-built rendering pipel
 
 ### Richtext grob
 
-The function `richtext_grob()` serves as a replacement for `textGrob()`. It is vectorized and can draw multiple text labels with one call. Labels can be drawn with padding, margins, and at arbitrary angles. Markdown and html parsing is turned on by default.
+The function `richtext_grob()` serves as a replacement for `textGrob()`. It is vectorized and can draw multiple text labels with one call. Labels can be drawn with padding, margins, and at arbitrary angles. Markdown and HTML parsing is turned on by default.
 
 ```{r fig.width = 6, fig.height = 4}
 library(grid)

@@ -6,7 +6,7 @@
 #' boxes around each piece of text. Note that this grob **does not** draw
 #' [plotmath] expressions.
 #'
-#' @param text Character vector containing markdown/html strings to draw.
+#' @param text Character vector containing Markdown/HTML strings to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
 #' @param hjust,vjust Numerical values specifying the text
 #'   justification.

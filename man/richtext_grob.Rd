@@ -28,7 +28,7 @@ richtext_grob(
 )
 }
 \arguments{
-\item{text}{Character vector containing markdown/html strings to draw.}
+\item{text}{Character vector containing Markdown/HTML strings to draw.}
 
 \item{x, y}{Unit objects specifying the location of the reference point.}
 
