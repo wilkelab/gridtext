@@ -5,5 +5,7 @@
 \alias{gridtext}
 \title{Improved text rendering support for grid graphics}
 \description{
-Improved text rendering support for grid graphics
+The gridtext package provides two new grobs, \code{\link[=richtext_grob]{richtext_grob()}} and
+\code{\link[=textbox_grob]{textbox_grob()}}, which support drawing of formatted text labels and
+formatted text boxes, respectively.
 }

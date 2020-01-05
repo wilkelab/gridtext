@@ -10,28 +10,50 @@ Status](https://travis-ci.org/clauswilke/gridtext.svg?branch=master)](https://tr
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/clauswilke/gridtext/master.svg)](https://codecov.io/github/clauswilke/gridtext?branch=master)
 
-Improved text rendering support for grid graphics in R, written by Claus
-O. Wilke
-
-**Disclaimer:** This is a work in progress. The API is not stable.
-Please do not use this in any context where you need your code to work.
-No user support will be provided.
+Improved text rendering support for grid graphics in R.
 
 ## Installation
 
+To install the latest development version of this package, please run
+the following line in your R console:
+
 ``` r
-devtools::install_github("clauswilke/gridtext")
+remotes::install_github("clauswilke/gridtext")
+```
+
+Once the package is available on CRAN, you will be able to install the
+latest release via `install.packages()` as usual:
+
+``` r
+install.packages("gridtext")
 ```
 
 ## Examples
 
-### Rich-text grob
+The gridtext package provides two new grobs, `richtext_grob()` and
+`textbox_grob()`, which support drawing of formatted text labels and
+formatted text boxes, respectively. Both grobs understand an extremely
+limited subset of Markdown, HTML, and CSS directives. The idea is to
+provide a minimally useful subset of features. These currently include
+italics, bold, super- and subscript, as well as changing text color,
+font, and font size via inline CSS. Extremely limited support for images
+is also provided.
+
+Note that all text rendering is performed through a custom-built
+rendering pipeline that is part of the gridtext package. This approach
+has several advantages, including minimal dependencies, good peformance,
+and compatibility with all R graphics devices (to the extent that the
+graphics devices support the fonts you want to use). The downside of
+this approach is the severely limited featureset. Don’t expect this
+package to support the fancy CSS and javascript tricks you’re used to
+when designing web pages.
+
+### Richtext grob
 
 The function `richtext_grob()` serves as a replacement for `textGrob()`.
 It is vectorized and can draw multiple text labels with one call. Labels
 can be drawn with padding, margins, and at arbitrary angles. Markdown
-and html parsing is turned on by default. **Note: For now, only a
-limited number of markdown/html features are enabled.**
+and html parsing is turned on by default.
 
 ``` r
 library(grid)
@@ -69,9 +91,33 @@ grid.draw(g)
 grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
-Basic support for images is available as well. As of now, they will
+The boxes around text labels can be set to have matching widths and/or
+heights, and alignment of text inside the box (specified via `hjust` and
+`vjust`) is separate from alignment of the box relative to a reference
+point (specified via `box_hjust` and `box_vjust`).
+
+``` r
+text <- c("January", "February", "March", "April", "May")
+x <- (1:5)/6 + 1/24
+y <- rep(0.8, 5)
+g <- richtext_grob(
+  text, x, y, hjust = 0, box_hjust = 1,
+  rot = 45,
+  padding = unit(c(3, 6, 1, 3), "pt"),
+  r = unit(4, "pt"),
+  align_widths = TRUE,
+  box_gp = gpar(col = "black", fill = "cornsilk")
+)
+grid.newpage()
+grid.draw(g)
+grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
+```
+
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+
+Basic support for images is available as well. As of now, images will
 always be vertically aligned with the baseline of the text.
 
 ``` r
@@ -85,4 +131,58 @@ text <- glue::glue("Image with forced size: <img src='{img_src}' width='100' hei
 grid.draw(richtext_grob(text, x = 0.9, y = 0.3, hjust = 1))
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+
+### Textbox grob
+
+The function `textbox_grob()` is intended to render multi-line text
+labels that require automatic word wrapping. It is similar to
+`richtext_grob()`, but there are a few important differences. First,
+while `richtext_grob()` is vectorized, `textbox_grob()` is not. It can
+draw only a single text box at a time. Second, `textbox_grob()` doesn’t
+support rendering the text box at arbitrary angles. Only four different
+orientations are supported, corresponding to a rotation by 0, 90, 180,
+and 270 degrees.
+
+``` r
+g <- textbox_grob(
+  "**The quick brown fox jumps over the lazy dog.**<br><br>
+  The quick brown fox jumps over the lazy dog.
+  The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
+  The quick brown fox jumps over the lazy dog.",
+  x = unit(0.5, "npc"), y = unit(0.7, "npc"), hjust = 0, vjust = 1,
+  gp = gpar(fontsize = 15),
+  box_gp = gpar(col = "black", fill = "lightcyan1"),
+  r = unit(5, "pt"),
+  padding = unit(c(10, 10, 10, 10), "pt"),
+  margin = unit(c(0, 10, 0, 10), "pt")
+)
+grid.newpage()
+grid.draw(g)
+```
+
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
+
+The alignment parameters `hjust`, `vjust`, `box_hjust`, and `box_vjust`
+function just like they do in `richtext_grob()`.
+
+``` r
+g <- textbox_grob(
+  "**The quick brown fox jumps over the lazy dog.**<br><br>
+  The quick brown fox jumps over the lazy dog.
+  The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
+  The quick brown fox jumps over the lazy dog.",
+  x = unit(0.2, "npc"), y = unit(0.5, "npc"),
+  hjust = 1, box_hjust = 0.5, box_vjust = 1,
+  gp = gpar(fontsize = 15),
+  box_gp = gpar(col = "black", fill = "lightcyan1"),
+  r = unit(5, "pt"),
+  padding = unit(c(10, 10, 10, 10), "pt"),
+  margin = unit(c(0, 10, 0, 10), "pt"),
+  orientation = "left-rotated"
+)
+grid.newpage()
+grid.draw(g)
+```
+
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->

@@ -2,7 +2,7 @@
 % Please edit documentation in R/richtext-grob.R
 \name{richtext_grob}
 \alias{richtext_grob}
-\title{Rich-text grob}
+\title{Draw formatted text labels}
 \usage{
 richtext_grob(
   text,
@@ -37,7 +37,10 @@ justification.}
 
 \item{box_hjust, box_vjust}{Numerical values specifying the justification
 of the text boxes relative to \code{x} and \code{y}. If not specified, these
-default to \code{hjust} and \code{vjust}.}
+default to \code{hjust} and \code{vjust}. These justification parameters are
+specified in the internal reference frame of the text boxes, so that,
+for example, \code{box_hjust} adjusts the vertical justification when the
+text is rotated 90 degrees to the left or right.}
 
 \item{rot}{Angle of rotation for text, in degrees.}
 
@@ -96,13 +99,32 @@ box_gp = gpar(col = "black", fill = c("cornsilk", NA, "lightblue1", NA), lty = c
 hjust <- c(0.5, 0, 0, 1)
 vjust <- c(0.5, 1, 0, 0.5)
 
-grid.newpage()
 g <- richtext_grob(
   text, x, y, hjust = hjust, vjust = vjust, rot = rot,
   padding = unit(c(6, 6, 4, 6), "pt"),
   r = unit(c(0, 2, 4, 8), "pt"),
   gp = gp, box_gp = box_gp
 )
+grid.newpage()
 grid.draw(g)
 grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
+
+# multiple text labels with aligned boxes
+text <- c("January", "February", "March", "April", "May")
+x <- (1:5)/6 + 1/24
+y <- rep(0.8, 5)
+g <- richtext_grob(
+  text, x, y, hjust = 0, box_hjust = 1,
+  rot = 45,
+  padding = unit(c(3, 6, 1, 3), "pt"),
+  r = unit(4, "pt"),
+  align_widths = TRUE,
+  box_gp = gpar(col = "black", fill = "cornsilk")
+)
+grid.newpage()
+grid.draw(g)
+grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
+}
+\seealso{
+\code{\link[=textbox_grob]{textbox_grob()}}
 }

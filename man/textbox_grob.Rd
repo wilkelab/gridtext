@@ -2,7 +2,7 @@
 % Please edit documentation in R/textbox-grob.R
 \name{textbox_grob}
 \alias{textbox_grob}
-\title{Textbox grob}
+\title{Draw formatted multi-line text with word wrap}
 \usage{
 textbox_grob(
   text,
@@ -39,7 +39,9 @@ values of \code{box_hjust} and \code{box_vjust} such that the box is appropriate
 justified in the enclosing viewport.}
 
 \item{width, height}{Unit objects specifying width and height of the
-grob; a value of \code{NULL} means take up all available space.}
+grob. A value of \code{NULL} for \code{width} means take up all available space.
+A value of \code{NULL} for \code{height} means take up exactly the space necessary
+to render all content.}
 
 \item{minwidth, minheight, maxwidth, maxheight}{Min and max values for
 width and height. Set to \code{NULL} to impose neither a minimum nor
@@ -49,7 +51,10 @@ a maximum.}
 inside the text box.}
 
 \item{box_hjust, box_vjust}{Numerical values specifying the justification
-of the text box relative to the reference point defined by \code{x} and \code{y}.}
+of the text box relative to the reference point defined by \code{x} and \code{y}. These
+justification parameters are specified in the internal reference frame of
+the text box, so that, for example, \code{box_hjust} adjusts the vertical
+justification when the text box is left- or right-rotated.}
 
 \item{default.units}{Units of \code{x}, \code{y}, \code{width}, \code{height}, \code{minwidth},
 \code{minheight}, \code{maxwidth}, \code{maxheight} if these are provided only as
@@ -81,7 +86,14 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.}
 \item{use_markdown}{Should the \code{text} input be treated as markdown?}
 }
 \description{
-Textbox grob
+The function \code{textbox_grob()} is intended to render multi-line text
+labels that require automatic word wrapping. It is similar to
+\code{\link[=richtext_grob]{richtext_grob()}}, but there are a few important differences. First,
+while \code{\link[=richtext_grob]{richtext_grob()}} is vectorized, \code{textbox_grob()} is not. It
+can draw only a single text box at a time. Second, \code{textbox_grob()}
+doesn't support rendering the text box at arbitrary angles. Only
+four different orientations are supported, corresponding to a
+rotation by 0, 90, 180, and 270 degrees.
 }
 \examples{
 library(grid)
@@ -99,4 +111,89 @@ g <- textbox_grob(
 )
 grid.newpage()
 grid.draw(g)
+
+# internal vs. external alignment
+g1 <- textbox_grob(
+  "The quick brown fox jumps over the lazy dog.",
+  box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+  width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+  box_gp = gpar(col = "black", fill = "cornsilk"),
+  padding = unit(c(2, 2, 2, 2), "pt"),
+  margin = unit(c(5, 5, 5, 5), "pt")
+)
+g2 <- textbox_grob(
+  "The quick brown fox jumps over the lazy dog.",
+  box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+  width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+  box_gp = gpar(col = "black", fill = "cornsilk"),
+  padding = unit(c(2, 2, 2, 2), "pt"),
+  margin = unit(c(5, 5, 5, 5), "pt")
+)
+g3 <- textbox_grob(
+  "The quick brown fox jumps over the lazy dog.",
+  box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+  width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+  box_gp = gpar(col = "black", fill = "cornsilk"),
+  padding = unit(c(2, 2, 2, 2), "pt"),
+  margin = unit(c(5, 5, 5, 5), "pt")
+)
+g4 <- textbox_grob(
+  "The quick brown fox jumps over the lazy dog.",
+  box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+  width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+  box_gp = gpar(col = "black", fill = "cornsilk"),
+  padding = unit(c(2, 2, 2, 2), "pt"),
+  margin = unit(c(5, 5, 5, 5), "pt")
+)
+grid.newpage()
+grid.draw(g1)
+grid.draw(g2)
+grid.draw(g3)
+grid.draw(g4)
+
+# internal vs. external alignment, with rotated boxes
+g1 <- textbox_grob(
+  "The quick brown fox jumps over the lazy dog.",
+  box_hjust = 1, box_vjust = 1, vjust = 1, hjust = 0,
+  width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+  orientation = "left-rotated",
+  box_gp = gpar(col = "black", fill = "cornsilk"),
+  padding = unit(c(2, 2, 2, 2), "pt"),
+  margin = unit(c(5, 5, 5, 5), "pt")
+)
+g2 <- textbox_grob(
+  "The quick brown fox jumps over the lazy dog.",
+  box_hjust = 0, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+  width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+  orientation = "right-rotated",
+  box_gp = gpar(col = "black", fill = "cornsilk"),
+  padding = unit(c(2, 2, 2, 2), "pt"),
+  margin = unit(c(5, 5, 5, 5), "pt")
+)
+g3 <- textbox_grob(
+  "The quick brown fox jumps over the lazy dog.",
+  box_hjust = 1, box_vjust = 1, vjust = 1, hjust = 1,
+  width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+  orientation = "inverted",
+  box_gp = gpar(col = "black", fill = "cornsilk"),
+  padding = unit(c(2, 2, 2, 2), "pt"),
+  margin = unit(c(5, 5, 5, 5), "pt")
+)
+g4 <- textbox_grob(
+  "The quick brown fox jumps over the lazy dog.",
+  box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+  width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+  orientation = "upright",
+  box_gp = gpar(col = "black", fill = "cornsilk"),
+  padding = unit(c(2, 2, 2, 2), "pt"),
+  margin = unit(c(5, 5, 5, 5), "pt")
+)
+grid.newpage()
+grid.draw(g1)
+grid.draw(g2)
+grid.draw(g3)
+grid.draw(g4)
+}
+\seealso{
+\code{\link[=richtext_grob]{richtext_grob()}}
 }

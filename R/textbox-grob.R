@@ -1,4 +1,13 @@
-#' Textbox grob
+#' Draw formatted multi-line text with word wrap
+#'
+#' The function `textbox_grob()` is intended to render multi-line text
+#' labels that require automatic word wrapping. It is similar to
+#' [`richtext_grob()`], but there are a few important differences. First,
+#' while [`richtext_grob()`] is vectorized, `textbox_grob()` is not. It
+#' can draw only a single text box at a time. Second, `textbox_grob()`
+#' doesn't support rendering the text box at arbitrary angles. Only
+#' four different orientations are supported, corresponding to a
+#' rotation by 0, 90, 180, and 270 degrees.
 #'
 #' @param text Character vector containing markdown/html string to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
@@ -6,14 +15,19 @@
 #'   values of `box_hjust` and `box_vjust` such that the box is appropriately
 #'   justified in the enclosing viewport.
 #' @param width,height Unit objects specifying width and height of the
-#'   grob; a value of `NULL` means take up all available space.
+#'   grob. A value of `NULL` for `width` means take up all available space.
+#'   A value of `NULL` for `height` means take up exactly the space necessary
+#'   to render all content.
 #' @param minwidth,minheight,maxwidth,maxheight Min and max values for
 #'   width and height. Set to `NULL` to impose neither a minimum nor
 #'   a maximum.
 #' @param hjust,vjust Numerical values specifying the justification of the text
 #'   inside the text box.
 #' @param box_hjust,box_vjust Numerical values specifying the justification
-#'   of the text box relative to the reference point defined by `x` and `y`.
+#'   of the text box relative to the reference point defined by `x` and `y`. These
+#'   justification parameters are specified in the internal reference frame of
+#'   the text box, so that, for example, `box_hjust` adjusts the vertical
+#'   justification when the text box is left- or right-rotated.
 #' @param default.units Units of `x`, `y`, `width`, `height`, `minwidth`,
 #'   `minheight`, `maxwidth`, `maxheight` if these are provided only as
 #'   numerical values.
@@ -34,6 +48,7 @@
 #' @param box_gp Graphical parameters for the enclosing box around each text label.
 #' @param vp Viewport.
 #' @param use_markdown Should the `text` input be treated as markdown?
+#' @seealso [`richtext_grob()`]
 #' @examples
 #' library(grid)
 #' g <- textbox_grob(
@@ -50,6 +65,88 @@
 #' )
 #' grid.newpage()
 #' grid.draw(g)
+#'
+#' # internal vs. external alignment
+#' g1 <- textbox_grob(
+#'   "The quick brown fox jumps over the lazy dog.",
+#'   box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+#'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+#'   box_gp = gpar(col = "black", fill = "cornsilk"),
+#'   padding = unit(c(2, 2, 2, 2), "pt"),
+#'   margin = unit(c(5, 5, 5, 5), "pt")
+#' )
+#' g2 <- textbox_grob(
+#'   "The quick brown fox jumps over the lazy dog.",
+#'   box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+#'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+#'   box_gp = gpar(col = "black", fill = "cornsilk"),
+#'   padding = unit(c(2, 2, 2, 2), "pt"),
+#'   margin = unit(c(5, 5, 5, 5), "pt")
+#' )
+#' g3 <- textbox_grob(
+#'   "The quick brown fox jumps over the lazy dog.",
+#'   box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+#'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+#'   box_gp = gpar(col = "black", fill = "cornsilk"),
+#'   padding = unit(c(2, 2, 2, 2), "pt"),
+#'   margin = unit(c(5, 5, 5, 5), "pt")
+#' )
+#' g4 <- textbox_grob(
+#'   "The quick brown fox jumps over the lazy dog.",
+#'   box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+#'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+#'   box_gp = gpar(col = "black", fill = "cornsilk"),
+#'   padding = unit(c(2, 2, 2, 2), "pt"),
+#'   margin = unit(c(5, 5, 5, 5), "pt")
+#' )
+#' grid.newpage()
+#' grid.draw(g1)
+#' grid.draw(g2)
+#' grid.draw(g3)
+#' grid.draw(g4)
+#'
+#' # internal vs. external alignment, with rotated boxes
+#' g1 <- textbox_grob(
+#'   "The quick brown fox jumps over the lazy dog.",
+#'   box_hjust = 1, box_vjust = 1, vjust = 1, hjust = 0,
+#'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+#'   orientation = "left-rotated",
+#'   box_gp = gpar(col = "black", fill = "cornsilk"),
+#'   padding = unit(c(2, 2, 2, 2), "pt"),
+#'   margin = unit(c(5, 5, 5, 5), "pt")
+#' )
+#' g2 <- textbox_grob(
+#'   "The quick brown fox jumps over the lazy dog.",
+#'   box_hjust = 0, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+#'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+#'   orientation = "right-rotated",
+#'   box_gp = gpar(col = "black", fill = "cornsilk"),
+#'   padding = unit(c(2, 2, 2, 2), "pt"),
+#'   margin = unit(c(5, 5, 5, 5), "pt")
+#' )
+#' g3 <- textbox_grob(
+#'   "The quick brown fox jumps over the lazy dog.",
+#'   box_hjust = 1, box_vjust = 1, vjust = 1, hjust = 1,
+#'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+#'   orientation = "inverted",
+#'   box_gp = gpar(col = "black", fill = "cornsilk"),
+#'   padding = unit(c(2, 2, 2, 2), "pt"),
+#'   margin = unit(c(5, 5, 5, 5), "pt")
+#' )
+#' g4 <- textbox_grob(
+#'   "The quick brown fox jumps over the lazy dog.",
+#'   box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+#'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
+#'   orientation = "upright",
+#'   box_gp = gpar(col = "black", fill = "cornsilk"),
+#'   padding = unit(c(2, 2, 2, 2), "pt"),
+#'   margin = unit(c(5, 5, 5, 5), "pt")
+#' )
+#' grid.newpage()
+#' grid.draw(g1)
+#' grid.draw(g2)
+#' grid.draw(g3)
+#' grid.draw(g4)
 #' @export
 textbox_grob <- function(text, x = NULL, y = NULL,
                          width = NULL, height = NULL,

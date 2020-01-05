@@ -1,0 +1,8 @@
+destination: docs
+
+reference:
+- title: Formatted text labels and text boxes
+  desc: The gridtext package provides two grobs that can draw formatted text, without and with word wrapping.
+  contents:
+  - richtext_grob
+  - textbox_grob

@@ -11,7 +11,7 @@
 #'   "Hello world\nwith newline",
 #'   grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12)
 #' )
-#' @export
+#' @noRd
 text_details <- function(label, gp = gpar()) {
   fontfamily <- gp$fontfamily %||% grid::get.gpar("fontfamily")$fontfamily
   fontface <- gp$fontface %||% grid::get.gpar("fontface")$fontface
