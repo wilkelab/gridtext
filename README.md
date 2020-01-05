@@ -6,9 +6,9 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gridtext)](https://cran.r-project.org/package=gridtext)
 [![Build
-Status](https://travis-ci.org/clauswilke/gridtext.svg?branch=master)](https://travis-ci.org/clauswilke/gridtext)
+Status](https://travis-ci.org/wilkelab/gridtext.svg?branch=master)](https://travis-ci.org/wilkelab/gridtext)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/clauswilke/gridtext/master.svg)](https://codecov.io/github/clauswilke/gridtext?branch=master)
+Status](https://img.shields.io/codecov/c/github/wilkelab/gridtext/master.svg)](https://codecov.io/github/wilkelab/gridtext?branch=master)
 
 Improved text rendering support for grid graphics in R.
 
@@ -18,7 +18,7 @@ To install the latest development version of this package, please run
 the following line in your R console:
 
 ``` r
-remotes::install_github("clauswilke/gridtext")
+remotes::install_github("wilkelab/gridtext")
 ```
 
 Once the package is available on CRAN, you will be able to install the

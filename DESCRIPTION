@@ -12,8 +12,8 @@ Authors@R:
     )
 Description: This package provides rich-text rendering capabilities for the grid
     graphics engine. 
-URL: https://github.com/clauswilke/gridtext
-BugReports: https://github.com/clauswilke/gridtext/issues
+URL: https://wilkelab.org/gridtext
+BugReports: https://github.com/wilkelab/gridtext/issues
 License: MIT + file LICENSE
 Depends:
     R (>= 3.5)
