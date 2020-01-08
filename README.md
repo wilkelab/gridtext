@@ -3,12 +3,17 @@
 
 # gridtext
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/gridtext)](https://cran.r-project.org/package=gridtext)
+<!-- badges: start -->
+
 [![Build
 Status](https://travis-ci.org/wilkelab/gridtext.svg?branch=master)](https://travis-ci.org/wilkelab/gridtext)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/wilkelab/gridtext?branch=master&svg=true)](https://ci.appveyor.com/project/wilkelab/gridtext)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/wilkelab/gridtext/master.svg)](https://codecov.io/github/wilkelab/gridtext?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/gridtext)](https://cran.r-project.org/package=gridtext)
+<!-- badges: end -->
 
 Improved text rendering support for grid graphics in R.
 
@@ -194,4 +199,4 @@ support](https://www.r-consortium.org/projects/awarded-projects) from
 the [R
 consortium.](https://www.r-consortium.org)
 
-<img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="300">
+<img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="250">
