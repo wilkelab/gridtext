@@ -8,7 +8,7 @@
 [![Build
 Status](https://travis-ci.org/wilkelab/gridtext.svg?branch=master)](https://travis-ci.org/wilkelab/gridtext)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/clauswilke/gridtext?branch=master&svg=true)](https://ci.appveyor.com/project/clauswilke/gridtext)
+status](https://ci.appveyor.com/api/projects/status/github/wilkelab/gridtext?branch=master&svg=true)](https://ci.appveyor.com/project/clauswilke/gridtext)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/wilkelab/gridtext/master.svg)](https://codecov.io/github/wilkelab/gridtext?branch=master)
 [![CRAN
