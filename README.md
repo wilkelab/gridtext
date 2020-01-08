@@ -186,3 +186,12 @@ grid.draw(g)
 ```
 
 ![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
+
+## Acknowledgments
+
+This project is receiving [financial
+support](https://www.r-consortium.org/projects/awarded-projects) from
+the [R
+consortium.](https://www.r-consortium.org)
+
+<img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="300">
