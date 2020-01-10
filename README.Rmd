@@ -43,7 +43,7 @@ install.packages("gridtext")
 
 The gridtext package provides two new grobs, `richtext_grob()` and `textbox_grob()`, which support drawing of formatted text labels and formatted text boxes, respectively. Both grobs understand an extremely limited subset of Markdown, HTML, and CSS directives. The idea is to provide a minimally useful subset of features. These currently include italics, bold, super- and subscript, as well as changing text color, font, and font size via inline CSS. Extremely limited support for images is also provided.
 
-Note that all text rendering is performed through a custom-built rendering pipeline that is part of the gridtext package. This approach has several advantages, including minimal dependencies, good peformance, and compatibility with all R graphics devices (to the extent that the graphics devices support the fonts you want to use). The downside of this approach is the severely limited featureset. Don't expect this package to support the fancy CSS and javascript tricks you're used to when designing web pages.
+Note that all text rendering is performed through a custom-built rendering pipeline that is part of the gridtext package. This approach has several advantages, including minimal dependencies, good performance, and compatibility with all R graphics devices (to the extent that the graphics devices support the fonts you want to use). The downside of this approach is the severely limited featureset. Don't expect this package to support the fancy CSS and javascript tricks you're used to when designing web pages.
 
 ### Richtext grob
 
