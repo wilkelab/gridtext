@@ -53,18 +53,18 @@ test_that("grobheight and grobwidth work", {
   x <- c(.4, .3, .8)
   y <- c(.8, .5, .3)
   rot <- c(0, -45, 45)
-  hjust <- c(0.5, 0, 1)
-  vjust <- c(0.5, 1, 0)
+  halign <- c(0.5, 0, 1)
+  valign <- c(0.5, 1, 0)
 
   g1 <- richtext_grob(
-    text, x, y, hjust = hjust, vjust = vjust, rot = rot,
+    text, x, y, halign = halign, valign = valign, rot = rot,
     padding = unit(c(6, 6, 4, 6), "pt"),
     r = unit(c(0, 4, 8), "pt"),
     debug = FALSE
   )
 
   g2 <- richtext_grob(
-    text, x, y, hjust = hjust, vjust = vjust, rot = rot,
+    text, x, y, halign = halign, valign = valign, rot = rot,
     padding = unit(c(6, 6, 4, 6), "pt"),
     r = unit(c(0, 4, 8), "pt"),
     debug = TRUE
@@ -152,12 +152,12 @@ test_that("visual tests", {
       rot <- c(0, -45, 45)
       gp = gpar()
       box_gp = gpar(col = "black", fill = c("cornsilk", NA, "lightblue1"))
-      box_hjust <- c(0.5, 0, 1)
-      box_vjust <- c(0.5, 1, 0)
+      hjust <- c(0.5, 0, 1)
+      vjust <- c(0.5, 1, 0)
 
       g <- richtext_grob(
-        text, x, y, hjust = 0.5, vjust = 0.5,
-        box_hjust = box_hjust, box_vjust = box_vjust, rot = rot,
+        text, x, y, halign = 0.5, valign = 0.5,
+        hjust = hjust, vjust = vjust, rot = rot,
         align_heights = TRUE,
         padding = unit(c(6, 6, 4, 6), "pt"),
         r = unit(c(0, 4, 8), "pt"),
@@ -184,12 +184,12 @@ test_that("visual tests", {
       rot <- c(0, -45, 45)
       gp = gpar()
       box_gp = gpar(col = "black", fill = c("cornsilk", NA, "lightblue1"))
-      box_hjust <- c(0.5, 0, 1)
-      box_vjust <- c(0.5, 1, 0)
+      hjust <- c(0.5, 0, 1)
+      vjust <- c(0.5, 1, 0)
 
       g <- richtext_grob(
-        text, x, y, hjust = 0.5, vjust = 0.5,
-        box_hjust = box_hjust, box_vjust = box_vjust, rot = rot,
+        text, x, y, halign = 0.5, valign = 0.5,
+        hjust = hjust, vjust = vjust, rot = rot,
         align_widths = TRUE,
         padding = unit(c(6, 6, 4, 6), "pt"),
         r = unit(c(0, 4, 8), "pt"),

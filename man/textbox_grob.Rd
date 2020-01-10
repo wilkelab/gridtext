@@ -8,16 +8,16 @@ textbox_grob(
   text,
   x = NULL,
   y = NULL,
-  width = NULL,
+  width = unit(1, "npc"),
   height = NULL,
   minwidth = NULL,
   maxwidth = NULL,
   minheight = NULL,
   maxheight = NULL,
-  hjust = 0,
-  vjust = 1,
-  box_hjust = 0.5,
-  box_vjust = 0.5,
+  halign = 0,
+  valign = 1,
+  hjust = 0.5,
+  vjust = 0.5,
   default.units = "npc",
   margin = unit(c(0, 0, 0, 0), "pt"),
   padding = unit(c(0, 0, 0, 0), "pt"),
@@ -35,25 +35,25 @@ textbox_grob(
 
 \item{x, y}{Unit objects specifying the location of the reference point.
 If set to \code{NULL} (the default), these values are chosen based on the
-values of \code{box_hjust} and \code{box_vjust} such that the box is appropriately
+values of \code{hjust} and \code{vjust} such that the box is appropriately
 justified in the enclosing viewport.}
 
 \item{width, height}{Unit objects specifying width and height of the
-grob. A value of \code{NULL} for \code{width} means take up all available space.
-A value of \code{NULL} for \code{height} means take up exactly the space necessary
-to render all content.}
+grob. A value of \code{NULL} means take up exactly the space necessary
+to render all content. Use a value of \code{unit(1, "npc")} to have the
+box take up all available space.}
 
 \item{minwidth, minheight, maxwidth, maxheight}{Min and max values for
 width and height. Set to \code{NULL} to impose neither a minimum nor
-a maximum.}
+a maximum. Note: \code{minheight} and \code{maxheight} do not work if \code{width = NULL}.}
 
-\item{hjust, vjust}{Numerical values specifying the justification of the text
+\item{halign, valign}{Numerical values specifying the justification of the text
 inside the text box.}
 
-\item{box_hjust, box_vjust}{Numerical values specifying the justification
+\item{hjust, vjust}{Numerical values specifying the justification
 of the text box relative to the reference point defined by \code{x} and \code{y}. These
 justification parameters are specified in the internal reference frame of
-the text box, so that, for example, \code{box_hjust} adjusts the vertical
+the text box, so that, for example, \code{hjust} adjusts the vertical
 justification when the text box is left- or right-rotated.}
 
 \item{default.units}{Units of \code{x}, \code{y}, \code{width}, \code{height}, \code{minwidth},
@@ -102,7 +102,7 @@ g <- textbox_grob(
   The quick brown fox jumps over the lazy dog.
   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
   The quick brown fox jumps over the lazy dog.",
-  x = unit(0.5, "npc"), y = unit(0.7, "npc"), hjust = 0, vjust = 1,
+  x = unit(0.5, "npc"), y = unit(0.7, "npc"), halign = 0, valign = 1,
   gp = gpar(fontsize = 15),
   box_gp = gpar(col = "black", fill = "lightcyan1"),
   r = unit(5, "pt"),
@@ -115,7 +115,7 @@ grid.draw(g)
 # internal vs. external alignment
 g1 <- textbox_grob(
   "The quick brown fox jumps over the lazy dog.",
-  box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+  hjust = 0, vjust = 1, halign = 0, valign = 1,
   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
   box_gp = gpar(col = "black", fill = "cornsilk"),
   padding = unit(c(2, 2, 2, 2), "pt"),
@@ -123,7 +123,7 @@ g1 <- textbox_grob(
 )
 g2 <- textbox_grob(
   "The quick brown fox jumps over the lazy dog.",
-  box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+  hjust = 1, vjust = 1, halign = 0.5, valign = 0.5,
   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
   box_gp = gpar(col = "black", fill = "cornsilk"),
   padding = unit(c(2, 2, 2, 2), "pt"),
@@ -131,7 +131,7 @@ g2 <- textbox_grob(
 )
 g3 <- textbox_grob(
   "The quick brown fox jumps over the lazy dog.",
-  box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+  hjust = 0, vjust = 0, halign = 1, valign = 1,
   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
   box_gp = gpar(col = "black", fill = "cornsilk"),
   padding = unit(c(2, 2, 2, 2), "pt"),
@@ -139,7 +139,7 @@ g3 <- textbox_grob(
 )
 g4 <- textbox_grob(
   "The quick brown fox jumps over the lazy dog.",
-  box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+  hjust = 1, vjust = 0, halign = 0, valign = 0,
   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
   box_gp = gpar(col = "black", fill = "cornsilk"),
   padding = unit(c(2, 2, 2, 2), "pt"),
@@ -154,7 +154,7 @@ grid.draw(g4)
 # internal vs. external alignment, with rotated boxes
 g1 <- textbox_grob(
   "The quick brown fox jumps over the lazy dog.",
-  box_hjust = 1, box_vjust = 1, vjust = 1, hjust = 0,
+  hjust = 1, vjust = 1, halign = 0, valign = 1,
   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
   orientation = "left-rotated",
   box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -163,7 +163,7 @@ g1 <- textbox_grob(
 )
 g2 <- textbox_grob(
   "The quick brown fox jumps over the lazy dog.",
-  box_hjust = 0, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+  hjust = 0, vjust = 1, halign = 0.5, valign = 0.5,
   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
   orientation = "right-rotated",
   box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -172,7 +172,7 @@ g2 <- textbox_grob(
 )
 g3 <- textbox_grob(
   "The quick brown fox jumps over the lazy dog.",
-  box_hjust = 1, box_vjust = 1, vjust = 1, hjust = 1,
+  hjust = 1, vjust = 1, halign = 1, valign = 1,
   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
   orientation = "inverted",
   box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -181,7 +181,7 @@ g3 <- textbox_grob(
 )
 g4 <- textbox_grob(
   "The quick brown fox jumps over the lazy dog.",
-  box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+  hjust = 1, vjust = 0, halign = 0, valign = 0,
   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
   orientation = "upright",
   box_gp = gpar(col = "black", fill = "cornsilk"),

@@ -8,14 +8,14 @@
 #'
 #' @param text Character vector containing Markdown/HTML strings to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
-#' @param hjust,vjust Numerical values specifying the text
-#'   justification.
-#' @param box_hjust,box_vjust Numerical values specifying the justification
-#'   of the text boxes relative to `x` and `y`. If not specified, these
-#'   default to `hjust` and `vjust`. These justification parameters are
-#'   specified in the internal reference frame of the text boxes, so that,
-#'   for example, `box_hjust` adjusts the vertical justification when the
+#' @param hjust,vjust Numerical values specifying the justification
+#'   of the text boxes relative to `x` and `y`. These justification parameters
+#'   are specified in the internal reference frame of the text boxes, so that,
+#'   for example, `hjust` adjusts the vertical justification when the
 #'   text is rotated 90 degrees to the left or right.
+#' @param halign,valign Numerical values specifying the text justification
+#'   inside the text boxes. If not specified, these default to `hjust` and
+#'   `vjust`.
 #' @param rot Angle of rotation for text, in degrees.
 #' @param default.units Units of `x` and `y` if these are provided only as
 #'   numerical values.
@@ -71,7 +71,7 @@
 #' x <- (1:5)/6 + 1/24
 #' y <- rep(0.8, 5)
 #' g <- richtext_grob(
-#'   text, x, y, hjust = 0, box_hjust = 1,
+#'   text, x, y, halign = 0, hjust = 1,
 #'   rot = 45,
 #'   padding = unit(c(3, 6, 1, 3), "pt"),
 #'   r = unit(4, "pt"),
@@ -83,7 +83,7 @@
 #' grid.points(x, y, default.units = "npc", pch = 19, size = unit(5, "pt"))
 #' @export
 richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-                          hjust = 0.5, vjust = 0.5, box_hjust = hjust, box_vjust = vjust,
+                          hjust = 0.5, vjust = 0.5, halign = hjust, valign = vjust,
                           rot = 0, default.units = "npc",
                           margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                           r = unit(0, "pt"), align_widths = FALSE, align_heights = FALSE,
@@ -125,8 +125,8 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
   inner_boxes <- mapply(
     make_inner_box,
     text,
-    hjust,
-    vjust,
+    halign,
+    valign,
     use_markdown,
     gp_list,
     SIMPLIFY = FALSE
@@ -158,10 +158,10 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
     height,
     x_list,
     y_list,
+    halign,
+    valign,
     hjust,
     vjust,
-    box_hjust,
-    box_vjust,
     rot,
     list(margin_pt),
     list(padding_pt),
@@ -217,21 +217,21 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
 }
 
 
-make_inner_box <- function(text, hjust, vjust, use_markdown, gp) {
+make_inner_box <- function(text, halign, valign, use_markdown, gp) {
   if (use_markdown) {
     text <- markdown::markdownToHTML(text = text, options = c("use_xhtml", "fragment_only"))
   }
   doctree <- read_html(text)
 
-  drawing_context <- setup_context(gp = gp, hjust = hjust, word_wrap = FALSE)
+  drawing_context <- setup_context(gp = gp, halign = halign, word_wrap = FALSE)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
   vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_policy = "native")
 
   vbox_inner
 }
 
-make_outer_box <- function(vbox_inner, width, height, x, y, hjust, vjust,
-                           box_hjust, box_vjust, rot,
+make_outer_box <- function(vbox_inner, width, height, x, y, halign, valign,
+                           hjust, vjust, rot,
                            margin_pt, padding_pt, r_pt, box_gp) {
   if (is.null(width)) {
     width <- 0
@@ -251,10 +251,10 @@ make_outer_box <- function(vbox_inner, width, height, x, y, hjust, vjust,
 
   rect_box <- bl_make_rect_box(
     vbox_inner, width, height, margin_pt, padding_pt, box_gp,
-    content_hjust = hjust, content_vjust = vjust,
+    content_hjust = halign, content_vjust = valign,
     width_policy = width_policy, height_policy = height_policy, r = r_pt
   )
-  vbox_outer <- bl_make_vbox(list(rect_box), hjust = box_hjust, vjust = box_vjust, width_policy = "native")
+  vbox_outer <- bl_make_vbox(list(rect_box), hjust = hjust, vjust = vjust, width_policy = "native")
 
   bl_calc_layout(vbox_outer)
   grobs <- bl_render(vbox_outer)
@@ -266,8 +266,8 @@ make_outer_box <- function(vbox_inner, width, height, x, y, hjust, vjust,
   width <- bl_box_width(vbox_outer)
   height <- bl_box_height(vbox_outer)
   # lower left
-  xll <- -box_hjust*cos(theta)*width + box_vjust*sin(theta)*height
-  yll <- -box_hjust*sin(theta)*width - box_vjust*cos(theta)*height
+  xll <- -hjust*cos(theta)*width + vjust*sin(theta)*height
+  yll <- -hjust*sin(theta)*width - vjust*cos(theta)*height
   # lower right
   xlr <- xll + width*cos(theta)
   ylr <- yll + width*sin(theta)

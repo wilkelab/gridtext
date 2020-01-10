@@ -10,8 +10,8 @@ richtext_grob(
   y = unit(0.5, "npc"),
   hjust = 0.5,
   vjust = 0.5,
-  box_hjust = hjust,
-  box_vjust = vjust,
+  halign = hjust,
+  valign = vjust,
   rot = 0,
   default.units = "npc",
   margin = unit(c(0, 0, 0, 0), "pt"),
@@ -32,15 +32,15 @@ richtext_grob(
 
 \item{x, y}{Unit objects specifying the location of the reference point.}
 
-\item{hjust, vjust}{Numerical values specifying the text
-justification.}
-
-\item{box_hjust, box_vjust}{Numerical values specifying the justification
-of the text boxes relative to \code{x} and \code{y}. If not specified, these
-default to \code{hjust} and \code{vjust}. These justification parameters are
-specified in the internal reference frame of the text boxes, so that,
-for example, \code{box_hjust} adjusts the vertical justification when the
+\item{hjust, vjust}{Numerical values specifying the justification
+of the text boxes relative to \code{x} and \code{y}. These justification parameters
+are specified in the internal reference frame of the text boxes, so that,
+for example, \code{hjust} adjusts the vertical justification when the
 text is rotated 90 degrees to the left or right.}
+
+\item{halign, valign}{Numerical values specifying the text justification
+inside the text boxes. If not specified, these default to \code{hjust} and
+\code{vjust}.}
 
 \item{rot}{Angle of rotation for text, in degrees.}
 
@@ -114,7 +114,7 @@ text <- c("January", "February", "March", "April", "May")
 x <- (1:5)/6 + 1/24
 y <- rep(0.8, 5)
 g <- richtext_grob(
-  text, x, y, hjust = 0, box_hjust = 1,
+  text, x, y, halign = 0, hjust = 1,
   rot = 45,
   padding = unit(c(3, 6, 1, 3), "pt"),
   r = unit(4, "pt"),

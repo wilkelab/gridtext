@@ -1,6 +1,7 @@
 # create drawing context with defined state
+# halign defines horizontal text alignment (0 = left aligned, 0.5 = centered, 1 = right aligned)
 setup_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", color = "black",
-                          lineheight = 1.2, hjust = 0, word_wrap = TRUE, gp = NULL) {
+                          lineheight = 1.2, halign = 0, word_wrap = TRUE, gp = NULL) {
   if (is.null(gp)) {
     gp <- gpar(
       fontsize = fontsize, fontfamily = fontfamily, fontface = fontface,
@@ -9,7 +10,7 @@ setup_context <- function(fontsize = 12, fontfamily = "", fontface = "plain", co
   }
   gp <- update_gpar(get.gpar(), gp)
 
-  set_context_gp(list(yoff_pt = 0, hjust = hjust, word_wrap = word_wrap), gp)
+  set_context_gp(list(yoff_pt = 0, halign = halign, word_wrap = word_wrap), gp)
 }
 
 # update a given drawing context with the values provided via ...

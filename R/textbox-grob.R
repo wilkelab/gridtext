@@ -12,22 +12,22 @@
 #' @param text Character vector containing Markdown/HTML string to draw.
 #' @param x,y Unit objects specifying the location of the reference point.
 #'   If set to `NULL` (the default), these values are chosen based on the
-#'   values of `box_hjust` and `box_vjust` such that the box is appropriately
+#'   values of `hjust` and `vjust` such that the box is appropriately
 #'   justified in the enclosing viewport.
 #' @param width,height Unit objects specifying width and height of the
-#'   grob. A value of `NULL` for `width` means take up all available space.
-#'   A value of `NULL` for `height` means take up exactly the space necessary
-#'   to render all content.
+#'   grob. A value of `NULL` means take up exactly the space necessary
+#'   to render all content. Use a value of `unit(1, "npc")` to have the
+#'   box take up all available space.
 #' @param minwidth,minheight,maxwidth,maxheight Min and max values for
 #'   width and height. Set to `NULL` to impose neither a minimum nor
-#'   a maximum.
-#' @param hjust,vjust Numerical values specifying the justification of the text
-#'   inside the text box.
-#' @param box_hjust,box_vjust Numerical values specifying the justification
+#'   a maximum. Note: `minheight` and `maxheight` do not work if `width = NULL`.
+#' @param hjust,vjust Numerical values specifying the justification
 #'   of the text box relative to the reference point defined by `x` and `y`. These
 #'   justification parameters are specified in the internal reference frame of
-#'   the text box, so that, for example, `box_hjust` adjusts the vertical
+#'   the text box, so that, for example, `hjust` adjusts the vertical
 #'   justification when the text box is left- or right-rotated.
+#' @param halign,valign Numerical values specifying the justification of the text
+#'   inside the text box.
 #' @param default.units Units of `x`, `y`, `width`, `height`, `minwidth`,
 #'   `minheight`, `maxwidth`, `maxheight` if these are provided only as
 #'   numerical values.
@@ -56,7 +56,7 @@
 #'   The quick brown fox jumps over the lazy dog.
 #'   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
 #'   The quick brown fox jumps over the lazy dog.",
-#'   x = unit(0.5, "npc"), y = unit(0.7, "npc"), hjust = 0, vjust = 1,
+#'   x = unit(0.5, "npc"), y = unit(0.7, "npc"), halign = 0, valign = 1,
 #'   gp = gpar(fontsize = 15),
 #'   box_gp = gpar(col = "black", fill = "lightcyan1"),
 #'   r = unit(5, "pt"),
@@ -69,7 +69,7 @@
 #' # internal vs. external alignment
 #' g1 <- textbox_grob(
 #'   "The quick brown fox jumps over the lazy dog.",
-#'   box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+#'   hjust = 0, vjust = 1, halign = 0, valign = 1,
 #'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
 #'   box_gp = gpar(col = "black", fill = "cornsilk"),
 #'   padding = unit(c(2, 2, 2, 2), "pt"),
@@ -77,7 +77,7 @@
 #' )
 #' g2 <- textbox_grob(
 #'   "The quick brown fox jumps over the lazy dog.",
-#'   box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+#'   hjust = 1, vjust = 1, halign = 0.5, valign = 0.5,
 #'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
 #'   box_gp = gpar(col = "black", fill = "cornsilk"),
 #'   padding = unit(c(2, 2, 2, 2), "pt"),
@@ -85,7 +85,7 @@
 #' )
 #' g3 <- textbox_grob(
 #'   "The quick brown fox jumps over the lazy dog.",
-#'   box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+#'   hjust = 0, vjust = 0, halign = 1, valign = 1,
 #'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
 #'   box_gp = gpar(col = "black", fill = "cornsilk"),
 #'   padding = unit(c(2, 2, 2, 2), "pt"),
@@ -93,7 +93,7 @@
 #' )
 #' g4 <- textbox_grob(
 #'   "The quick brown fox jumps over the lazy dog.",
-#'   box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+#'   hjust = 1, vjust = 0, halign = 0, valign = 0,
 #'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
 #'   box_gp = gpar(col = "black", fill = "cornsilk"),
 #'   padding = unit(c(2, 2, 2, 2), "pt"),
@@ -108,7 +108,7 @@
 #' # internal vs. external alignment, with rotated boxes
 #' g1 <- textbox_grob(
 #'   "The quick brown fox jumps over the lazy dog.",
-#'   box_hjust = 1, box_vjust = 1, vjust = 1, hjust = 0,
+#'   hjust = 1, vjust = 1, halign = 0, valign = 1,
 #'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
 #'   orientation = "left-rotated",
 #'   box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -117,7 +117,7 @@
 #' )
 #' g2 <- textbox_grob(
 #'   "The quick brown fox jumps over the lazy dog.",
-#'   box_hjust = 0, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+#'   hjust = 0, vjust = 1, halign = 0.5, valign = 0.5,
 #'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
 #'   orientation = "right-rotated",
 #'   box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -126,7 +126,7 @@
 #' )
 #' g3 <- textbox_grob(
 #'   "The quick brown fox jumps over the lazy dog.",
-#'   box_hjust = 1, box_vjust = 1, vjust = 1, hjust = 1,
+#'   hjust = 1, vjust = 1, halign = 1, valign = 1,
 #'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
 #'   orientation = "inverted",
 #'   box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -135,7 +135,7 @@
 #' )
 #' g4 <- textbox_grob(
 #'   "The quick brown fox jumps over the lazy dog.",
-#'   box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+#'   hjust = 1, vjust = 0, halign = 0, valign = 0,
 #'   width = unit(1.5, "inch"), height = unit(1.5, "inch"),
 #'   orientation = "upright",
 #'   box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -149,11 +149,11 @@
 #' grid.draw(g4)
 #' @export
 textbox_grob <- function(text, x = NULL, y = NULL,
-                         width = NULL, height = NULL,
+                         width = unit(1, "npc"), height = NULL,
                          minwidth = NULL, maxwidth = NULL,
                          minheight = NULL, maxheight = NULL,
-                         hjust = 0, vjust = 1,
-                         box_hjust = 0.5, box_vjust = 0.5, default.units = "npc",
+                         hjust = 0.5, vjust = 0.5, halign = 0, valign = 1,
+                         default.units = "npc",
                          margin = unit(c(0, 0, 0, 0), "pt"), padding = unit(c(0, 0, 0, 0), "pt"),
                          r = unit(0, "pt"),
                          orientation = c("upright", "left-rotated", "right-rotated", "inverted"),
@@ -177,37 +177,37 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   if (orientation == "upright") {
     angle <- 0
     if (is.null(x)) {
-      x <- unit(box_hjust, "npc")
+      x <- unit(hjust, "npc")
     }
     if (is.null(y)) {
-      y <- unit(box_vjust, "npc")
+      y <- unit(vjust, "npc")
     }
     flip <- FALSE
   } else if (orientation == "left-rotated") {
     angle <- 90
     if (is.null(x)) {
-      x <- unit(1-box_vjust, "npc")
+      x <- unit(1-vjust, "npc")
     }
     if (is.null(y)) {
-      y <- unit(box_hjust, "npc")
+      y <- unit(hjust, "npc")
     }
     flip <- TRUE
   } else if (orientation == "right-rotated") {
     angle <- -90
     if (is.null(x)) {
-      x <- unit(box_vjust, "npc")
+      x <- unit(vjust, "npc")
     }
     if (is.null(y)) {
-      y <- unit(1-box_hjust, "npc")
+      y <- unit(1-hjust, "npc")
     }
     flip <- TRUE
   } else if (orientation == "inverted") {
     angle <- 180
     if (is.null(x)) {
-      x <- unit(1-box_hjust, "npc")
+      x <- unit(1-hjust, "npc")
     }
     if (is.null(y)) {
-      y <- unit(1-box_vjust, "npc")
+      y <- unit(1-vjust, "npc")
     }
     flip <- FALSE
   }
@@ -237,19 +237,28 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   }
   doctree <- read_html(text)
 
-  drawing_context <- setup_context(gp = gp, hjust = hjust, word_wrap = TRUE)
+  # if width is set to NULL, we use the native size policy and turn off word wrap
+  if (is.null(width)) {
+    width_policy <- "native"
+    word_wrap <- FALSE
+  } else {
+    width_policy <- "relativce"
+    word_wrap <- TRUE
+  }
+
+  drawing_context <- setup_context(gp = gp, halign = halign, word_wrap = word_wrap)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)
-  vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_pt = 100, width_policy = "relative")
+  vbox_inner <- bl_make_vbox(boxlist, vjust = 0, width_pt = 100, width_policy = width_policy)
 
   gTree(
     width = width,
     height = height,
     x = x,
     y = y,
+    halign = halign,
+    valign = valign,
     hjust = hjust,
     vjust = vjust,
-    box_hjust = box_hjust,
-    box_vjust = box_vjust,
     minwidth = minwidth,
     minheight = minheight,
     maxwidth = maxwidth,
@@ -269,6 +278,12 @@ textbox_grob <- function(text, x = NULL, y = NULL,
 
 #' @export
 makeContext.textbox_grob <- function(x) {
+  if (is.null(x$width)) {
+    width_policy <- "native"
+  } else {
+    width_policy <- "fixed"
+  }
+
   width_pt <- current_width_pt(x, x$width, x$flip)
   minwidth_pt <- current_width_pt(x, x$minwidth, x$flip, convert_null = FALSE)
   maxwidth_pt <- current_width_pt(x, x$maxwidth, x$flip, convert_null = FALSE)
@@ -285,21 +300,21 @@ makeContext.textbox_grob <- function(x) {
   maxheight_pt <- current_height_pt(x, x$maxheight, x$flip, convert_null = FALSE)
 
   if (is.null(height_pt)) {
-    # if height is not set it is taken from the layout
-    rect_box <- bl_make_rect_box(
-      x$vbox_inner, 100, 0, x$margin_pt, x$padding_pt, x$box_gp,
-      content_hjust = x$hjust, content_vjust = x$vjust,
-      width_policy = "relative", height_policy = "native", r = x$r_pt
-    )
+    height_pt <- 0
+    height_policy <- "native"
   } else {
-    # otherwise, set explicit height
-    rect_box <- bl_make_rect_box(
-      x$vbox_inner, 100, height_pt, x$margin_pt, x$padding_pt, x$box_gp,
-      content_hjust = x$hjust, content_vjust = x$vjust,
-      width_policy = "relative", height_policy = "fixed", r = x$r_pt
-    )
+    height_policy <- "fixed"
   }
-  vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = x$box_hjust, vjust = x$box_vjust, width_policy = "relative")
+
+  rect_box <- bl_make_rect_box(
+    x$vbox_inner, width_pt, height_pt, x$margin_pt, x$padding_pt, x$box_gp,
+    content_hjust = x$halign, content_vjust = x$valign,
+    width_policy = width_policy, height_policy = height_policy, r = x$r_pt
+  )
+  vbox_outer <- bl_make_vbox(
+    list(rect_box), width_pt = width_pt,
+    hjust = x$hjust, vjust = x$vjust, width_policy = width_policy
+  )
   bl_calc_layout(vbox_outer, width_pt)
   width_pt <- bl_box_width(vbox_outer)
   height_pt <- bl_box_height(vbox_outer)
@@ -316,11 +331,11 @@ makeContext.textbox_grob <- function(x) {
   }
   if (relayout) {
     rect_box <- bl_make_rect_box(
-      x$vbox_inner, 100, height_pt, x$margin_pt, x$padding_pt, x$box_gp,
-      content_hjust = x$hjust, content_vjust = x$vjust,
-      width_policy = "relative", height_policy = "fixed", r = x$r_pt
+      x$vbox_inner, width_pt, height_pt, x$margin_pt, x$padding_pt, x$box_gp,
+      content_hjust = x$halign, content_vjust = x$valign,
+      width_policy = width_policy, height_policy = "fixed", r = x$r_pt
     )
-    vbox_outer <- bl_make_vbox(list(rect_box), width_pt = 100, hjust = x$box_hjust, vjust = x$box_vjust, width_policy = "relative")
+    vbox_outer <- bl_make_vbox(list(rect_box), width_pt = width_pt, hjust = x$hjust, vjust = x$vjust, width_policy = width_policy)
     bl_calc_layout(vbox_outer, width_pt)
     width_pt <- bl_box_width(vbox_outer)
     height_pt <- bl_box_height(vbox_outer)
@@ -336,7 +351,7 @@ makeContext.textbox_grob <- function(x) {
     x$height_pt <- height_pt
   }
 
-  vp <- viewport(x$x, x$y, just = c(x$box_hjust, x$box_vjust), angle = x$angle)
+  vp <- viewport(x$x, x$y, just = c(x$hjust, x$vjust), angle = x$angle)
   if (is.null(x$vp)) {
     x$vp <- vp
   } else {
@@ -348,8 +363,8 @@ makeContext.textbox_grob <- function(x) {
 #' @export
 makeContent.textbox_grob <- function(x) {
   # get absolute coordinates of the grob
-  x_pt <- convertX(unit(x$box_hjust, "npc"), "pt", valueOnly = TRUE)
-  y_pt <- convertY(unit(x$box_vjust, "npc"), "pt", valueOnly = TRUE)
+  x_pt <- convertX(unit(x$hjust, "npc"), "pt", valueOnly = TRUE)
+  y_pt <- convertY(unit(x$vjust, "npc"), "pt", valueOnly = TRUE)
 
   grobs <- bl_render(x$vbox_outer, x_pt, y_pt)
 

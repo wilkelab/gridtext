@@ -108,7 +108,7 @@ text <- c("January", "February", "March", "April", "May")
 x <- (1:5)/6 + 1/24
 y <- rep(0.8, 5)
 g <- richtext_grob(
-  text, x, y, hjust = 0, box_hjust = 1,
+  text, x, y, halign = 0, hjust = 1,
   rot = 45,
   padding = unit(c(3, 6, 1, 3), "pt"),
   r = unit(4, "pt"),
@@ -155,7 +155,7 @@ g <- textbox_grob(
   The quick brown fox jumps over the lazy dog.
   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
   The quick brown fox jumps over the lazy dog.",
-  x = unit(0.5, "npc"), y = unit(0.7, "npc"), hjust = 0, vjust = 1,
+  x = unit(0.5, "npc"), y = unit(0.7, "npc"),
   gp = gpar(fontsize = 15),
   box_gp = gpar(col = "black", fill = "lightcyan1"),
   r = unit(5, "pt"),
@@ -168,7 +168,7 @@ grid.draw(g)
 
 ![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
-The alignment parameters `hjust`, `vjust`, `box_hjust`, and `box_vjust`
+The alignment parameters `hjust`, `vjust`, `halign`, and `valign`
 function just like they do in `richtext_grob()`.
 
 ``` r
@@ -178,7 +178,7 @@ g <- textbox_grob(
   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
   The quick brown fox jumps over the lazy dog.",
   x = unit(0.2, "npc"), y = unit(0.5, "npc"),
-  hjust = 1, box_hjust = 0.5, box_vjust = 1,
+  hjust = 0.5, vjust = 1, halign = 1,
   gp = gpar(fontsize = 15),
   box_gp = gpar(col = "black", fill = "lightcyan1"),
   r = unit(5, "pt"),

@@ -101,12 +101,12 @@ process_tag_p <- function(node, drawing_context) {
   if (isTRUE(drawing_context$word_wrap)) {
     bl_make_par_box(
       boxes, drawing_context$linespacing_pt, width_policy = "relative",
-      hjust = drawing_context$hjust
+      hjust = drawing_context$halign
     )
   } else {
     bl_make_par_box(
       boxes, drawing_context$linespacing_pt, width_policy = "native",
-      hjust = drawing_context$hjust
+      hjust = drawing_context$halign
     )
   }
 }

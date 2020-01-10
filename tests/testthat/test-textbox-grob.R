@@ -8,7 +8,7 @@ test_that("visual tests", {
   The quick brown fox jumps over the lazy dog.
   The **quick <span style='color:brown;'>brown fox</span>** jumps over the lazy dog.
   The quick brown fox jumps over the lazy dog.",
-        y = unit(0.9, "npc"), box_vjust = 1,
+        y = unit(0.9, "npc"), vjust = 1,
         gp = gpar(fontsize = 15),
         box_gp = gpar(col = "black", fill = "lightcyan1"),
         r = unit(5, "pt"),
@@ -28,7 +28,7 @@ test_that("visual tests", {
     function() {
       g1 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+        hjust = 0, vjust = 1, valign = 1, halign = 0,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         box_gp = gpar(col = "black", fill = "cornsilk"),
         padding = unit(c(2, 2, 2, 2), "pt"),
@@ -36,7 +36,7 @@ test_that("visual tests", {
       )
       g2 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+        hjust = 1, vjust = 1, valign = 0.5, halign = 0.5,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         box_gp = gpar(col = "black", fill = "cornsilk"),
         padding = unit(c(2, 2, 2, 2), "pt"),
@@ -44,7 +44,7 @@ test_that("visual tests", {
       )
       g3 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+        hjust = 0, vjust = 0, valign = 1, halign = 1,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         box_gp = gpar(col = "black", fill = "cornsilk"),
         padding = unit(c(2, 2, 2, 2), "pt"),
@@ -52,7 +52,7 @@ test_that("visual tests", {
       )
       g4 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+        hjust = 1, vjust = 0, valign = 0, halign = 0,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         box_gp = gpar(col = "black", fill = "cornsilk"),
         padding = unit(c(2, 2, 2, 2), "pt"),
@@ -73,7 +73,7 @@ test_that("visual tests", {
     function() {
       g1 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+        hjust = 0, vjust = 1, valign = 1, halign = 0,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "left-rotated",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -82,7 +82,7 @@ test_that("visual tests", {
       )
       g2 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+        hjust = 1, vjust = 1, valign = 0.5, halign = 0.5,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "left-rotated",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -91,7 +91,7 @@ test_that("visual tests", {
       )
       g3 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+        hjust = 0, vjust = 0, valign = 1, halign = 1,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "left-rotated",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -100,7 +100,7 @@ test_that("visual tests", {
       )
       g4 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+        hjust = 1, vjust = 0, valign = 0, halign = 0,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "left-rotated",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -122,7 +122,7 @@ test_that("visual tests", {
     function() {
       g1 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+        hjust = 0, vjust = 1, valign = 1, halign = 0,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "right-rotated",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -131,7 +131,7 @@ test_that("visual tests", {
       )
       g2 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+        hjust = 1, vjust = 1, valign = 0.5, halign = 0.5,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "right-rotated",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -140,7 +140,7 @@ test_that("visual tests", {
       )
       g3 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+        hjust = 0, vjust = 0, valign = 1, halign = 1,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "right-rotated",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -149,7 +149,7 @@ test_that("visual tests", {
       )
       g4 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+        hjust = 1, vjust = 0, valign = 0, halign = 0,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "right-rotated",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -171,7 +171,7 @@ test_that("visual tests", {
     function() {
       g1 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 1, vjust = 1, hjust = 0,
+        hjust = 0, vjust = 1, valign = 1, halign = 0,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "inverted",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -180,7 +180,7 @@ test_that("visual tests", {
       )
       g2 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 1, box_vjust = 1, vjust = 0.5, hjust = 0.5,
+        hjust = 1, vjust = 1, valign = 0.5, halign = 0.5,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "inverted",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -189,7 +189,7 @@ test_that("visual tests", {
       )
       g3 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 0, vjust = 1, hjust = 1,
+        hjust = 0, vjust = 0, valign = 1, halign = 1,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "inverted",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -198,7 +198,7 @@ test_that("visual tests", {
       )
       g4 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 1, box_vjust = 0, vjust = 0, hjust = 0,
+        hjust = 1, vjust = 0, valign = 0, halign = 0,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "inverted",
         box_gp = gpar(col = "black", fill = "cornsilk"),
@@ -218,7 +218,7 @@ test_that("visual tests", {
     function() {
       g1 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 1,
+        hjust = 0, vjust = 1,
         x = 0.4, y = 0.6,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "upright",
@@ -228,7 +228,7 @@ test_that("visual tests", {
       )
       g2 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 1,
+        hjust = 0, vjust = 1,
         x = 0.4, y = 0.6,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "left-rotated",
@@ -238,7 +238,7 @@ test_that("visual tests", {
       )
       g3 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 1,
+        hjust = 0, vjust = 1,
         x = 0.4, y = 0.6,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "right-rotated",
@@ -248,7 +248,7 @@ test_that("visual tests", {
       )
       g4 <- textbox_grob(
         "The quick brown fox jumps over the lazy dog.",
-        box_hjust = 0, box_vjust = 1,
+        hjust = 0, vjust = 1,
         x = 0.4, y = 0.6,
         width = unit(1.5, "inch"), height = unit(1.5, "inch"),
         orientation = "inverted",
