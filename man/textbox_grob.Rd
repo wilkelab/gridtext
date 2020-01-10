@@ -14,10 +14,10 @@ textbox_grob(
   maxwidth = NULL,
   minheight = NULL,
   maxheight = NULL,
-  halign = 0,
-  valign = 1,
   hjust = 0.5,
   vjust = 0.5,
+  halign = 0,
+  valign = 1,
   default.units = "npc",
   margin = unit(c(0, 0, 0, 0), "pt"),
   padding = unit(c(0, 0, 0, 0), "pt"),
@@ -47,14 +47,14 @@ box take up all available space.}
 width and height. Set to \code{NULL} to impose neither a minimum nor
 a maximum. Note: \code{minheight} and \code{maxheight} do not work if \code{width = NULL}.}
 
-\item{halign, valign}{Numerical values specifying the justification of the text
-inside the text box.}
-
 \item{hjust, vjust}{Numerical values specifying the justification
 of the text box relative to the reference point defined by \code{x} and \code{y}. These
 justification parameters are specified in the internal reference frame of
 the text box, so that, for example, \code{hjust} adjusts the vertical
 justification when the text box is left- or right-rotated.}
+
+\item{halign, valign}{Numerical values specifying the justification of the text
+inside the text box.}
 
 \item{default.units}{Units of \code{x}, \code{y}, \code{width}, \code{height}, \code{minwidth},
 \code{minheight}, \code{maxwidth}, \code{maxheight} if these are provided only as

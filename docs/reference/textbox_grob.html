@@ -126,16 +126,16 @@ rotation by 0, 90, 180, and 270 degrees.</p>
   <span class='no'>text</span>,
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'>unit</span>(<span class='fl'>1</span>, <span class='st'>"npc"</span>),
   <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>minwidth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>maxwidth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>minheight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>maxheight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>default.units</span> <span class='kw'>=</span> <span class='st'>"npc"</span>,
   <span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'>unit</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>), <span class='st'>"pt"</span>),
   <span class='kw'>padding</span> <span class='kw'>=</span> <span class='fu'>unit</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>), <span class='st'>"pt"</span>),
@@ -159,34 +159,34 @@ rotation by 0, 90, 180, and 270 degrees.</p>
       <th>x, y</th>
       <td><p>Unit objects specifying the location of the reference point.
 If set to <code>NULL</code> (the default), these values are chosen based on the
-values of <code>box_hjust</code> and <code>box_vjust</code> such that the box is appropriately
+values of <code>hjust</code> and <code>vjust</code> such that the box is appropriately
 justified in the enclosing viewport.</p></td>
     </tr>
     <tr>
       <th>width, height</th>
       <td><p>Unit objects specifying width and height of the
-grob. A value of <code>NULL</code> for <code>width</code> means take up all available space.
-A value of <code>NULL</code> for <code>height</code> means take up exactly the space necessary
-to render all content.</p></td>
+grob. A value of <code>NULL</code> means take up exactly the space necessary
+to render all content. Use a value of <code>unit(1, "npc")</code> to have the
+box take up all available space.</p></td>
     </tr>
     <tr>
       <th>minwidth, minheight, maxwidth, maxheight</th>
       <td><p>Min and max values for
 width and height. Set to <code>NULL</code> to impose neither a minimum nor
-a maximum.</p></td>
+a maximum. Note: <code>minheight</code> and <code>maxheight</code> do not work if <code>width = NULL</code>.</p></td>
     </tr>
     <tr>
       <th>hjust, vjust</th>
-      <td><p>Numerical values specifying the justification of the text
-inside the text box.</p></td>
-    </tr>
-    <tr>
-      <th>box_hjust, box_vjust</th>
       <td><p>Numerical values specifying the justification
 of the text box relative to the reference point defined by <code>x</code> and <code>y</code>. These
 justification parameters are specified in the internal reference frame of
-the text box, so that, for example, <code>box_hjust</code> adjusts the vertical
+the text box, so that, for example, <code>hjust</code> adjusts the vertical
 justification when the text box is left- or right-rotated.</p></td>
+    </tr>
+    <tr>
+      <th>halign, valign</th>
+      <td><p>Numerical values specifying the justification of the text
+inside the text box.</p></td>
     </tr>
     <tr>
       <th>default.units</th>
@@ -248,7 +248,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
   The quick brown fox jumps over the lazy dog.
   The **quick &lt;span style='color:brown;'&gt;brown fox&lt;/span&gt;** jumps over the lazy dog.
   The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>0.5</span>, <span class='st'>"npc"</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>0.7</span>, <span class='st'>"npc"</span>), <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>0.5</span>, <span class='st'>"npc"</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>0.7</span>, <span class='st'>"npc"</span>), <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>fontsize</span> <span class='kw'>=</span> <span class='fl'>15</span>),
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"lightcyan1"</span>),
   <span class='kw'>r</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>5</span>, <span class='st'>"pt"</span>),
@@ -260,7 +260,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
 <span class='co'># internal vs. external alignment</span>
 <span class='no'>g1</span> <span class='kw'>&lt;-</span> <span class='fu'>textbox_grob</span>(
   <span class='st'>"The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>),
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"cornsilk"</span>),
   <span class='kw'>padding</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>), <span class='st'>"pt"</span>),
@@ -268,7 +268,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
 )
 <span class='no'>g2</span> <span class='kw'>&lt;-</span> <span class='fu'>textbox_grob</span>(
   <span class='st'>"The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>),
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"cornsilk"</span>),
   <span class='kw'>padding</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>), <span class='st'>"pt"</span>),
@@ -276,7 +276,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
 )
 <span class='no'>g3</span> <span class='kw'>&lt;-</span> <span class='fu'>textbox_grob</span>(
   <span class='st'>"The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>),
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"cornsilk"</span>),
   <span class='kw'>padding</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>), <span class='st'>"pt"</span>),
@@ -284,7 +284,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
 )
 <span class='no'>g4</span> <span class='kw'>&lt;-</span> <span class='fu'>textbox_grob</span>(
   <span class='st'>"The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>),
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"cornsilk"</span>),
   <span class='kw'>padding</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>), <span class='st'>"pt"</span>),
@@ -295,7 +295,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
 <span class='co'># internal vs. external alignment, with rotated boxes</span>
 <span class='no'>g1</span> <span class='kw'>&lt;-</span> <span class='fu'>textbox_grob</span>(
   <span class='st'>"The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>),
   <span class='kw'>orientation</span> <span class='kw'>=</span> <span class='st'>"left-rotated"</span>,
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"cornsilk"</span>),
@@ -304,7 +304,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
 )
 <span class='no'>g2</span> <span class='kw'>&lt;-</span> <span class='fu'>textbox_grob</span>(
   <span class='st'>"The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>),
   <span class='kw'>orientation</span> <span class='kw'>=</span> <span class='st'>"right-rotated"</span>,
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"cornsilk"</span>),
@@ -313,7 +313,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
 )
 <span class='no'>g3</span> <span class='kw'>&lt;-</span> <span class='fu'>textbox_grob</span>(
   <span class='st'>"The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>),
   <span class='kw'>orientation</span> <span class='kw'>=</span> <span class='st'>"inverted"</span>,
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"cornsilk"</span>),
@@ -322,7 +322,7 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.</p></
 )
 <span class='no'>g4</span> <span class='kw'>&lt;-</span> <span class='fu'>textbox_grob</span>(
   <span class='st'>"The quick brown fox jumps over the lazy dog."</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>valign</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>1.5</span>, <span class='st'>"inch"</span>),
   <span class='kw'>orientation</span> <span class='kw'>=</span> <span class='st'>"upright"</span>,
   <span class='kw'>box_gp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/gpar'>gpar</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"cornsilk"</span>),

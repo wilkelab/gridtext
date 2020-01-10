@@ -122,8 +122,8 @@ boxes around each piece of text. Note that this grob <strong>does not</strong> d
   <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>unit</span>(<span class='fl'>0.5</span>, <span class='st'>"npc"</span>),
   <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='no'>hjust</span>,
-  <span class='kw'>box_vjust</span> <span class='kw'>=</span> <span class='no'>vjust</span>,
+  <span class='kw'>halign</span> <span class='kw'>=</span> <span class='no'>hjust</span>,
+  <span class='kw'>valign</span> <span class='kw'>=</span> <span class='no'>vjust</span>,
   <span class='kw'>rot</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>default.units</span> <span class='kw'>=</span> <span class='st'>"npc"</span>,
   <span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'>unit</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>), <span class='st'>"pt"</span>),
@@ -152,17 +152,17 @@ boxes around each piece of text. Note that this grob <strong>does not</strong> d
     </tr>
     <tr>
       <th>hjust, vjust</th>
-      <td><p>Numerical values specifying the text
-justification.</p></td>
+      <td><p>Numerical values specifying the justification
+of the text boxes relative to <code>x</code> and <code>y</code>. These justification parameters
+are specified in the internal reference frame of the text boxes, so that,
+for example, <code>hjust</code> adjusts the vertical justification when the
+text is rotated 90 degrees to the left or right.</p></td>
     </tr>
     <tr>
-      <th>box_hjust, box_vjust</th>
-      <td><p>Numerical values specifying the justification
-of the text boxes relative to <code>x</code> and <code>y</code>. If not specified, these
-default to <code>hjust</code> and <code>vjust</code>. These justification parameters are
-specified in the internal reference frame of the text boxes, so that,
-for example, <code>box_hjust</code> adjusts the vertical justification when the
-text is rotated 90 degrees to the left or right.</p></td>
+      <th>halign, valign</th>
+      <td><p>Numerical values specifying the text justification
+inside the text boxes. If not specified, these default to <code>hjust</code> and
+<code>vjust</code>.</p></td>
     </tr>
     <tr>
       <th>rot</th>
@@ -255,7 +255,7 @@ is yes.</p></td>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> (<span class='fl'>1</span>:<span class='fl'>5</span>)/<span class='fl'>6</span> + <span class='fl'>1</span>/<span class='fl'>24</span>
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>0.8</span>, <span class='fl'>5</span>)
 <span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>richtext_grob</span>(
-  <span class='no'>text</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>box_hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='no'>text</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>halign</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>rot</span> <span class='kw'>=</span> <span class='fl'>45</span>,
   <span class='kw'>padding</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>6</span>, <span class='fl'>1</span>, <span class='fl'>3</span>), <span class='st'>"pt"</span>),
   <span class='kw'>r</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grid/topics/unit'>unit</a></span>(<span class='fl'>4</span>, <span class='st'>"pt"</span>),

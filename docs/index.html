@@ -70,6 +70,7 @@
 <div id="gridtext" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#gridtext" class="anchor"></a>gridtext</h1></div>
+<!-- badges: start -->
 
 <p>Improved text rendering support for grid graphics in R.</p>
 <div id="installation" class="section level2">
@@ -128,7 +129,7 @@
 <a class="sourceLine" id="cb4-2" data-line-number="2">x &lt;-<span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)<span class="op">/</span><span class="dv">6</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">24</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">y &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.8</span>, <span class="dv">5</span>)</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">g &lt;-<span class="st"> </span><span class="kw"><a href="reference/richtext_grob.html">richtext_grob</a></span>(</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">  text, x, y, <span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">box_hjust =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  text, x, y, <span class="dt">halign =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="dv">1</span>,</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="dt">rot =</span> <span class="dv">45</span>,</a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="dt">padding =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="st">"pt"</span>),</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="dt">r =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="dv">4</span>, <span class="st">"pt"</span>),</a>
@@ -159,7 +160,7 @@
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  The quick brown fox jumps over the lazy dog.</span></a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  The **quick &lt;span style='color:brown;'&gt;brown fox&lt;/span&gt;** jumps over the lazy dog.</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  The quick brown fox jumps over the lazy dog."</span>,</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="fl">0.5</span>, <span class="st">"npc"</span>), <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="fl">0.7</span>, <span class="st">"npc"</span>), <span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">vjust =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="fl">0.5</span>, <span class="st">"npc"</span>), <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="fl">0.7</span>, <span class="st">"npc"</span>),</a>
 <a class="sourceLine" id="cb6-7" data-line-number="7">  <span class="dt">gp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/gpar">gpar</a></span>(<span class="dt">fontsize =</span> <span class="dv">15</span>),</a>
 <a class="sourceLine" id="cb6-8" data-line-number="8">  <span class="dt">box_gp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/gpar">gpar</a></span>(<span class="dt">col =</span> <span class="st">"black"</span>, <span class="dt">fill =</span> <span class="st">"lightcyan1"</span>),</a>
 <a class="sourceLine" id="cb6-9" data-line-number="9">  <span class="dt">r =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="dv">5</span>, <span class="st">"pt"</span>),</a>
@@ -169,14 +170,14 @@
 <a class="sourceLine" id="cb6-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/grid.newpage">grid.newpage</a></span>()</a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/grid.draw">grid.draw</a></span>(g)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="700"></p>
-<p>The alignment parameters <code>hjust</code>, <code>vjust</code>, <code>box_hjust</code>, and <code>box_vjust</code> function just like they do in <code><a href="reference/richtext_grob.html">richtext_grob()</a></code>.</p>
+<p>The alignment parameters <code>hjust</code>, <code>vjust</code>, <code>halign</code>, and <code>valign</code> function just like they do in <code><a href="reference/richtext_grob.html">richtext_grob()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">g &lt;-<span class="st"> </span><span class="kw"><a href="reference/textbox_grob.html">textbox_grob</a></span>(</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="st">"**The quick brown fox jumps over the lazy dog.**&lt;br&gt;&lt;br&gt;</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  The quick brown fox jumps over the lazy dog.</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  The **quick &lt;span style='color:brown;'&gt;brown fox&lt;/span&gt;** jumps over the lazy dog.</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  The quick brown fox jumps over the lazy dog."</span>,</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="fl">0.2</span>, <span class="st">"npc"</span>), <span class="dt">y =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="fl">0.5</span>, <span class="st">"npc"</span>),</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">  <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">box_hjust =</span> <span class="fl">0.5</span>, <span class="dt">box_vjust =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">  <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">halign =</span> <span class="dv">1</span>,</a>
 <a class="sourceLine" id="cb7-8" data-line-number="8">  <span class="dt">gp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/gpar">gpar</a></span>(<span class="dt">fontsize =</span> <span class="dv">15</span>),</a>
 <a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="dt">box_gp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/gpar">gpar</a></span>(<span class="dt">col =</span> <span class="st">"black"</span>, <span class="dt">fill =</span> <span class="st">"lightcyan1"</span>),</a>
 <a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="dt">r =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/unit">unit</a></span>(<span class="dv">5</span>, <span class="st">"pt"</span>),</a>
@@ -188,6 +189,12 @@
 <a class="sourceLine" id="cb7-16" data-line-number="16"><span class="kw"><a href="https://www.rdocumentation.org/packages/grid/topics/grid.draw">grid.draw</a></span>(g)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="700"></p>
 </div>
+</div>
+<div id="acknowledgments" class="section level2">
+<h2 class="hasAnchor">
+<a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
+<p>This project is receiving <a href="https://www.r-consortium.org/projects/awarded-projects">financial support</a> from the <a href="https://www.r-consortium.org">R consortium.</a></p>
+<p><img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="250"></p>
 </div>
 </div>
   </div>
@@ -218,9 +225,10 @@
       <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=gridtext"><img src="https://www.r-pkg.org/badges/version/gridtext" alt="CRAN status"></a></li>
 <li><a href="https://travis-ci.org/wilkelab/gridtext"><img src="https://travis-ci.org/wilkelab/gridtext.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/clauswilke/gridtext"><img src="https://ci.appveyor.com/api/projects/status/github/wilkelab/gridtext?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://codecov.io/github/wilkelab/gridtext?branch=master"><img src="https://img.shields.io/codecov/c/github/wilkelab/gridtext/master.svg" alt="Coverage Status"></a></li>
+<li><a href="https://cran.r-project.org/package=gridtext"><img src="https://www.r-pkg.org/badges/version/gridtext" alt="CRAN status"></a></li>
 </ul>
 </div>
 </div>
