@@ -49,7 +49,7 @@ rendering pipeline that is part of the gridtext package. This approach
 has several advantages, including minimal dependencies, good
 performance, and compatibility with all R graphics devices (to the
 extent that the graphics devices support the fonts you want to use). The
-downside of this approach is the severely limited featureset. Don’t
+downside of this approach is the severely limited feature set. Don’t
 expect this package to support the fancy CSS and javascript tricks
 you’re used to when designing web pages.
 
