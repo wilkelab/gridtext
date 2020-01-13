@@ -1,3 +1,7 @@
+In the revised submission, package names, software names,
+and API names have been enclosed in single quotes in 
+Title and Description.
+
 ## Test environments
 * local OS X install, R 3.6.0
 * ubuntu 14.04 (on travis-ci), devel and release
