@@ -37,6 +37,7 @@
 #' @param use_markdown Should the `text` input be treated as markdown? Default
 #'   is yes.
 #' @param debug Should debugging info be drawn? Default is no.
+#' @return A grid [`grob`] that represents the formatted text.
 #' @seealso [`textbox_grob()`]
 #' @examples
 #' library(grid)

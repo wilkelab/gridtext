@@ -11,3 +11,4 @@
 ^docs$
 ^revdep$
 ^appveyor\.yml$
+^CRAN-RELEASE$

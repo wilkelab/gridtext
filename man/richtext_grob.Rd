@@ -74,6 +74,9 @@ is yes.}
 
 \item{debug}{Should debugging info be drawn? Default is no.}
 }
+\value{
+A grid \code{\link{grob}} that represents the formatted text.
+}
 \description{
 This grob acts mostly as a drop-in replacement for \code{\link[grid:textGrob]{grid::textGrob()}}
 but provides more sophisticated formatting. The grob can handle basic

@@ -1,5 +1,8 @@
-In the revised submission, package names, software names,
-and API names have been enclosed in single quotes in 
+Fixes done in response to requests by CRAN maintainers:
+
+- All exported functions now have their return values documented via \value.
+
+- Package names, software names, and API names have been enclosed in single quotes in 
 Title and Description.
 
 ## Test environments

@@ -48,6 +48,7 @@
 #' @param box_gp Graphical parameters for the enclosing box around each text label.
 #' @param vp Viewport.
 #' @param use_markdown Should the `text` input be treated as markdown?
+#' @return A grid [`grob`] that represents the formatted text.
 #' @seealso [`richtext_grob()`]
 #' @examples
 #' library(grid)

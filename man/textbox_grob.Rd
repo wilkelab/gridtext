@@ -85,6 +85,9 @@ a rotation by 0, 90, 270, and 180 degrees counter-clockwise, respectively.}
 
 \item{use_markdown}{Should the \code{text} input be treated as markdown?}
 }
+\value{
+A grid \code{\link{grob}} that represents the formatted text.
+}
 \description{
 The function \code{textbox_grob()} is intended to render multi-line text
 labels that require automatic word wrapping. It is similar to
