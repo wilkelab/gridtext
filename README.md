@@ -21,18 +21,17 @@ Improved text rendering support for grid graphics in R.
 
 ## Installation
 
+You can install the current release from CRAN with `install.packages()`:
+
+``` r
+install.packages("gridtext")
+```
+
 To install the latest development version of this package, please run
 the following line in your R console:
 
 ``` r
 remotes::install_github("wilkelab/gridtext")
-```
-
-Once the package is available on CRAN, you will be able to install the
-latest release via `install.packages()` as usual:
-
-``` r
-install.packages("gridtext")
 ```
 
 ## Examples
