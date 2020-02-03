@@ -1,6 +1,7 @@
 # gridtext devel
 
-- `richtext_grob()` and `textbox_grob()` now gracefully handle empty strings.
+- `richtext_grob()` and `textbox_grob()` now gracefully handle empty strings
+  and NAs.
 
 # gridtext 0.1.0
 

@@ -83,6 +83,9 @@ test_that("misc. tests", {
   # empty strings work
   expect_silent(richtext_grob(""))
   expect_silent(richtext_grob(" "))
+
+  # NAs work
+  expect_silent(richtext_grob(c(" ", "abc", NA)))
 })
 
 test_that("visual tests", {

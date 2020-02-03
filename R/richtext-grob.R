@@ -98,6 +98,8 @@ richtext_grob <- function(text, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
 
   # make sure we can handle input text even if provided as factor
   text <- as.character(text)
+  # convert NAs to empty strings
+  text <- ifelse(is.na(text), "", text)
 
   # make sure margin and padding are of length 4
   margin <- rep(margin, length.out = 4)

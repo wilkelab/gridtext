@@ -4,6 +4,9 @@ test_that("misc. tests", {
   # empty strings work
   expect_silent(textbox_grob(""))
   expect_silent(textbox_grob(" "))
+
+  # NAs work
+  expect_silent(textbox_grob(NA))
 })
 
 test_that("visual tests", {
