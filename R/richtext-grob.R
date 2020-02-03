@@ -222,7 +222,7 @@ make_inner_box <- function(text, halign, valign, use_markdown, gp) {
   if (use_markdown) {
     text <- markdown::markdownToHTML(text = text, options = c("use_xhtml", "fragment_only"))
   }
-  doctree <- read_html(text)
+  doctree <- read_html(paste0("<!DOCTYPE html>", text))
 
   drawing_context <- setup_context(gp = gp, halign = halign, word_wrap = FALSE)
   boxlist <- process_tags(xml2::as_list(doctree)$html$body, drawing_context)

@@ -79,6 +79,12 @@ test_that("grobheight and grobwidth work", {
   expect_equal(h1, h2)
 })
 
+test_that("misc. tests", {
+  # empty strings work
+  expect_silent(richtext_grob(""))
+  expect_silent(richtext_grob(" "))
+})
+
 test_that("visual tests", {
   draw_labels <- function() {
     function() {

@@ -1,6 +1,6 @@
 # gridtext devel
 
-Nothing done yet.
+- `richtext_grob()` and `textbox_grob()` now gracefully handle empty strings.
 
 # gridtext 0.1.0
 

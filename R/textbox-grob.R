@@ -236,7 +236,7 @@ textbox_grob <- function(text, x = NULL, y = NULL,
   if (use_markdown) {
     text <- markdown::markdownToHTML(text = text, options = c("use_xhtml", "fragment_only"))
   }
-  doctree <- read_html(text)
+  doctree <- read_html(paste0("<!DOCTYPE html>", text))
 
   # if width is set to NULL, we use the native size policy and turn off word wrap
   if (is.null(width)) {

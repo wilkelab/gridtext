@@ -1,5 +1,11 @@
 context("textbox grob")
 
+test_that("misc. tests", {
+  # empty strings work
+  expect_silent(textbox_grob(""))
+  expect_silent(textbox_grob(" "))
+})
+
 test_that("visual tests", {
   draw_box <- function() {
     function() {
