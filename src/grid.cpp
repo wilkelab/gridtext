@@ -1,11 +1,6 @@
 #include "grid.h"
 
 NumericVector unit_pt(NumericVector x) {
-  //NumericVector out(x);
-  //out.attr("class") = "unit";
-  //out.attr("valid.unit") = IntegerVector(1, 8);
-  //out.attr("unit") = "pt";
-
   // create unit vector by calling back to R
   Environment env = Environment::namespace_env("grid");
   Function unit = env["unit"];
@@ -14,11 +9,6 @@ NumericVector unit_pt(NumericVector x) {
 
 NumericVector unit_pt(Length x) {
   NumericVector out(1, x);
-  //out.attr("class") = "unit";
-  //out.attr("valid.unit") = IntegerVector(1, 8);
-  //out.attr("unit") = "pt";
-  //return out;
-
   return unit_pt(out);
 }
 
