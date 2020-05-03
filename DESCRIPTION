@@ -1,7 +1,7 @@
 Package: gridtext
 Type: Package
 Title: Improved Text Rendering Support for 'Grid' Graphics
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: 
     person(
       given = "Claus O.",
