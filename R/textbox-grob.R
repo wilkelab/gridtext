@@ -275,6 +275,7 @@ textbox_grob <- function(text, x = NULL, y = NULL,
     gp = gp,
     box_gp = box_gp,
     vp = vp,
+    name = name,
     cl = "textbox_grob"
   )
 }
