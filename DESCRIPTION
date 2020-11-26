@@ -13,7 +13,7 @@ Authors@R:
 Description: Provides support for rendering of formatted text using 'grid' graphics. Text can be
     formatted via a minimal subset of 'Markdown', 'HTML', and inline 'CSS' directives, and it can be
     rendered both with and without word wrap.
-URL: https://wilkelab.org/gridtext
+URL: https://wilkelab.org/gridtext/
 BugReports: https://github.com/wilkelab/gridtext/issues
 License: MIT + file LICENSE
 Depends:
