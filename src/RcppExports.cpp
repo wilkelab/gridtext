@@ -405,8 +405,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP run_testthat_tests(SEXP);
-
 static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_bl_make_null_box", (DL_FUNC) &_gridtext_bl_make_null_box, 2},
     {"_gridtext_bl_make_par_box", (DL_FUNC) &_gridtext_bl_make_par_box, 4},
@@ -438,7 +436,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gridtext_rect_grob", (DL_FUNC) &_gridtext_rect_grob, 6},
     {"_gridtext_roundrect_grob", (DL_FUNC) &_gridtext_roundrect_grob, 7},
     {"_gridtext_set_grob_coords", (DL_FUNC) &_gridtext_set_grob_coords, 3},
-    {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 1},
     {NULL, NULL, 0}
 };
 
