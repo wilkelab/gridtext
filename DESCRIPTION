@@ -42,7 +42,6 @@ LinkingTo:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
-Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 SystemRequirements: C++11
 

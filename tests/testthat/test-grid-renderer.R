@@ -1,3 +1,5 @@
+context("grid-renderer")
+
 test_that("basic functioning", {
   r <- grid_renderer()
   g <- grid_renderer_collect_grobs(r)
