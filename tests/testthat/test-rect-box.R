@@ -1,5 +1,3 @@
-context("rect box")
-
 test_that("alignment of content", {
   nb <- bl_make_null_box()
   cb <- bl_make_rect_box(nb, 20, 10, c(0, 0, 0, 0), c(0, 0, 0, 0), gp = gpar())

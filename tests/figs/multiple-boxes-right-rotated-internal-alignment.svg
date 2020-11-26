@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    line, polyline, polygon, path, rect, circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<polygon points='616.98,4.98 715.02,4.98 715.02,103.02 616.98,103.02 616.98,4.98 ' style='stroke-width: 0.75; stroke: none; fill: #FFF8DC;' />
+<polyline points='616.98,4.98 715.02,4.98 715.02,103.02 616.98,103.02 616.98,4.98 616.98,4.98 ' style='stroke-width: 0.75;' />
+<text transform='translate(704.78,6.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='20.67px' lengthAdjust='spacingAndGlyphs'>The</text>
+<text transform='translate(704.78,30.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='28.02px' lengthAdjust='spacingAndGlyphs'>quick</text>
+<text transform='translate(704.78,62.32) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='32.69px' lengthAdjust='spacingAndGlyphs'>brown</text>
+<text transform='translate(690.43,6.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='16.00px' lengthAdjust='spacingAndGlyphs'>fox</text>
+<text transform='translate(690.43,26.30) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='32.02px' lengthAdjust='spacingAndGlyphs'>jumps</text>
+<text transform='translate(690.43,61.65) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='23.34px' lengthAdjust='spacingAndGlyphs'>over</text>
+<text transform='translate(676.08,6.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='16.67px' lengthAdjust='spacingAndGlyphs'>the</text>
+<text transform='translate(676.08,26.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='21.34px' lengthAdjust='spacingAndGlyphs'>lazy</text>
+<text transform='translate(676.08,51.65) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='23.34px' lengthAdjust='spacingAndGlyphs'>dog.</text>
+<polygon points='616.98,472.98 715.02,472.98 715.02,571.02 616.98,571.02 616.98,472.98 ' style='stroke-width: 0.75; stroke: none; fill: #FFF8DC;' />
+<polyline points='616.98,472.98 715.02,472.98 715.02,571.02 616.98,571.02 616.98,472.98 616.98,472.98 ' style='stroke-width: 0.75;' />
+<text transform='translate(677.46,477.98) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='20.67px' lengthAdjust='spacingAndGlyphs'>The</text>
+<text transform='translate(677.46,501.98) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='28.02px' lengthAdjust='spacingAndGlyphs'>quick</text>
+<text transform='translate(677.46,533.33) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='32.69px' lengthAdjust='spacingAndGlyphs'>brown</text>
+<text transform='translate(663.12,482.99) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='16.00px' lengthAdjust='spacingAndGlyphs'>fox</text>
+<text transform='translate(663.12,502.32) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='32.02px' lengthAdjust='spacingAndGlyphs'>jumps</text>
+<text transform='translate(663.12,537.66) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='23.34px' lengthAdjust='spacingAndGlyphs'>over</text>
+<text transform='translate(648.77,487.99) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='16.67px' lengthAdjust='spacingAndGlyphs'>the</text>
+<text transform='translate(648.77,507.99) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='21.34px' lengthAdjust='spacingAndGlyphs'>lazy</text>
+<text transform='translate(648.77,532.66) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='23.34px' lengthAdjust='spacingAndGlyphs'>dog.</text>
+<polygon points='4.98,4.98 103.02,4.98 103.02,103.02 4.98,103.02 4.98,4.98 ' style='stroke-width: 0.75; stroke: none; fill: #FFF8DC;' />
+<polyline points='4.98,4.98 103.02,4.98 103.02,103.02 4.98,103.02 4.98,4.98 4.98,4.98 ' style='stroke-width: 0.75;' />
+<text transform='translate(92.78,12.99) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='20.67px' lengthAdjust='spacingAndGlyphs'>The</text>
+<text transform='translate(92.78,36.99) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='28.02px' lengthAdjust='spacingAndGlyphs'>quick</text>
+<text transform='translate(92.78,68.34) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='32.69px' lengthAdjust='spacingAndGlyphs'>brown</text>
+<text transform='translate(78.43,23.01) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='16.00px' lengthAdjust='spacingAndGlyphs'>fox</text>
+<text transform='translate(78.43,42.34) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='32.02px' lengthAdjust='spacingAndGlyphs'>jumps</text>
+<text transform='translate(78.43,77.68) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='23.34px' lengthAdjust='spacingAndGlyphs'>over</text>
+<text transform='translate(64.08,33.01) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='16.67px' lengthAdjust='spacingAndGlyphs'>the</text>
+<text transform='translate(64.08,53.01) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='21.34px' lengthAdjust='spacingAndGlyphs'>lazy</text>
+<text transform='translate(64.08,77.68) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='23.34px' lengthAdjust='spacingAndGlyphs'>dog.</text>
+<polygon points='4.98,472.98 103.02,472.98 103.02,571.02 4.98,571.02 4.98,472.98 ' style='stroke-width: 0.75; stroke: none; fill: #FFF8DC;' />
+<polyline points='4.98,472.98 103.02,472.98 103.02,571.02 4.98,571.02 4.98,472.98 4.98,472.98 ' style='stroke-width: 0.75;' />
+<text transform='translate(38.15,474.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='20.67px' lengthAdjust='spacingAndGlyphs'>The</text>
+<text transform='translate(38.15,498.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='28.02px' lengthAdjust='spacingAndGlyphs'>quick</text>
+<text transform='translate(38.15,530.32) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='32.69px' lengthAdjust='spacingAndGlyphs'>brown</text>
+<text transform='translate(23.80,474.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='16.00px' lengthAdjust='spacingAndGlyphs'>fox</text>
+<text transform='translate(23.80,494.30) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='32.02px' lengthAdjust='spacingAndGlyphs'>jumps</text>
+<text transform='translate(23.80,529.65) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='23.34px' lengthAdjust='spacingAndGlyphs'>over</text>
+<text transform='translate(9.46,474.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='16.67px' lengthAdjust='spacingAndGlyphs'>the</text>
+<text transform='translate(9.46,494.97) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='21.34px' lengthAdjust='spacingAndGlyphs'>lazy</text>
+<text transform='translate(9.46,519.65) rotate(90)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='23.34px' lengthAdjust='spacingAndGlyphs'>dog.</text>
+</svg>

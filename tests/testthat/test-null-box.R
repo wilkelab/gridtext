@@ -1,5 +1,3 @@
-context("null box")
-
 test_that("basic features", {
   # null box with no extent
   nb <- bl_make_null_box()

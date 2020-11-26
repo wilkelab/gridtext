@@ -1,5 +1,3 @@
-context("grid constructors")
-
 test_that("unit_pt", {
   expect_equal(
     unit_pt(10),

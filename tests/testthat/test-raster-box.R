@@ -1,5 +1,3 @@
-context("raster box")
-
 test_that("image dimensions are used", {
   logo_file <- system.file("extdata", "Rlogo.png", package = "gridtext")
   logo <- png::readPNG(logo_file, native = FALSE)

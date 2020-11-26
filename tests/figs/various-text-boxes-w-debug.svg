@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    line, polyline, polygon, path, rect, circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<polygon points='181.08,455.59 576.00,455.59 576.00,97.68 181.08,97.68 ' style='stroke-width: 0.38; stroke: #2523C1; fill: #E1F4FD;' />
+<rect x='232.05' y='97.68' width='111.91' height='35.04' style='stroke-width: 0.75; fill: #FFF8DC;' />
+<text x='238.02' y='111.91' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='31.34px' lengthAdjust='spacingAndGlyphs'>Some</text>
+<text x='272.70' y='111.91' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='19.33px' lengthAdjust='spacingAndGlyphs'>text</text>
+<text x='295.35' y='111.91' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='10.66px' lengthAdjust='spacingAndGlyphs'>in</text>
+<text x='309.34' y='111.91' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='28.64px' lengthAdjust='spacingAndGlyphs'>bold.</text>
+<text x='260.66' y='126.25' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='54.69px' lengthAdjust='spacingAndGlyphs'>(centered)</text>
+<polyline points='183.89,325.74 228.22,370.07 228.11,369.95 228.58,370.39 229.12,370.74 229.70,371.00 230.32,371.17 230.96,371.24 231.60,371.20 232.22,371.06 232.82,370.82 233.37,370.48 233.86,370.07 233.86,370.07 263.15,340.78 263.15,340.78 263.56,340.29 263.89,339.74 264.13,339.15 264.27,338.52 264.31,337.88 264.25,337.24 264.08,336.63 263.82,336.04 263.46,335.51 263.15,335.15 218.82,290.82 219.14,291.18 218.70,290.71 218.20,290.31 217.64,290.00 217.03,289.79 216.40,289.67 215.76,289.66 215.12,289.75 214.51,289.94 213.94,290.23 213.42,290.60 213.18,290.82 183.89,320.11 184.13,319.89 183.68,320.34 183.30,320.86 183.02,321.44 182.82,322.05 182.73,322.68 182.75,323.32 182.86,323.96 183.08,324.56 183.39,325.12 183.78,325.63 183.89,325.74 ' style='stroke-width: 0.75;' />
+<text transform='translate(210.17,302.29) rotate(45)' style='font-size: 12.00px; fill: #FF0000; font-family: Liberation Sans;' textLength='58.70px' lengthAdjust='spacingAndGlyphs'>Linebreaks</text>
+<text transform='translate(200.02,312.43) rotate(45)' style='font-size: 12.00px; fill: #FF0000; font-family: Liberation Sans;' textLength='58.70px' lengthAdjust='spacingAndGlyphs'>Linebreaks</text>
+<text transform='translate(189.88,322.58) rotate(45)' style='font-size: 12.00px; fill: #FF0000; font-family: Liberation Sans;' textLength='58.70px' lengthAdjust='spacingAndGlyphs'>Linebreaks</text>
+<polygon points='529.24,449.96 570.36,408.84 570.13,409.06 571.00,408.12 571.71,407.05 572.24,405.88 572.57,404.64 572.70,403.36 572.62,402.08 572.34,400.83 571.86,399.64 571.20,398.54 570.36,397.56 570.36,397.56 555.70,382.90 555.70,382.90 554.72,382.07 553.62,381.40 552.43,380.92 551.18,380.64 549.90,380.56 548.62,380.69 547.39,381.02 546.22,381.55 545.15,382.26 544.42,382.90 503.30,424.02 504.02,423.38 503.08,424.25 502.29,425.26 501.67,426.38 501.24,427.59 501.01,428.85 500.98,430.14 501.16,431.41 501.54,432.63 502.12,433.78 502.87,434.82 503.30,435.29 517.97,449.96 517.54,449.49 518.44,450.39 519.48,451.14 520.63,451.72 521.86,452.10 523.13,452.28 524.41,452.25 525.67,452.02 526.88,451.59 528.00,450.97 529.01,450.18 ' style='stroke-width: 0.75; fill: #BFEFFF;' />
+<text transform='translate(513.11,436.65) rotate(-45)' style='font-size: 12.00px; font-style: italic; font-family: Liberation Sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>x</text>
+<text transform='translate(515.03,430.07) rotate(-45)' style='font-size: 9.60px; font-family: Liberation Sans;' textLength='5.33px' lengthAdjust='spacingAndGlyphs'>2</text>
+<text transform='translate(523.48,426.28) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='7.02px' lengthAdjust='spacingAndGlyphs'>+</text>
+<text transform='translate(530.79,418.97) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>5</text>
+<text transform='translate(535.51,414.25) rotate(-45)' style='font-size: 12.00px; font-style: italic; font-family: Liberation Sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>x</text>
+<text transform='translate(542.11,407.66) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='7.02px' lengthAdjust='spacingAndGlyphs'>+</text>
+<text transform='translate(549.42,400.34) rotate(-45)' style='font-size: 12.00px; font-style: italic; font-family: Liberation Sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
+<text transform='translate(557.88,396.54) rotate(-45)' style='font-size: 9.60px; font-family: Liberation Sans;' textLength='2.12px' lengthAdjust='spacingAndGlyphs'>i</text>
+<text transform='translate(548.10,421.96) rotate(-45)' style='font-size: 12.00px; font-style: italic; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>a</text>
+<text transform='translate(555.17,414.88) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='7.02px' lengthAdjust='spacingAndGlyphs'>=</text>
+<text transform='translate(562.48,407.57) rotate(-45)' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>5</text>
+<circle cx='288.00' cy='115.20' r='1.87pt' style='stroke-width: 0.75; stroke: #2523C1; fill: #2523C1;' />
+<circle cx='216.00' cy='288.00' r='1.87pt' style='stroke-width: 0.75; stroke: #2523C1; fill: #2523C1;' />
+<circle cx='576.00' cy='403.20' r='1.87pt' style='stroke-width: 0.75; stroke: #2523C1; fill: #2523C1;' />
+<circle cx='288.00' cy='115.20' r='1.87pt' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='216.00' cy='288.00' r='1.87pt' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='576.00' cy='403.20' r='1.87pt' style='stroke-width: 0.75; fill: #000000;' />
+</svg>

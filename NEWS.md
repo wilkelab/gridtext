@@ -1,3 +1,7 @@
+# gridtext 0.1.2
+
+- Fix build for testthat 3.0.
+
 # gridtext 0.1.1
 
 - `richtext_grob()` and `textbox_grob()` now gracefully handle empty strings

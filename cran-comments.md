@@ -1,9 +1,9 @@
-Minor fixes required for upcoming changes in R devel grid.
+This is a minor update making this package compatible with testthat 3.0.0.
 
 ## Test environments
 * ubuntu 14.04 (on travis-ci), devel and release
 * win-builder (devel and release)
-* local OS X install, R 3.6.0
+* R version 4.0.2 on x86_64-apple-darwin15.6.0 (64-bit) (local install)
 
 ## R CMD check results
 

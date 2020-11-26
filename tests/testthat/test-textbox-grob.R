@@ -1,5 +1,3 @@
-context("textbox grob")
-
 test_that("misc. tests", {
   # empty strings work
   expect_silent(textbox_grob(""))

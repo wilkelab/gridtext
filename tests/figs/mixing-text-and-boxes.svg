@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    line, polyline, polygon, path, rect, circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<rect x='99.63' y='157.57' width='199.25' height='19.93' style='stroke-width: 0.75; stroke: #0000FF; fill: #FFFFFF;' />
+<polygon points='107.60,376.75 390.54,376.75 390.21,376.74 391.50,376.69 392.75,376.43 393.95,375.98 395.06,375.34 396.06,374.53 396.91,373.57 397.59,372.48 398.10,371.30 398.40,370.06 398.51,368.78 398.51,368.78 398.51,354.83 398.51,354.83 398.40,353.55 398.10,352.31 397.59,351.13 396.91,350.04 396.06,349.08 395.06,348.27 393.95,347.63 392.75,347.17 391.50,346.92 390.54,346.86 107.60,346.86 108.56,346.92 107.28,346.87 106.00,347.02 104.77,347.38 103.61,347.93 102.56,348.66 101.63,349.54 100.86,350.57 100.26,351.71 99.86,352.92 99.65,354.19 99.63,354.83 99.63,368.78 99.65,368.14 99.65,369.42 99.86,370.68 100.26,371.90 100.86,373.04 101.63,374.06 102.56,374.95 103.61,375.68 104.77,376.23 106.00,376.59 107.28,376.74 ' style='stroke-width: 0.75; fill: #FFF8DC;' />
+<text x='99.63' y='177.49' style='font-size: 20.00px; font-family: Liberation Sans;' textLength='202.41px' lengthAdjust='spacingAndGlyphs'>text 1, square box blue</text>
+<text x='99.63' y='376.75' style='font-size: 20.00px; font-family: Liberation Sans;' textLength='217.97px' lengthAdjust='spacingAndGlyphs'>text 2, rounded box filled</text>
+</svg>

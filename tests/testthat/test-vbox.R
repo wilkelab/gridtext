@@ -1,5 +1,3 @@
-context("vbox")
-
 test_that("vertical stacking works", {
   nb <- bl_make_null_box()
   rb1 <- bl_make_rect_box(nb, 100, 100, rep(0, 4), rep(0, 4), gp = gpar())

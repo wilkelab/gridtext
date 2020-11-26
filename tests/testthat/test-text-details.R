@@ -1,5 +1,3 @@
-context("text details")
-
 test_that("text_details() calculates info correctly", {
   # descent and space are independent of string
   gp1 <- gpar(fontfamily = "Helvetica", fontface = "plain", fontsize = 10)
