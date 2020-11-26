@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^\.codecov\.yml$
+^\.github$
 ^_pkgdown\.yml$
 ^README\.Rmd$
 ^cran-comments\.md$
