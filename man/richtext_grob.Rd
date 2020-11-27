@@ -78,7 +78,7 @@ is yes.}
 A grid \code{\link{grob}} that represents the formatted text.
 }
 \description{
-This grob acts mostly as a drop-in replacement for \code{\link[grid:textGrob]{grid::textGrob()}}
+This grob acts mostly as a drop-in replacement for \code{\link[grid:grid.text]{grid::textGrob()}}
 but provides more sophisticated formatting. The grob can handle basic
 markdown and HTML formatting directives, and it can also draw
 boxes around each piece of text. Note that this grob \strong{does not} draw
