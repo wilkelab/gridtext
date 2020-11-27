@@ -1,9 +1,9 @@
 This is a minor update making this package compatible with testthat 3.0.0.
 
 ## Test environments
-* ubuntu 14.04 (on travis-ci), devel and release
-* win-builder (devel and release)
-* R version 4.0.2 on x86_64-apple-darwin15.6.0 (64-bit) (local install)
+* ubuntu 20.04, devel and release
+* windows, release
+* macOS, release
 
 ## R CMD check results
 
