@@ -1,3 +1,7 @@
+# gridtext 0.1.3
+
+- Remove unneeded systemfonts dependency.
+
 # gridtext 0.1.2
 
 - Fix build for testthat 3.0.
