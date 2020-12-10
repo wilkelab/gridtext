@@ -77,14 +77,14 @@ test_that("visual tests", {
   grid_renderer_text(r, "red bold", 20, 380, gp = gpar(col = "red", fontsize = 12, fontface = "bold"))
   grid_renderer_text(r, "roman", 30, 360, gp = gpar(fontsize = 12, fontfamily = "Times"))
   g <- grid_renderer_collect_grobs(r)
-  vdiffr::expect_doppelganger("Text in different stylings", draw_grob(g))
+  expect_doppelganger("Text in different stylings", draw_grob(g))
 
   grid_renderer_rect(r, 100, 400, 200, 20, gp = gpar(col = "blue"))
   grid_renderer_rect(r, 100, 200, 300, 30, gp = gpar(fill = "cornsilk"), r = 8)
   grid_renderer_text(r, "text 1, square box blue", 100, 400, gp = gpar(fontsize = 20))
   grid_renderer_text(r, "text 2, rounded box filled", 100, 200, gp = gpar(fontsize = 20))
   g <- grid_renderer_collect_grobs(r)
-  vdiffr::expect_doppelganger("Mixing text and boxes", draw_grob(g))
+  expect_doppelganger("Mixing text and boxes", draw_grob(g))
 
   logo_file <- system.file("extdata", "Rlogo.png", package = "gridtext")
   logo <- png::readPNG(logo_file, native = TRUE)
@@ -92,7 +92,7 @@ test_that("visual tests", {
   height <- nrow(logo)
   grid_renderer_raster(r, logo, 10, 10, width, height)
   g <- grid_renderer_collect_grobs(r)
-  vdiffr::expect_doppelganger("Rendering raster data", draw_grob(g))
+  expect_doppelganger("Rendering raster data", draw_grob(g))
 })
 
 

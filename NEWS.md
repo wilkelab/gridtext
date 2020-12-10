@@ -1,3 +1,7 @@
+# gridtext 0.1.4
+
+- Make sure tests don't fail if vdiffr is missing.
+
 # gridtext 0.1.3
 
 - Remove unneeded systemfonts dependency.

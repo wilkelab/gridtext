@@ -117,7 +117,7 @@ test_that("visual tests", {
     }
   }
 
-  vdiffr::expect_doppelganger("Various text boxes", draw_labels())
+  expect_doppelganger("Various text boxes", draw_labels())
 
   draw_labels_debug <- function() {
     function() {
@@ -147,7 +147,7 @@ test_that("visual tests", {
     }
   }
 
-  vdiffr::expect_doppelganger("Various text boxes w/ debug", draw_labels_debug())
+  expect_doppelganger("Various text boxes w/ debug", draw_labels_debug())
 
   draw_aligned_heights <- function() {
     function() {
@@ -179,7 +179,7 @@ test_that("visual tests", {
     }
   }
 
-  vdiffr::expect_doppelganger("Aligned heights", draw_aligned_heights())
+  expect_doppelganger("Aligned heights", draw_aligned_heights())
 
   draw_aligned_widths <- function() {
     function() {
@@ -211,6 +211,6 @@ test_that("visual tests", {
     }
   }
 
-  vdiffr::expect_doppelganger("Aligned widths", draw_aligned_widths())
+  expect_doppelganger("Aligned widths", draw_aligned_widths())
 
 })

@@ -1,6 +1,4 @@
-Remove unnecessary dependency on systemfonts, per request by Brian Ripley:
-
-"Version 0.1.2 has added a requirement of package systemfonts.  The latter is not easy to install because of its (mis-stated) system requirements.  Clearly systemfonts is not needed for all the package users of gridtext as 0.1.1 sufficed, so it should be in Suggests and used conditionally.  Please do so ASAP."
+Make sure tests don't fail just because vdiffr couldn't be installed, per request by Brian Ripley.
 
 ## Test environments
 * ubuntu 20.04, devel and release

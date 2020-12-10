@@ -31,7 +31,7 @@ test_that("visual tests", {
     }
   }
 
-  vdiffr::expect_doppelganger("Box spanning entire viewport, with margins", draw_box())
+  expect_doppelganger("Box spanning entire viewport, with margins", draw_box())
 
   draw_align_upright <- function() {
     function() {
@@ -75,7 +75,7 @@ test_that("visual tests", {
     }
   }
 
-  vdiffr::expect_doppelganger("Multiple boxes, internal alignment", draw_align_upright())
+  expect_doppelganger("Multiple boxes, internal alignment", draw_align_upright())
 
 
   draw_align_left_rotated <- function() {
@@ -124,7 +124,7 @@ test_that("visual tests", {
     }
   }
 
-  vdiffr::expect_doppelganger("Multiple boxes left rotated, internal alignment", draw_align_left_rotated())
+  expect_doppelganger("Multiple boxes left rotated, internal alignment", draw_align_left_rotated())
 
 
   draw_align_right_rotated <- function() {
@@ -173,7 +173,7 @@ test_that("visual tests", {
     }
   }
 
-  vdiffr::expect_doppelganger("Multiple boxes right rotated, internal alignment", draw_align_right_rotated())
+  expect_doppelganger("Multiple boxes right rotated, internal alignment", draw_align_right_rotated())
 
 
   draw_align_inverted <- function() {
@@ -221,7 +221,7 @@ test_that("visual tests", {
       invisible()
     }
   }
-  vdiffr::expect_doppelganger("Multiple boxes inverted, internal alignment", draw_align_inverted())
+  expect_doppelganger("Multiple boxes inverted, internal alignment", draw_align_inverted())
 
   draw_rotated_fixedpoint <- function() {
     function() {
@@ -273,6 +273,6 @@ test_that("visual tests", {
       invisible()
     }
   }
-  vdiffr::expect_doppelganger("Rotation around fixed point", draw_rotated_fixedpoint())
+  expect_doppelganger("Rotation around fixed point", draw_rotated_fixedpoint())
 
 })
