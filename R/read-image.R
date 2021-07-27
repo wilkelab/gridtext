@@ -11,7 +11,7 @@ read_image <- function(path) {
 
 get_file <- function(path) {
   if (is_url(path)) {
-    RCurl::getBinaryURL(path)
+    curl::curl_fetch_memory(path)$content
   } else {
     path
   }

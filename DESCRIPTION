@@ -1,7 +1,7 @@
 Package: gridtext
 Type: Package
 Title: Improved Text Rendering Support for 'Grid' Graphics
-Version: 0.1.4.9000
+Version: 0.1.4.9001
 Authors@R: 
     person(
       given = "Claus O.",
@@ -19,12 +19,12 @@ License: MIT + file LICENSE
 Depends:
     R (>= 3.5)
 Imports:
+    curl,
     grid,
     grDevices,
     markdown,
     rlang,
     Rcpp,
-    RCurl,
     png,
     jpeg,
     stringr,
