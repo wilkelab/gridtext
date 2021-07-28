@@ -19,12 +19,12 @@ License: MIT + file LICENSE
 Depends:
     R (>= 3.5)
 Imports:
+    curl,
     grid,
     grDevices,
     markdown,
     rlang,
     Rcpp,
-    RCurl,
     png,
     jpeg,
     stringr,

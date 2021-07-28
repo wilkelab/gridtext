@@ -1,6 +1,6 @@
 # gridtext 0.1.4.9000
 
-No changes yet.
+- Transition to curl package and drop RCurl dependency
 
 # gridtext 0.1.4
 
