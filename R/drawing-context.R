@@ -46,8 +46,8 @@ set_style <- function(drawing_context, style = NULL) {
 update_gpar <- function(gp, gp_new) {
   names_new <- names(gp_new)
   names_old <- names(gp)
-  gp[c(intersect(names_old, names_new), "font")] <- NULL
-  gp_new["font"] <- NULL
+  gp[c(intersect(names_old, names_new), "fontface")] <- NULL
+  gp_new["fontface"] <- NULL
   do.call(gpar, c(gp, gp_new))
 }
 
