@@ -70,13 +70,13 @@ set_context_gp <- function(drawing_context, gp = NULL) {
 
 # update the fontface of a drawing context
 set_context_fontface <- function(drawing_context, fontface = "plain", overwrite = FALSE) {
-  fontface_old <- drawing_context$gp$fontface
+  fontface_old <- drawing_context$gp$font
 
   # combine bold and italic if needed
   if (!isTRUE(overwrite)) {
-    if (isTRUE(fontface == "italic") && isTRUE(fontface_old == "bold")) {
+    if (isTRUE(fontface == "italic") && isTRUE(fontface_old == 2)) { # see ?grid::gpar for fontface codes
       fontface <- "bold.italic"
-    } else if (isTRUE(fontface == "bold") && isTRUE(fontface_old == "italic")) {
+    } else if (isTRUE(fontface == "bold") && isTRUE(fontface_old == 3)) {
       fontface <- "bold.italic"
     }
   }
