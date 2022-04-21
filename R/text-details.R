@@ -2,23 +2,23 @@
 #'
 #' Calculate text details for a given text label
 #' @param label Character vector containing the label. Can handle only one label at a time.
-#' @param gp Grid graphical parameters defining the font (`fontfamily`, `fontface`, and
-#'   `fontface` should be defined).
+#' @param gp Grid graphical parameters defining the font (`fontfamily`, `font`, and
+#'   `fontsize` should be defined).
 #' @examples
-#' text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12))
-#' text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 24))
+#' text_details("Hello world!", grid::gpar(fontfamily = "", font = "plain", fontsize = 12))
+#' text_details("Hello world!", grid::gpar(fontfamily = "", font = "plain", fontsize = 24))
 #' text_details(
 #'   "Hello world\nwith newline",
-#'   grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12)
+#'   grid::gpar(fontfamily = "", font = "plain", fontsize = 12)
 #' )
 #' @noRd
 text_details <- function(label, gp = gpar()) {
   fontfamily <- gp$fontfamily %||% grid::get.gpar("fontfamily")$fontfamily
-  fontface <- gp$fontface %||% grid::get.gpar("fontface")$fontface
+  font <- gp$font %||% grid::get.gpar("font")$font
   fontsize <- gp$fontsize %||% grid::get.gpar("fontsize")$fontsize
 
   devname <- names(grDevices::dev.cur())
-  fontkey <- paste0(devname, fontfamily, fontface, fontsize)
+  fontkey <- paste0(devname, fontfamily, font, fontsize)
   if (devname == "null device") {
     cache <- FALSE   # don't cache if no device open
   } else {
@@ -30,16 +30,16 @@ text_details <- function(label, gp = gpar()) {
   }
 
   # ascent and width depend on label and font
-  l1 <- text_info(label, fontkey, fontfamily, fontface, fontsize, cache)
+  l1 <- text_info(label, fontkey, fontfamily, font, fontsize, cache)
   # descent and space width depend only on font
-  l2 <- font_info(fontkey, fontfamily, fontface, fontsize, cache)
+  l2 <- font_info(fontkey, fontfamily, font, fontsize, cache)
 
   # concatenate, result is a list with four members, width_pt, ascent_pt, descent_pt, space_pt
   c(l1, l2)
 }
 
 font_info_cache <- new.env(parent = emptyenv())
-font_info <- function(fontkey, fontfamily, fontface, fontsize, cache) {
+font_info <- function(fontkey, fontfamily, font, fontsize, cache) {
   info <- font_info_cache[[fontkey]]
 
   if (is.null(info)) {
@@ -48,7 +48,7 @@ font_info <- function(fontkey, fontfamily, fontface, fontsize, cache) {
       gp = gpar(
         fontsize = fontsize,
         fontfamily = fontfamily,
-        fontface = fontface,
+        font = font,
         cex = 1
       )
     )), "pt", valueOnly = TRUE)
@@ -58,7 +58,7 @@ font_info <- function(fontkey, fontfamily, fontface, fontsize, cache) {
       gp = gpar(
         fontsize = fontsize,
         fontfamily = fontfamily,
-        fontface = fontface,
+        font = font,
         cex = 1
       )
     )), "pt", valueOnly = TRUE)
@@ -73,7 +73,7 @@ font_info <- function(fontkey, fontfamily, fontface, fontsize, cache) {
 }
 
 text_info_cache <- new.env(parent = emptyenv())
-text_info <- function(label, fontkey, fontfamily, fontface, fontsize, cache) {
+text_info <- function(label, fontkey, fontfamily, font, fontsize, cache) {
   key <- paste0(label, fontkey)
   info <- text_info_cache[[key]]
 
@@ -83,7 +83,7 @@ text_info <- function(label, fontkey, fontfamily, fontface, fontsize, cache) {
       gp = gpar(
         fontsize = fontsize,
         fontfamily = fontfamily,
-        fontface = fontface,
+        font = font,
         cex = 1
       )
     )), "pt", valueOnly = TRUE)
@@ -93,7 +93,7 @@ text_info <- function(label, fontkey, fontfamily, fontface, fontsize, cache) {
       gp = gpar(
         fontsize = fontsize,
         fontfamily = fontfamily,
-        fontface = fontface,
+        font = font,
         cex = 1
       )
     )), "pt", valueOnly = TRUE)
