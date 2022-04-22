@@ -2,14 +2,14 @@
 #'
 #' Calculate text details for a given text label
 #' @param label Character vector containing the label. Can handle only one label at a time.
-#' @param gp Grid graphical parameters defining the font (`fontfamily`, `font`, and
+#' @param gp Grid graphical parameters defining the font (`fontfamily`, `fontface`, and
 #'   `fontsize` should be defined).
 #' @examples
-#' text_details("Hello world!", grid::gpar(fontfamily = "", font = "plain", fontsize = 12))
-#' text_details("Hello world!", grid::gpar(fontfamily = "", font = "plain", fontsize = 24))
+#' text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12))
+#' text_details("Hello world!", grid::gpar(fontfamily = "", fontface = "plain", fontsize = 24))
 #' text_details(
 #'   "Hello world\nwith newline",
-#'   grid::gpar(fontfamily = "", font = "plain", fontsize = 12)
+#'   grid::gpar(fontfamily = "", fontface = "plain", fontsize = 12)
 #' )
 #' @noRd
 text_details <- function(label, gp = gpar()) {
