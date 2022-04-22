@@ -1,6 +1,7 @@
 # gridtext 0.1.4.9000
 
 - Transition to curl package and drop RCurl dependency
+- Fix fontface not being processed and words spaced properly in R 4.2.0
 
 # gridtext 0.1.4
 

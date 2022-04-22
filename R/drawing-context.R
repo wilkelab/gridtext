@@ -46,8 +46,8 @@ set_style <- function(drawing_context, style = NULL) {
 update_gpar <- function(gp, gp_new) {
   names_new <- names(gp_new)
   names_old <- names(gp)
-  gp[c(intersect(names_old, names_new), "font")] <- NULL
-  gp_new["font"] <- NULL
+  gp[c(intersect(names_old, names_new), "fontface")] <- NULL
+  gp_new["fontface"] <- NULL
   do.call(gpar, c(gp, gp_new))
 }
 
@@ -70,13 +70,13 @@ set_context_gp <- function(drawing_context, gp = NULL) {
 
 # update the fontface of a drawing context
 set_context_fontface <- function(drawing_context, fontface = "plain", overwrite = FALSE) {
-  fontface_old <- drawing_context$gp$fontface
+  font_old <- drawing_context$gp$font
 
   # combine bold and italic if needed
   if (!isTRUE(overwrite)) {
-    if (isTRUE(fontface == "italic") && isTRUE(fontface_old == "bold")) {
+    if (isTRUE(fontface == "italic") && isTRUE(font_old == 2)) { # see ?grid::gpar for fontface codes
       fontface <- "bold.italic"
-    } else if (isTRUE(fontface == "bold") && isTRUE(fontface_old == "italic")) {
+    } else if (isTRUE(fontface == "bold") && isTRUE(font_old == 3)) {
       fontface <- "bold.italic"
     }
   }
