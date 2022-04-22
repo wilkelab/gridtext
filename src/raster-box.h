@@ -9,7 +9,7 @@ using namespace std;
 
 #include "layout.h"
 
-pair<double, double> image_dimensions(RObject image) {
+inline pair<double, double> image_dimensions(RObject image) {
   Environment env = Environment::namespace_env("base");
   Function dim = env["dim"];
 
