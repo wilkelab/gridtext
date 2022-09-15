@@ -3,6 +3,7 @@
 - Transition to curl package and drop RCurl dependency
 - Fix fontface not being processed and words spaced properly in R 4.2.0
 - Maintainer changes to Brenton Wiernik
+- Removed LazyData from package DESCRIPTION to fix CRAN NOTE
 
 # gridtext 0.1.4
 
