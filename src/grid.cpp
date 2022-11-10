@@ -61,6 +61,10 @@ List raster_grob(RObject image, NumericVector x_pt, NumericVector y_pt, NumericV
     stop("Function raster_grob() is not vectorized.\n");
   }
 
+  if (gp.isNULL()) { 
+    gp = gpar_empty(); 
+  }
+
   // need to produce a unique name for each grob, otherwise grid gets grumpy
   static int tg_count = 0;
   if (name.isNULL()) {
