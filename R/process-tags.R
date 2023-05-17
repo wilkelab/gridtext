@@ -156,13 +156,7 @@ dispatch_tag <- function(node, tag, drawing_context) {
       "span" = process_tag_span(node, drawing_context),
       "sup"  = process_tag_sup(node, drawing_context),
       "sub"  = process_tag_sub(node, drawing_context),
-      if(getOption("gridtext.stop_if_tag_is_unimplemented")) {
-        stop(
-          paste0("gridtext has encountered a tag that isn't supported yet: <", tag, ">\n",
-                 "Only a very limited number of tags are currently supported."),
-          call. = FALSE
-        )
-      } else {
+      {
         warning(
           paste0("gridtext has encountered a tag that isn't supported yet: <", tag, ">\n",
                  "Only a very limited number of tags are currently supported."),
