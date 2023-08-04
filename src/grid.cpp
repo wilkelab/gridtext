@@ -65,6 +65,27 @@ List raster_grob(RObject image, NumericVector x_pt, NumericVector y_pt, NumericV
     gp = gpar_empty(); 
   }
 
+  /*
+   During the test in line 93 of test-grid-renderer.R:
+      "grid_renderer_raster(r, logo, 10, 10, width, height)"
+   that call will end up here; and when there is no "gp" param, then gp ends up
+   here as an empty list rather than NULL. But when this function returns an
+   empty R list in the "gp" element (line 114 below), then grid::grid.draw will
+   fail because it is expecting that gp element to be a gpar object instead.
+   So we need to set gp to gpar_empty().
+   [I made this code to test for an empty list using chatgpt]
+   */
+  if(TYPEOF(gp) == VECSXP) {
+    // Convert the variable to a list
+    List list_gp(gp);
+    // Check if the list is empty
+    if(list_gp.size() == 0) {
+      // uncomment this to see that grid_renderer_raster will send an empty list
+      // Rcout << "gp is an empty list\n";
+      gp = gpar_empty();
+    }
+  }
+
   // need to produce a unique name for each grob, otherwise grid gets grumpy
   static int tg_count = 0;
   if (name.isNULL()) {
