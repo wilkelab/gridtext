@@ -100,7 +100,7 @@ test_that("raster_grob", {
     )
   )
 
-  # interpolate is set as requested, gp default is NULL
+  # interpolate is set as requested, gp is set to gpar() if not provided
   expect_identical(
     raster_grob(image, 10, 20, 50, 40, interpolate = FALSE, name = "abc"),
     rasterGrob(
@@ -109,7 +109,7 @@ test_that("raster_grob", {
       width = unit(50, "pt"), height = unit(40, "pt"),
       hjust = 0, vjust = 0,
       interpolate = FALSE,
-      gp = NULL,
+      gp = gpar(),
       name = "abc"
     )
   )
