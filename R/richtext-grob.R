@@ -348,4 +348,41 @@ descentDetails.richtext_grob <- function(x) {
   unit(0, "pt")
 }
 
+# We treat the vertices on the bounding box in every child grob as points.
+# This allows us to forward the actual problem to `xDetails.points` and
+# `yDetails.points`, which does a reasonable job as grouping is irrelevant.
+xyDetails <- function(x) {
+  grobs <- x$children
+
+  # in debug mode we have to trim off debug grobs
+  if (isTRUE(x$debug)) {
+    grobs <- grobs[-c(1, length(grobs))]
+  }
+
+  # extract anchor points
+  x <- do.call(unit.c, lapply(grobs, `[[`, "x"))
+  y <- do.call(unit.c, lapply(grobs, `[[`, "y"))
+
+  # collect x/y extent values describing the (rotated) bounding box
+  xext <- lapply(grobs, `[[`, "xext")
+  yext <- lapply(grobs, `[[`, "yext")
+
+  # Add extent values to anchor points for vertices
+  x <- rep(x, lengths(xext)) + unit(unlist(xext), "pt")
+  y <- rep(y, lengths(yext)) + unit(unlist(yext), "pt")
+
+  # We 'fake' the points class here so we can forward to point details function
+  structure(list(x = x, y = y), class = "points")
+}
+
+#' @export
+xDetails.richtext_grob <- function(x, theta) {
+  xDetails(xyDetails(x), theta)
+}
+
+#' @export
+yDetails.richtext_grob <- function(x, theta) {
+  yDetails(xyDetails(x), theta)
+}
+
 
