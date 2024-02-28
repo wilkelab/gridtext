@@ -245,7 +245,7 @@ textbox_grob <- function(text, x = NULL, y = NULL,
     width_policy <- "native"
     word_wrap <- FALSE
   } else {
-    width_policy <- "relativce"
+    width_policy <- "relative"
     word_wrap <- TRUE
   }
 
