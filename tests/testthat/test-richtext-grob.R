@@ -79,6 +79,28 @@ test_that("grobheight and grobwidth work", {
   expect_equal(h1, h2)
 })
 
+test_that("xDetails and yDetails work", {
+
+  g1 <- textGrob("test")
+  g2 <- richtext_grob("test")
+
+  x1 <- convertX(grobX(g1, c(0, 180)), "pt",  valueOnly = TRUE)
+  x2 <- convertX(grobX(g2, c(0, 180)), "pt", valueOnly = TRUE)
+  expect_equal(x1, x2)
+
+  y1 <- convertY(grobY(g1, c(90, 270)), "pt", valueOnly = TRUE)
+  y2 <- convertY(grobY(g2, c(90, 270)), "pt", valueOnly = TRUE)
+  descent <- text_details("test")$descent_pt
+  expect_equal(y1 + c(0.5, -0.5) * descent, y2)
+
+  w <- convertWidth(grobWidth(g2), "pt", valueOnly = TRUE)
+  expect_equal(w, abs(diff(x2)))
+
+  h <- convertHeight(grobHeight(g2), "pt", valueOnly = TRUE)
+
+  expect_equal(h, abs(diff(y2)))
+})
+
 test_that("misc. tests", {
   # empty strings work
   expect_silent(richtext_grob(""))
