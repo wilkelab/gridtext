@@ -1,5 +1,12 @@
 process_text <- function(node, drawing_context) {
-  tokens <- stringr::str_split(stringr::str_squish(node), "[[:space:]]+")[[1]]
+  # regex: [:space:] set-minus \p{Line_Break=Glue}
+  re_whitespace_non_glue <- "[[:space:]-[\\p{Line_Break=Glue}]]+"
+  re_whitespace_non_glue_trim <- paste0("^", re_whitespace_non_glue,
+                                        "|",
+                                        re_whitespace_non_glue, "$")
+  node_squish_internal <- stringr::str_replace_all(node, re_whitespace_non_glue, " ")
+  node_squish_trim <- stringr::str_replace_all(node_squish_internal, re_whitespace_non_glue_trim, "")
+  tokens <- stringr::str_split(node_squish_trim, re_whitespace_non_glue)[[1]]
 
   # make interior boxes
   boxes <- lapply(tokens,
