@@ -177,8 +177,8 @@ textbox_grob <- function(text, x = NULL, y = NULL,
 
   # determine orientation and adjust accordingly
   orientation <- match.arg(orientation)
+  angle <- 0 # default value
   if (orientation == "upright") {
-    angle <- 0
     if (is.null(x)) {
       x <- unit(hjust, "npc")
     }
