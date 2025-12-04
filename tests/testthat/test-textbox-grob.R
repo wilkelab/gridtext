@@ -276,3 +276,39 @@ test_that("visual tests", {
   expect_doppelganger("Rotation around fixed point", draw_rotated_fixedpoint())
 
 })
+
+describe("text breaking behavior", {
+  get_labels <- function(x) {
+    g <- textbox_grob(x)
+    labels <- sapply(grid.force(g)$children, function(x) x$label)
+    return(labels)
+  }
+
+  it("does not break no-space text",
+    expect_contains(
+      get_labels(" ThisIsALongWordThatShouldNotBreak "),
+      c("ThisIsALongWordThatShouldNotBreak"))
+  )
+
+  it("does break spaced text",
+    expect_contains(
+      get_labels( "This Is Text That Should Break" ),
+      c("This", "Is", "Text", "That", "Should", "Break"))
+  )
+
+  it("does not break at non-breaking space but still at regular space",
+    expect_contains(
+      get_labels("  This&nbsp;Is&nbsp;Text That&nbsp;Should\n\nNot&nbsp;Break  "),
+      c("This\u00A0Is\u00A0Text",
+        "That\u00A0Should",
+        "Not\u00A0Break"))
+  )
+
+  it("preserves non-breaking space at start and end",
+    expect_contains(
+      get_labels("   &nbsp;Beginning Should Not Trim Nor End&nbsp;   "),
+      c("\u00A0Beginning",
+        "Should", "Not", "Trim", "Nor",
+        "End\u00A0"))
+  )
+})
