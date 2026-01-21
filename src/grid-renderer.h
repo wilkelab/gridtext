@@ -58,7 +58,7 @@ public:
       m_grobs.push_back(
         raster_grob(
           image, NumericVector(1, x), NumericVector(1, y),
-          NumericVector(1, width), NumericVector(1, height), LogicalVector(1, interpolate, gp)
+          NumericVector(1, width), NumericVector(1, height), LogicalVector(1, interpolate), gp
         )
       );
     }
