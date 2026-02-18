@@ -1,3 +1,7 @@
+# gridtext 0.1.6
+
+- Removed SystemRequirements from package DESCRIPTION to fix CRAN NOTE
+
 # gridtext 0.1.5
 
 - Transition to curl package and drop RCurl dependency
