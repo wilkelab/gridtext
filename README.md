@@ -194,7 +194,7 @@ grid.draw(g)
 ## Acknowledgments
 
 This project received [financial
-support](https://r-consortium.org/all-projects/awarded-projects) from
+support](https://r-consortium.org/all-projects/2018-group-2.html#next-generation-text-layout-in-grid-and-ggplot2) from
 the [R consortium.](https://r-consortium.org/)
 
 <img src="https://r-consortium.org/images/RConsortium_Horizontal_Pantone.webp" width="250">
