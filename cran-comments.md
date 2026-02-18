@@ -1,5 +1,3 @@
-* Maintainer changes from Claus Wilke to Brenton Wiernik.
-
 ## Test environments
 * ubuntu 20.04, devel and release
 * windows, release
