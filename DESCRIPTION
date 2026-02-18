@@ -1,7 +1,7 @@
 Package: gridtext
 Type: Package
 Title: Improved Text Rendering Support for 'Grid' Graphics
-Version: 0.1.5
+Version: 0.1.5.9999
 Authors@R: 
     c(
       person(
@@ -49,4 +49,3 @@ LinkingTo:
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
-SystemRequirements: C++11
