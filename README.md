@@ -8,7 +8,7 @@
 [![R build
 status](https://github.com/wilkelab/gridtext/workflows/R-CMD-check/badge.svg)](https://github.com/wilkelab/gridtext/actions)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/wilkelab/gridtext/master.svg)](https://codecov.io/github/wilkelab/gridtext?branch=master)
+Status](https://img.shields.io/codecov/c/github/wilkelab/gridtext/master.svg)](https://app.codecov.io/github/wilkelab/gridtext?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gridtext)](https://cran.r-project.org/package=gridtext)
 [![Lifecycle:
@@ -194,7 +194,7 @@ grid.draw(g)
 ## Acknowledgments
 
 This project received [financial
-support](https://www.r-consortium.org/all-projects/awarded-projects)
-from the [R consortium.](https://www.r-consortium.org)
+support](https://r-consortium.org/all-projects/awarded-projects) from
+the [R consortium.](https://r-consortium.org/)
 
-<img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="250">
+<img src="https://r-consortium.org/images/RConsortium_Horizontal_Pantone.webp" width="250">
